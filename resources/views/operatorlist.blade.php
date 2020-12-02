@@ -38,46 +38,47 @@
         <th>{{$array[$i]['operator'] }}</th>
         <th>{{$array[$i]['code'] }}</th>
         <th>{{$array[$i]['status'] }}</th>
-        <th data-toggle="modal" data-target="#exampleModal" id="{{$array[$i]['id']}}" onclick="OpenModal(this.id,1)">{{$array[$i]['api_1'] }}
+        <th data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,1)">
         @php
-        if($array[$i]['api_1'] == null)
+
+        if($api_array[$i][0]['api_name1'] == null)
         {
             echo 'Not Set';
         }
         else {
-            echo $array[$i]['api_1'];
-            
+            echo "<a api_name={$api_array[$i][0]['api_name1']} href='#' onclick='return false;' api_url={$api_array[$i][0]['api_url1']}>" . $api_array[$i][0]['api_name1'] . "</a>";
         }
-            
+
         @endphp
         
         </th>
-        <th>
+
+        <th data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,2)">
         @php
        
- 
-        if($array[$i]['api_1'] != null && $array[$i]['api_2'] == null)
+        if($api_array[$i][0]['api_name1'] != null && $api_array[$i][1]['api_name2'] == null)
         {
             echo 'Not Set';
         }
-        else if($array[$i]['api_2'] != null)
+        else if($api_array[$i][1]['api_name2'] != null)
         {
-            echo $array[$i]['api_2'] ;
+            echo "<a api_name={$api_array[$i][1]['api_name2']} href='#' onclick='return false;' api_url={$api_array[$i][1]['api_url2']}>" . $api_array[$i][1]['api_name2'] . "</a>";
         }
          
         @endphp
         </th>
-        <th>
+
+        <th data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,3)">
+        
+            @php 
             
-            @php
-                
-           if($array[$i]['api_2'] != null && $array[$i]['api_3'] == null)
+           if($api_array[$i][1]['api_name2'] != null && $api_array[$i][2]['api_name3'] == null)
             {
                 echo 'Not Set';
             }
-            else if($array[$i]['api_3'] != null)
+            else if($api_array[$i][2]['api_name3'] != null)
             {
-                echo $array[$i]['api_3'] ;
+                echo "<a api_name={$api_array[$i][2]['api_name3']} href='#' onclick='return false;' api_url={$api_array[$i][2]['api_url3']}>" . $api_array[$i][2]['api_name3'] . "</a>";
             }
         @endphp
         </th>
@@ -111,12 +112,9 @@
                 <th>{{$tbl_api_master[$i]['api_name']}}</th>
                 <th><button class="btn btn-primary" id="{{$tbl_api_master[$i]['id']}}" onclick="SelectClick(this.id)">Select</button></th>
             </tr>
-            
-             
-             
+ 
          @endfor
   
-          
         </div>
       
       </div>
@@ -130,11 +128,11 @@
     function OpenModal(id,modal)
     {
         operator_id = id;
+        operator_api_id = modal;
     }
     function SelectClick(id)
     {
-        
-        window.location = 'OperatorList/Update/'+id+'/'+operator_id
+        window.location = 'OperatorList/Update/'+id+'/'+operator_id+'/'+operator_api_id;
     }
 </script>
 </body>

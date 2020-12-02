@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\tbl_api_code;
-use App\Models\tbl_recharge_categorie;
+use App\Models\tbl_recharge_categories;
 use App\Models\tbl_api_master;
 
 class api_info_controller extends Controller
@@ -20,7 +20,7 @@ class api_info_controller extends Controller
             $category_id =  $data->category_id;
             $api_id =  $data->api_id;
 
-            $category_data=  tbl_recharge_categorie::where('id', $category_id)->get();
+            $category_data=  tbl_recharge_categories::where('id', $category_id)->get();
             $api_data = tbl_api_master::where('id', $api_id)->get();
             
 

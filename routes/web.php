@@ -26,7 +26,7 @@ Route::get('ViewApi', 'App\Http\Controllers\view_api_controller@index')->name('V
 Route::get('ViewApi/Delete/{id}', 'App\Http\Controllers\add_api_controller@destroy');
 Route::post('AddApi', 'App\Http\Controllers\add_api_controller@index');
 Route::get('OperatorList', 'App\Http\Controllers\TblMyOperatorController@show')->name('OperatorList');
-Route::get('OperatorList/Update/{id}/{api_id}', 'App\Http\Controllers\TblMyOperatorController@update');
+Route::get('OperatorList/Update/{api_id}/{operator_id}/{operator_api_id}', 'App\Http\Controllers\TblMyOperatorController@update');
 Route::get('AmountFilter', 'App\Http\Controllers\TblAmountFilterController@show')->name('AmountFilter');
 Route::get('AmountFilter/{id}', 'App\Http\Controllers\TblAmountFilterController@show');
 Route::post('AmountFilter/Update', 'App\Http\Controllers\TblAmountFilterController@update')->name('AmountFilter.update');

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\tbl_amount_filter;
-use App\Models\tbl_recharge_categorie;
+use App\Models\tbl_recharge_categories;
 use App\Models\tbl_my_operator;
 use App\Models\tbl_api_master;
 use Illuminate\Http\Request;
@@ -62,7 +62,7 @@ class TblAmountFilterController extends Controller
            
         
             $operator_data = tbl_my_operator::where('id',$data->operator_id)->get();
-            $category_data =  tbl_recharge_categorie::where('id', $operator_data[0]->category_id)->get();
+            $category_data =  tbl_recharge_categories::where('id', $operator_data[0]->category_id)->get();
 
             $new_array = array('id'=>$data->Id ,'amount'=>$data->Amount,'operator'=>$operator_data[0]->operator,'category'=>$category_data[0]->name);
             array_push($array, $new_array);
