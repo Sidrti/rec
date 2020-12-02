@@ -60,7 +60,16 @@ class TblMyOperatorController extends Controller
             $category_id =  $data->category_id;
             $category_data=  tbl_recharge_categorie::where('id', $category_id)->get();
 
-            $new_array = array('id'=>$data->id,'operator'=>$data->operator,'code'=>$data->code,'status'=>$data->status,'api_1'=>$data->api_1,'api_2'=>$data->api_2,'api_3'=>$data->api_3,'category_name'=>$category_data[0]->name);
+            if($data->status == 0)
+            {
+                $temp = 'STOP';
+            }
+            else
+            {
+                $temp = 'START';
+            }
+
+            $new_array = array('id'=>$data->id,'operator'=>$data->operator,'code'=>$data->code,'status'=>$temp,'api_1'=>$data->api_1,'api_2'=>$data->api_2,'api_3'=>$data->api_3,'category_name'=>$category_data[0]->name);
             array_push($array, $new_array);
 
             $i++;
@@ -95,7 +104,7 @@ class TblMyOperatorController extends Controller
         $res = tbl_my_operator::where('id', $request->id)
         ->update(['api_1' => $request->api_1]);
         
-        return redirect()->route('OperatorList');
+      // return redirect()->route('OperatorList');
     }
 
     /**

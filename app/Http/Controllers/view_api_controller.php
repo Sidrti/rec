@@ -14,4 +14,13 @@ class view_api_controller extends Controller
     return view('view_api',['data'=>$data]);
 
     }
+
+    function edit(Request $request)
+    {
+        echo '---------------------'.$request->api_name;
+        $res = tbl_api_master::where('id', $request->id)
+        ->update(['url' => $request->url,'api_name'=>$request->api_name]);
+
+    }
+    
 }

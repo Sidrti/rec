@@ -35,16 +35,16 @@
   @endphp
       <tr>
         <td>{{ $count }}</td>
-        <td>{{ $i->api_name}}</td>
-        <td>{{ $i->url}}</td>
+        <td contenteditable="false" id="api_name{{$i->id}}">{{ $i->api_name}}</td>
+      <td contenteditable="false" id="url{{$i->id}}">{{ $i->url}}</td>
         <td>
          <div class="dropdown">
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
     Action
   </button>
   <div class="dropdown-menu">
-    <a class="dropdown-item" href="ViewApi/{{$i->id}}">Edit</a>
-    <a class="dropdown-item" href="ViewApi/Delete/{{$i->id}}">Delete</a>
+  <a class="dropdown-item" id="edit{{$i->id}}"  onclick="EditClick(this.id)">Edit</a>
+    <a class="dropdown-item" id="{{ $i->id}}" onclick="DeleteClick(this.id)" >Delete</a>
 
   </div>
 </div> </td>
@@ -70,7 +70,7 @@
             <label for="api_name" class="col-form-label">API Name:</label>
             <input type="text" name="api_name" class="form-control" id="api_name">
 
-            <label class="col-form-label">Sample URL:</label>
+            <label class="col-form-label" >Sample URL:</label>
             <label class="col-form-label"> http://test.com/web-services/httpapi/recharge-request?acc_no=ACC12501&api_key=1d4f8a72-83e8-4bfc-b869-f2e3da9bc5d8&opr_code={code}&rech_num={mobilenumber}&amount={amount}&client_key={client_key}</a></label>
           
             <input type="text" name="sample_url" class="form-control" id="sample_url">
@@ -87,6 +87,20 @@
 </div>
 
 
+<script>
+ function DeleteClick(id)
+ {
+  if (confirm('Are you sure you want to Delete this entry ?')) {
+
+    window.location='ViewApi/Delete/'+id;
+
+
+} else {
+  // Do nothing!
+  console.log('Thing was not saved to the database.');
+}
+ }
+</script>
   <script>
   $(document).ready(function() {
     $('#apitable').DataTable();
@@ -95,6 +109,53 @@
     <script type="text/javascript">
   function form_submit_fn() {
     document.getElementById("form").submit();
+   }
+   function EditClick(id)
+   {
+    
+      event.preventDefault();
+ 
+      
+      var res = id.substring(4, id.length);
+      if(document.getElementById(id).innerHTML=='Edit')
+      {
+      document.getElementById('url'+res).setAttribute('contenteditable',true)
+      document.getElementById('api_name'+res).setAttribute('contenteditable',true)
+      document.getElementById(id).innerHTML='Save'
+      }
+      else
+      {
+        var editurl = document.getElementById('url'+res).innerText;
+        var editname = document.getElementById('api_name'+res).innerText;
+        
+        SaveEditDB(editurl,editname,res);
+
+        document.getElementById('url'+res).setAttribute('contenteditable',false)
+        document.getElementById('api_name'+res).setAttribute('contenteditable',false)
+        document.getElementById(id).innerHTML='Edit'
+
+        
+      }
    }    
+
+   function SaveEditDB(editurl,editname,id) 
+   {
+    
+            $.ajax({
+               type:'POST',
+               url:'/ViewApi/Edit',
+               data: {
+                "_token": "{{ csrf_token() }}",
+                  'api_name':editname,
+                  'url':editurl,
+                  'id':id,
+              },
+               
+               success:function(data) 
+               {
+                  alert('Success');
+               }
+            });
+    }  
   </script>
 </div>

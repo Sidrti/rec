@@ -24,12 +24,19 @@ Route::get('ApiInfo/Update/{id}/{code}/{status}', 'App\Http\Controllers\api_info
 Route::get('ViewApi', 'App\Http\Controllers\view_api_controller@index');
 Route::get('ViewApi', 'App\Http\Controllers\view_api_controller@index')->name('ViewApi');
 Route::get('ViewApi/Delete/{id}', 'App\Http\Controllers\add_api_controller@destroy');
+Route::post('ViewApi/Edit', 'App\Http\Controllers\view_api_controller@edit');
 Route::post('AddApi', 'App\Http\Controllers\add_api_controller@index');
 Route::get('OperatorList', 'App\Http\Controllers\TblMyOperatorController@show')->name('OperatorList');
 Route::get('OperatorList/Update/{id}/{api_id}', 'App\Http\Controllers\TblMyOperatorController@update');
 Route::get('AmountFilter', 'App\Http\Controllers\TblAmountFilterController@show')->name('AmountFilter');
 Route::get('AmountFilter/{id}', 'App\Http\Controllers\TblAmountFilterController@show');
-Route::post('AmountFilter/Update', 'App\Http\Controllers\TblAmountFilterController@update')->name('AmountFilter.update');
+Route::post('AmountFilter/Update', 'App\Http\Controllers\TblAmountFilterController@update')->name('AmountFilter.update');\
+Route::get('news', function(){
+
+    return view('News');
+
+})->name('news');
+Route::get('formSubmit', 'App\Http\Controllers\news@News_Data');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

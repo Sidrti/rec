@@ -66,7 +66,7 @@
          
           
             <div class="form-group">
-              <label for="amount" class="col-form-label">API Name:</label>
+              <label for="amount" class="col-form-label">Amount:</label>
               <input type="text" name="amount" class="form-control" id="amount">
               <input type="hidden" name="update_id" id="update_id" >
             </div>

@@ -20,7 +20,7 @@
 <script src="{{ asset('js/app.js') }}" defer></script>
 
 
-
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
@@ -131,14 +131,14 @@ display: block;
 <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Management </a>
 <ul class="dropdown-menu">
 <li>
-<a class="dropdown-item  dropdown-item-color dropdown-toggle" href="ApiInfo"> Api Details </a>
+<a class="dropdown-item  dropdown-item-color dropdown-toggle" > Api Details </a>
 <ul class="submenu dropdown-menu">
    <li><a class="dropdown-item dropdown-item-color" href="">API Balances</a></li>
-   <li><a class="dropdown-item dropdown-item-color" href="">API Codes</a></li>
-   <li><a class="dropdown-item dropdown-item-color" href="">API Settings</a></li>
+   <li><a class="dropdown-item dropdown-item-color" href="{{url('ApiInfo')}}">API Codes</a></li>
+   <li><a class="dropdown-item dropdown-item-color" href="{{url('ViewApi')}}">API Settings</a></li>
 </ul>
 </li>
-<li><a class="dropdown-item dropdown-item-color" href="OperatorList"> My Operators </a></li>
+<li><a class="dropdown-item dropdown-item-color" href="{{url('OperatorList')}}"> My Operators </a></li>
 <li>
 <a class="dropdown-item dropdown-item-color dropdown-toggle" href="#"> Package </a>
 <ul class="submenu dropdown-menu">
@@ -146,7 +146,7 @@ display: block;
    <li><a class="dropdown-item dropdown-item-color" href="">Set Default Package</a></li>
 </ul>
 </li>
-<li><a class="dropdown-item dropdown-item-color" href="AmountFilter"> Filter - Amount Wise </a></li>
+<li><a class="dropdown-item dropdown-item-color" href="{{url('AmountFilter')}}"> Filter - Amount Wise </a></li>
 <li>
    <a class="dropdown-item  dropdown-item-color dropdown-toggle" href="#"> Filter State- Wise </a>
     <ul class="submenu dropdown-menu">
@@ -155,7 +155,7 @@ display: block;
 </ul>
 </li>
 <li><a class="dropdown-item dropdown-item-color" href="#"> Fail Switching</a></li>
-<li><a class="dropdown-item dropdown-item-color" href="#"> News </a></li>
+<li><a class="dropdown-item dropdown-item-color" href="{{url('news')}}"> News </a></li>
 <li><a class="dropdown-item dropdown-item-color" href="#"> Change Password </a></li>
 <li><a class="dropdown-item dropdown-item-color" href="#"> SMS Api </a></li>
 </ul>
