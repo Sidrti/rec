@@ -190,7 +190,7 @@
     
             $.ajax({
                type:'POST',
-               url:'/ViewApi/Edit',
+               url:'/ApiSettings/Edit',
                data: {
                 "_token": "{{ csrf_token() }}",
                   'api_name':editname,
