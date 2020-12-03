@@ -1,0 +1,8 @@
+th{
+    color:black;
+}
+
+.divide_equally {
+    display: flex;
+    justify-content: space-between;
+}
