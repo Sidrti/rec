@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use App\Models\tbl_my_operator;
 use Illuminate\Http\Request;
 use App\Models\tbl_recharge_categories;
@@ -67,23 +68,20 @@ class TblMyOperatorController extends Controller
                 $api_name = isset($api_data[0]->api_name) ? $api_data[0]->api_name : '';
                 $api_url = isset($api_data[0]->url) ? $api_data[0]->url : '';
 
-
-
                 $new_array = array(('api_name' . ($count+1)) => $api_name, ('api_url' . ($count+1)) => $api_url);
                 array_push($fin_array, $new_array);
             }
             array_push($api_array, $fin_array);
 
-            if($data->status == 0)
-            {
+            if ($data->status == 0) {
                 $temp = 'STOP';
             }
-            else
-            {
+            else {
                 $temp = 'START';
             }
 
-            $new_array = array('id'=>$data->id,'operator'=>$data->operator,'code'=>$data->code,'status'=>$temp, 'category_name'=>$category_data[0]->name);
+            $new_array = array('id'=>$data->id,'operator'=>$data->operator,'code'=>$data->code,'status'=>$temp,
+             'status_value'=>$data->status, 'category_name'=>$category_data[0]->name);
             array_push($array, $new_array);
             $i++;
         }
@@ -113,18 +111,42 @@ class TblMyOperatorController extends Controller
         $operator_api_id = 'api_' . $request->operator_api_id;
         $update_operator_api_id = tbl_my_operator::where('id', $request->operator_id)
         ->update([ $operator_api_id => $request->api_id]);
-        
+       
        return redirect()->route('OperatorList');
     }
+
+    /**
+     * Update the status value (START->STOP, STOP->START).
+     */
     public function updateStatus(Request $request, tbl_my_operator $tbl_my_operator)
     {
-      // "Update tbl_my_operators set  status= !status where id=$id" 
-       
-        
-        
-         return redirect()->route('OperatorList');
+        $operator_status_value = 0;
+        if($request->status_id == 1 ) {
+            $operator_status_value = 0;
+        }
+        else {
+            $operator_status_value = 1;
+        }
+        $update_status_id = tbl_my_operator::where('id', $request->operator_id)
+        ->update([ 'status' => $operator_status_value ]);
+
+        return redirect()->route('OperatorList');
     }
 
+    /**
+     * Remove the api value.
+     */
+    public function removeAPI(Request $request, tbl_my_operator $tbl_my_operator)
+    {
+        $operator_api_id = 'api_' . $request->api_id;
+        $update_remove_api = tbl_my_operator::where('id', $request->operator_id)
+        ->update([ $operator_api_id => null ]);
+
+        Session::flash('flash_message', 'Remove successfully.');
+	    Session::flash('flash_type', 'alert-success');
+
+        return redirect()->route('OperatorList');
+    }
 
     /**
      * Remove the specified resource from storage.
