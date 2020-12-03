@@ -17,9 +17,11 @@ class view_api_controller extends Controller
 
     function edit(Request $request)
     {
-        echo '---------------------'.$request->api_name;
+        
         $res = tbl_api_master::where('id', $request->id)
-        ->update(['url' => $request->url,'api_name'=>$request->api_name]);
+        ->update(['url' => $request->url,'api_name'=>$request->name]);
+
+        return redirect()->route('ApiSettings');
 
     }
     

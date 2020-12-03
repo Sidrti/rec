@@ -43,7 +43,7 @@
     Action
   </button>
   <div class="dropdown-menu">
-  <a class="dropdown-item" id="edit{{$i->id}}"  onclick="EditClick(this.id)">Edit</a>
+    <a class="dropdown-item" id="edit{{$i->id}}"  onclick="EditClick(this.id)" data-toggle="modal" data-target="#exampleModal2">Edit</a>
     <a class="dropdown-item" id="{{ $i->id}}" onclick="DeleteClick(this.id)" >Delete</a>
 
   </div>
@@ -87,6 +87,47 @@
 </div>
 
 
+<!-- Second Modal -->
+
+<form action="{{route('ApiSettings.edit')}}" method="POST" id="form">
+  @csrf
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        
+          <div class="form-group">
+            <label for="api_name" class="col-form-label"> Name:</label>
+            <input type="text" name="name" class="form-control" id="name">
+
+            <label class="col-form-label" >URL:</label>
+           
+            <input type="text" name="url" class="form-control" id="url">
+            <input type="hidden" name="id" id="hiddenId2">
+          </div>
+
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit"  class="btn btn-primary">Save </button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+
+
+
+
 <script>
  function DeleteClick(id)
  {
@@ -98,10 +139,11 @@
 } else {
   // Do nothing!
   console.log('Thing was not saved to the database.');
-}
+  }
  }
 </script>
   <script>
+   
   $(document).ready(function() {
     $('#apitable').DataTable();
 } );
@@ -112,6 +154,11 @@
    }
    function EditClick(id)
    {
+    id = id.substring(4,id.length);
+    document.getElementById('hiddenId2').value = id;
+    document.getElementById('url').value = document.getElementById("url"+id).innerText;
+    document.getElementById('name').value = document.getElementById("api_name"+id).innerText;
+     /*
     
       event.preventDefault();
  
@@ -135,7 +182,7 @@
         document.getElementById(id).innerHTML='Edit'
 
         
-      }
+      }  */
    }    
 
    function SaveEditDB(editurl,editname,id) 

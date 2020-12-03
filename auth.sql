@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2020 at 07:16 AM
+-- Generation Time: Dec 03, 2020 at 12:16 PM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -40,6 +40,35 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `fail_switch_details`
+--
+
+CREATE TABLE `fail_switch_details` (
+  `id` int(11) NOT NULL,
+  `fail_switch_master_id` int(5) NOT NULL,
+  `api_id` int(5) NOT NULL,
+  `minutes` varchar(200) NOT NULL,
+  `priority` varchar(100) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fail_switch_masters`
+--
+
+CREATE TABLE `fail_switch_masters` (
+  `id` int(11) NOT NULL,
+  `OperatorId` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -68,6 +97,37 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (51, '2020_11_25_090222_add_user_roles_to_roles_table', 1),
 (52, '2020_11_27_034641_tbl_api_masters', 1),
 (53, '2020_11_27_034953_add_api_name_to_tbl_api_master', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `package_lists`
+--
+
+CREATE TABLE `package_lists` (
+  `id` int(11) NOT NULL,
+  `package_id` int(6) NOT NULL,
+  `operator_id` int(6) NOT NULL,
+  `max` int(3) NOT NULL,
+  `ded` int(3) NOT NULL,
+  `ref` int(3) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `package_masters`
+--
+
+CREATE TABLE `package_masters` (
+  `id` int(11) NOT NULL,
+  `package_title` varchar(200) NOT NULL,
+  `package_created_by` int(7) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -113,6 +173,14 @@ CREATE TABLE `roles` (
   `user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `role_id`, `user_id`) VALUES
+(1, NULL, NULL, '1', '1'),
+(2, NULL, NULL, '1', '2');
+
 -- --------------------------------------------------------
 
 --
@@ -126,6 +194,14 @@ CREATE TABLE `role_masters` (
   `role_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `role_masters`
+--
+
+INSERT INTO `role_masters` (`id`, `created_at`, `updated_at`, `role_name`, `description`) VALUES
+(1, NULL, NULL, 'Admin', NULL),
+(2, NULL, NULL, 'Super', NULL);
 
 -- --------------------------------------------------------
 
@@ -147,8 +223,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('4qm1hRUjugRZqKkvuAjJlQXNL87bEmSz04BJZKSg', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiZWxzZHNhNkNQRHI5c1hoYmZEUDdiblA1UE1UT3BOVkNBa2ljcWU1dCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BbW91bnRGaWx0ZXIvNCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjM7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCRTSFNEaS5TTXE2Zi5wbGRzbkhkSG4udTBKaHAyTFpUa0dQOWx1VzJNd1BNMjl2d215cnBDeSI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkU0hTRGkuU01xNmYucGxkc25IZEhuLnUwSmhwMkxaVGtHUDlsdVcyTXdQTTI5dndteXJwQ3kiO30=', 1606858444),
-('mYRGNTdjMffoczYTAOTM5IH8nAGmv15pBPoqmN0l', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaEdjeXZ1cVRQRUlDRkJjSUFXT0UxemFBbjh0bUZ5M0UyM0p4aWE4cyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BcGlJbmZvLzMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1606857092);
+('rUXTHad7q2ZFBiJOAjl0qWRV9A2aTfcWbMPU4Teh', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiYURPSXZYNGNhc1ZjdkFYVXphcmxYR2JrOHBoUGZMYnpBSXdicXluMCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9BcGlTZXR0aW5ncyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCRzcFZHbzZ0UkpHLnZrZDhHaThSVmh1eXBmaE91THpEY1hMcEF0VXF4SW5WSG16ZFU5OXhrRyI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkc3BWR282dFJKRy52a2Q4R2k4UlZodXlwZmhPdUx6RGNYTHBBdFVxeEluVkhtemRVOTl4a0ciO30=', 1606993294),
+('RxznuB4QHP6gCCv4T981A19LyxqVeVx2S9ioe6BU', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZElwMXoyMER5N21lR05naUhQdXNGSGQ4MHlqVFF3TDB5c2dLdEYwTyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9BcGlTZXR0aW5ncyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1606992345);
 
 -- --------------------------------------------------------
 
@@ -171,7 +247,7 @@ CREATE TABLE `tbl_amount_filters` (
 
 INSERT INTO `tbl_amount_filters` (`Id`, `api_id`, `operator_id`, `Amount`, `created_at`, `updated_at`) VALUES
 (1, 4, 1, '16', '2020-12-01 20:13:56', '2020-12-01 19:33:11'),
-(2, 3, 2, '22', '2020-12-01 20:14:10', '2020-12-01 20:14:10');
+(2, 3, 2, '28', '2020-12-01 20:14:10', '2020-12-02 17:22:45');
 
 -- --------------------------------------------------------
 
@@ -194,7 +270,7 @@ CREATE TABLE `tbl_api_codes` (
 --
 
 INSERT INTO `tbl_api_codes` (`id`, `category_id`, `api_id`, `api_code`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 4, 'DA', 1, '2020-11-28 20:18:57', '2020-11-28 20:18:57'),
+(1, 1, 4, 'DA', 1, '2020-11-28 20:18:57', '2020-12-02 08:25:57'),
 (2, 2, 5, 'NA', 0, '2020-11-30 19:47:24', '2020-11-30 19:47:24'),
 (3, 3, 3, 'SA', 1, '2020-11-30 19:47:37', '2020-12-01 21:17:57');
 
@@ -217,11 +293,10 @@ CREATE TABLE `tbl_api_masters` (
 --
 
 INSERT INTO `tbl_api_masters` (`id`, `created_at`, `updated_at`, `api_name`, `url`) VALUES
-(3, '2020-11-28 07:51:03', '2020-11-28 07:51:03', 'BSNL', 'api/BSNL'),
-(4, '2020-11-28 07:51:40', '2020-11-28 07:51:40', 'BSNL', 'api/BSNL'),
-(5, '2020-11-28 07:52:01', '2020-11-28 07:52:01', 'BSNL', 'api/BSNL'),
-(7, '2020-11-28 07:53:51', '2020-11-28 07:53:51', 'BSNL', 'api/BSNL'),
-(8, '2020-12-01 15:09:52', '2020-12-01 15:09:52', 'Another API', 'http://test.com/web-services/httpapi/recharge-request?acc_no=ACC12501&api_key=1d4f8a72-83e8-4bfc-b869-f2e3da9bc5d8&opr_code={code}&rech_num');
+(4, '2020-11-28 07:51:40', '2020-12-03 05:29:06', 'API', 'www.boxinallsoftech.com'),
+(7, '2020-11-28 07:53:51', '2020-12-03 05:31:34', 'API NAM', 'APiname.commm'),
+(8, '2020-12-01 15:09:52', '2020-12-01 15:09:52', 'Another API', 'http://test.com/web-services/httpapi/recharge-request?acc_no=ACC12501&api_key=1d4f8a72-83e8-4bfc-b869-f2e3da9bc5d8&opr_code={code}&rech_num'),
+(9, '2020-12-02 03:59:55', '2020-12-03 05:27:50', 'API NAM', 'www.backlsh.in');
 
 -- --------------------------------------------------------
 
@@ -247,9 +322,33 @@ CREATE TABLE `tbl_my_operators` (
 --
 
 INSERT INTO `tbl_my_operators` (`id`, `category_id`, `operator`, `code`, `status`, `api_1`, `api_2`, `api_3`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Airtel', 'AT', 1, NULL, NULL, NULL, '2020-11-30 23:51:26', '2020-12-01 20:25:46'),
-(2, 2, 'DOCOMO', 'DO', 1, NULL, NULL, NULL, '2020-12-01 16:58:41', '2020-12-01 20:29:31'),
-(3, 2, 'DOCOMO', 'DO', 1, NULL, NULL, NULL, '2020-12-01 16:59:02', '2020-12-01 20:32:20');
+(1, 1, 'Airtel', 'AT', 1, 1, NULL, NULL, '2020-11-30 23:51:26', '2020-11-30 23:51:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_news`
+--
+
+CREATE TABLE `tbl_news` (
+  `id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `from_date` datetime NOT NULL,
+  `to_date` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_news`
+--
+
+INSERT INTO `tbl_news` (`id`, `title`, `from_date`, `to_date`, `created_at`, `updated_at`) VALUES
+(1, 'HI', '2020-12-11 00:00:00', '2020-12-18 00:00:00', '2020-12-02 15:18:17', '2020-12-02 15:18:17'),
+(2, 'details', '2020-12-16 00:00:00', '2020-12-17 00:00:00', '2020-12-02 15:21:21', '2020-12-02 15:21:21'),
+(3, 'details', '2020-12-16 00:00:00', '2020-12-17 00:00:00', '2020-12-02 15:22:02', '2020-12-02 15:22:02'),
+(4, 'details', '2020-12-16 00:00:00', '2020-12-17 00:00:00', '2020-12-02 15:29:24', '2020-12-02 15:29:24'),
+(5, 'this is akash', '2020-12-01 00:00:00', '2020-12-15 00:00:00', '2020-12-02 17:46:39', '2020-12-02 17:46:39');
 
 -- --------------------------------------------------------
 
@@ -343,9 +442,33 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `fail_switch_details`
+--
+ALTER TABLE `fail_switch_details`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `fail_switch_masters`
+--
+ALTER TABLE `fail_switch_masters`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `package_lists`
+--
+ALTER TABLE `package_lists`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `package_masters`
+--
+ALTER TABLE `package_masters`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -407,6 +530,12 @@ ALTER TABLE `tbl_my_operators`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_news`
+--
+ALTER TABLE `tbl_news`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_recharge_categories`
 --
 ALTER TABLE `tbl_recharge_categories`
@@ -436,10 +565,34 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `fail_switch_details`
+--
+ALTER TABLE `fail_switch_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `fail_switch_masters`
+--
+ALTER TABLE `fail_switch_masters`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
+-- AUTO_INCREMENT for table `package_lists`
+--
+ALTER TABLE `package_lists`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `package_masters`
+--
+ALTER TABLE `package_masters`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -451,13 +604,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `role_masters`
 --
 ALTER TABLE `role_masters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_amount_filters`
@@ -475,13 +628,19 @@ ALTER TABLE `tbl_api_codes`
 -- AUTO_INCREMENT for table `tbl_api_masters`
 --
 ALTER TABLE `tbl_api_masters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_my_operators`
 --
 ALTER TABLE `tbl_my_operators`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_news`
+--
+ALTER TABLE `tbl_news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_recharge_categories`

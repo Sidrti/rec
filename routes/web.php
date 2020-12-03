@@ -24,6 +24,7 @@ Route::get('ApiInfo/Update/{id}/{code}/{status}', 'App\Http\Controllers\api_info
 Route::get('ApiSettings', 'App\Http\Controllers\view_api_controller@index');
 Route::get('ApiSettings', 'App\Http\Controllers\view_api_controller@index')->name('ApiSettings');
 Route::get('ApiSettings/Delete/{id}', 'App\Http\Controllers\add_api_controller@destroy');
+Route::post('ApiSettings/Edit', 'App\Http\Controllers\view_api_controller@edit')->name('ApiSettings.edit');
 Route::post('AddApi', 'App\Http\Controllers\add_api_controller@index');
 Route::get('OperatorList', 'App\Http\Controllers\TblMyOperatorController@show')->name('OperatorList');
 Route::get('OperatorList/Update/{api_id}/{operator_id}/{operator_api_id}', 'App\Http\Controllers\TblMyOperatorController@update');
