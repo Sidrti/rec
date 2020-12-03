@@ -108,7 +108,14 @@ class TblMyOperatorController extends Controller
      * @param  \App\Models\tbl_my_operator  $tbl_my_operator
      * @return \Illuminate\Http\Response
      */
-  
+    public function update(Request $request, tbl_my_operator $tbl_my_operator)
+    {
+        $operator_api_id = 'api_' . $request->operator_api_id;
+        $update_operator_api_id = tbl_my_operator::where('id', $request->operator_id)
+        ->update([ $operator_api_id => $request->api_id]);
+        
+       return redirect()->route('OperatorList');
+    }
     public function updateStatus(Request $request, tbl_my_operator $tbl_my_operator)
     {
         print_r("ID - ".$request->id);
