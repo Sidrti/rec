@@ -42,8 +42,8 @@
         <th>{{$i+1}}</th>
         <th>{{$array[$i]['category'] }}</th>
         <th>{{$array[$i]['operator'] }}</th>
-        <th>{{$array[$i]['amount'] }}</th>
-        <th><button class="btn btn-primary" id={{$array[$i]['id']}} onclick="UpdateClick(this.id)" data-toggle="modal" data-target="#exampleModal">Update</button></th>
+        <th id="amount{{$array[$i]['id']}}" contenteditable="true">{{$array[$i]['amount'] }}</th>
+        <th><button class="btn btn-primary" id={{$array[$i]['id']}} onclick="UpdateClick(this.id)">Update</button></th>
     </tr>
        @endfor
     </tbody>
@@ -84,9 +84,8 @@
 <script>
     function UpdateClick(id)
     {
-        document.getElementById('update_id').value = id;
-        var amount_input_value = document.getElementById("amount_input"+id).value;
-        document.getElementById('amount').value = amount_input_value;
+       var amount =  document.getElementById('amount'+id).innerText ;
+       SaveEditDB(amount,id) ;
 
     }
     function OperatorClick()
@@ -99,8 +98,31 @@
     {
         var amount_input_value = document.getElementById("amount_input"+id).value;
         var array = [id,amount_input_value];
-         window.location  = '/AmountFilter/Update/'+array;
+        window.location  = '/AmountFilter/Update/'+array;
+
+        
+
     }
+
+    function SaveEditDB(amount_input_value,id) 
+   {
+
+            $.ajax({
+               type:'POST',
+               url:'/AmountFilter/Update',
+               data: {
+                "_token": "{{ csrf_token() }}",
+                  'amount':amount_input_value,
+                  'id':id,
+              },
+               
+               success:function(data) 
+               {
+                  alert('Success');
+                  window.location = "AmountFilter";
+               }
+            });
+    }  
     
 </script>
 </body>

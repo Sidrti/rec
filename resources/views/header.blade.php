@@ -135,7 +135,7 @@ display: block;
 <ul class="submenu dropdown-menu">
    <li><a class="dropdown-item dropdown-item-color" href="">API Balances</a></li>
    <li><a class="dropdown-item dropdown-item-color" href="{{url('ApiInfo')}}">API Codes</a></li>
-   <li><a class="dropdown-item dropdown-item-color" href="{{url('ViewApi')}}">API Settings</a></li>
+   <li><a class="dropdown-item dropdown-item-color" href="{{url('ApiSettings')}}">API Settings</a></li>
 </ul>
 </li>
 <li><a class="dropdown-item dropdown-item-color" href="{{url('OperatorList')}}"> My Operators </a></li>

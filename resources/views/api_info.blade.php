@@ -40,8 +40,8 @@
     <tr>
        
         <th>{{$i+1}}</th>
-        <th>{{$array[$i]['tbl_recharge_categorie'][0]->name }}</th>
-        <th>{{$array[$i]['tbl_api_master'][0]->api_name }}</th>
+        <th>{{$array[$i]['tbl_api_code']->name }}</th>
+        <th>{{$array[$i]['tbl_api_master']->api_name }}</th>
         <th><input type="text" value="{{$array[$i]['tbl_api_code']->api_code }}" id="api_code"></th>
         <th><input type="text" value="{{$array[$i]['tbl_api_code']->status }}" id="status"></th>
         <th><button class="btn btn-primary" onClick="UpdateClick(this.id)" id="{{$array[$i]['tbl_api_code']->id }}">Update</button></th>

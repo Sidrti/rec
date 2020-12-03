@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\tbl_my_operator;
 use Illuminate\Http\Request;
-use App\Models\tbl_recharge_categorie;
+use App\Models\tbl_recharge_categories;
 use App\Models\tbl_api_master;
 
 class TblMyOperatorController extends Controller
@@ -49,6 +49,7 @@ class TblMyOperatorController extends Controller
     public function show(tbl_my_operator $tbl_my_operator)
     {
         $array = array();
+        $api_array = array();
         $tbl_my_operator_data = tbl_my_operator::all();
         $tbl_api_master =  tbl_api_master::all();
 
@@ -56,9 +57,22 @@ class TblMyOperatorController extends Controller
         $i = 0;
         foreach ($tbl_my_operator_data as $data) 
         {
-            
+            $fin_array = array();
+            $api = array('api_1' => $data->api_1, 'api_2' => $data->api_2, 'api_3' => $data->api_3);
             $category_id =  $data->category_id;
-            $category_data=  tbl_recharge_categorie::where('id', $category_id)->get();
+            $category_data=  tbl_recharge_categories::where('id', $category_id)->get();
+            
+            for ($count = 0; $count < count($api); $count++) {
+                $api_data=  tbl_api_master::where('id',array_values($api)[$count])->get();
+                $api_name = isset($api_data[0]->api_name) ? $api_data[0]->api_name : '';
+                $api_url = isset($api_data[0]->url) ? $api_data[0]->url : '';
+
+
+
+                $new_array = array(('api_name' . ($count+1)) => $api_name, ('api_url' . ($count+1)) => $api_url);
+                array_push($fin_array, $new_array);
+            }
+            array_push($api_array, $fin_array);
 
             if($data->status == 0)
             {
@@ -69,15 +83,11 @@ class TblMyOperatorController extends Controller
                 $temp = 'START';
             }
 
-            $new_array = array('id'=>$data->id,'operator'=>$data->operator,'code'=>$data->code,'status'=>$temp,'api_1'=>$data->api_1,'api_2'=>$data->api_2,'api_3'=>$data->api_3,'category_name'=>$category_data[0]->name);
+            $new_array = array('id'=>$data->id,'operator'=>$data->operator,'code'=>$data->code,'status'=>$temp, 'category_name'=>$category_data[0]->name);
             array_push($array, $new_array);
-
             $i++;
         }
-        
-      
-
-        return view('operatorlist',['array'=>$array,'tbl_api_master'=>$tbl_api_master]);
+        return view('operatorlist', ['array'=>$array, 'api_array'=>$api_array, 'tbl_api_master'=>$tbl_api_master]);
     }
 
     /**
@@ -98,14 +108,16 @@ class TblMyOperatorController extends Controller
      * @param  \App\Models\tbl_my_operator  $tbl_my_operator
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, tbl_my_operator $tbl_my_operator)
+  
+    public function updateStatus(Request $request, tbl_my_operator $tbl_my_operator)
     {
-        
-        $res = tbl_my_operator::where('id', $request->id)
-        ->update(['api_1' => $request->api_1]);
+        print_r("ID - ".$request->id);
+       
+        // tbl_my_operators::where('id', $request->id)
+      // ->update([ 'status' => '!status']);
         
       // return redirect()->route('OperatorList');
-    }
+    } 
 
     /**
      * Remove the specified resource from storage.

@@ -16,13 +16,13 @@ class add_api_controller extends Controller
         $api_master->url=$request->sample_url;
         $api_master->save(); 
 
-        return redirect('ViewApi');
+        return redirect('ApiSettings');
 
     }
     public function destroy(tbl_api_master $tbl_api_master,$id)
     {
         tbl_api_master::destroy(array('id',$id));
-        return redirect('ViewApi');
+        return redirect('ApiSettings');
     }
 }
   
