@@ -9,8 +9,8 @@ class view_api_controller extends Controller
 {
     function index()
     {
+        
     $data=  tbl_api_master::all();
-
     return view('view_api',['data'=>$data]);
 
     }
