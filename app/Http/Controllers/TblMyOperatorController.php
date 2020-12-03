@@ -118,13 +118,13 @@ class TblMyOperatorController extends Controller
     }
     public function updateStatus(Request $request, tbl_my_operator $tbl_my_operator)
     {
-        print_r("ID - ".$request->id);
+      // "Update tbl_my_operators set  status= !status where id=$id" 
        
-        // tbl_my_operators::where('id', $request->id)
-      // ->update([ 'status' => '!status']);
         
-      // return redirect()->route('OperatorList');
-    } 
+        
+         return redirect()->route('OperatorList');
+    }
+
 
     /**
      * Remove the specified resource from storage.

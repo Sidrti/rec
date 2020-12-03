@@ -150,5 +150,38 @@
         </div>
       </form>
     </div>
+
+
+    <div class=" table-responsive">
+      <table class="table table-striped table-bordered">
+          <tr  class="bg-primary">
+              <th style="color:white !important">#</th>
+              <th style="color:white !important">News</th>
+              <th style="color:white !important">Start Date</th>
+              <th style="color:white !important">End Date</th>
+              <th style="color:white !important"><button class="btn btn-danger">Delete</button></th>
+
+ 
+          </tr>
+    <tbody id="myTable">
+  
+      @for($i=0;$i<count($array);$i++)
+      <tr>
+          <th>{{$i+1}}</th>
+          <th>{{$array[$i]['title'] }}</th>
+          <th>{{$array[$i]['from_date'] }}</th>
+          <th>{{$array[$i]['to_date'] }}</th>
+          <th><a href="OperatorList/Update/Status/{{$array[$i]['id'] }}">{{$array[$i]['status'] }}</a>   </th>
+         
+
+      </tr>
+         @endfor
+      </tbody>
+   </table>
+    </div>
+
+
+
+
   </body>
 </html>

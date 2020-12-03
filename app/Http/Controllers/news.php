@@ -7,7 +7,8 @@ use App\Models\tbl_new;
 
 class news extends Controller
 {
-    function News_Data(Request $request){
+    function News_Data(Request $request)
+    {
 		
 		$api_master = new tbl_new();
         $api_master->title=$request->get('name');
@@ -15,6 +16,13 @@ class news extends Controller
         $api_master->to_date=$request->get('ToDate');
 		$api_master->save();
 		return view('dashboard');
+		
+    }
+    function Show(Request $request)
+    {
+		$array=  tbl_new::all();
+		
+        return view('News',['array'=>$array]);
 		
 	}
 }
