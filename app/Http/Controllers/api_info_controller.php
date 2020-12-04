@@ -19,8 +19,11 @@ class api_info_controller extends Controller
 
         $joinData = tbl_api_code::select('*')
         ->join('tbl_recharge_categories', 'tbl_api_codes.category_id', '=', 'tbl_recharge_categories.id')
-        ->where('tbl_api_codes.api_id',$id)
+        ->join('tbl_my_operators', 'tbl_api_codes.operator_id', '=', 'tbl_my_operators.id')
+        
         ->get();
+
+        
 
         $all_api_master = tbl_api_master::all();
 
@@ -43,17 +46,19 @@ class api_info_controller extends Controller
             array_push($array, $new_array);
 
         }
-      
-        //return $array;
-        return view('api_info',['array'=>$array,'all_api_master'=>$all_api_master]);
+       
+         
+    
+        return view('api_info',['array'=>$array,'all_api_master'=>$all_api_master,'id'=>$id]);
 
     }
       public function update(Request $request, tbl_api_code $tbl_api_code)
     {
 
         $res = tbl_api_code::where('id', $request->id)
-        ->update(['api_code' => $request->code,'status'=>$request->status]);
+        ->update(['operator_code' => $request->code,'api_status'=> $request->status]);
         
+        echo $request->status;
         return redirect()->route('ApiInfo');
     }
 }
