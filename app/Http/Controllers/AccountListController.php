@@ -46,4 +46,23 @@ class AccountListController extends Controller
             'email' => $request->email,
         ]);
     }
+
+    public function createAccount (Request $request) {
+
+        // $user_details = user_detail::where('user_id', $request->user_id)
+        // ->update([
+        //     'pan_number' => $request->pan,
+        //     'gst_number' => $request->gst,
+        //     'mobile_number' => $request->mob_no,
+        //     'address' => $request->address,
+        //     'city' => $request->city,
+        //     'pincode' => $request->pincode,
+        // ]);
+
+        // $user = user::where('id', $request->user_id)
+        // ->update([
+        //     'name' => $request->acc_name,
+        //     'email' => $request->email,
+        // ]);
+    }
 }

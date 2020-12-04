@@ -12,7 +12,7 @@
 <div class="container-fluid">
 <div class="row mt-3">
     <div class="col-lg-12">
-        <button class="btn btn-danger float-right ml-3" data-toggle="modal" data-target="#exampleModal">+ Add New Account</button>
+        <button class="btn btn-danger float-right ml-3" data-toggle="modal" data-target="#NewModal">+ Add New Account</button>
         <button class="btn btn-success float-right">My Stock</button>
     </div>
 </div>
@@ -73,7 +73,7 @@
   </table>
 
 
-<!-- Add Package -->
+<!-- Update Account Modal -->
 
 <div class="modal fade" id="AccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog size_modal" role="document">
@@ -88,8 +88,8 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <div class='d-flex'>
-              <label for="Account">Account No.:&nbsp;&nbsp;</label>
-              <label for="AccountValue" id='account_value'></label> <!-- account value -->
+              <label for="Account">Account No:&nbsp;&nbsp;</label>
+              <label for="AccountValue" class="font-weight-bold" id='account_value'></label> <!-- account value -->
             </div>
             <div class='d-flex'>
               <label for="usertype">User Type:&nbsp;&nbsp;</label>
@@ -140,12 +140,74 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button username='{{ $data->user_id }}' id='create_package' onclick='UpdateAccount(this.id)' class="btn btn-danger">Update Account</button>
+        <button username='{{ $data->user_id }}' id='create_package' onclick='UpdateAccount()' class="btn btn-danger">Update Account</button>
       </div>
     </div>
   </div>
 </div>
 
+
+<!-- New Account Modal -->
+
+<div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog size_modal" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">CREATE NEW ACCOUNT</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="account_label">Account Type</label>
+            <select class="form-control" id="account_type">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="account_name" placeholder="Account Name">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="mobile_no" placeholder="Mobile Number">
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control" id="email_id" placeholder="Email">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <input type="number" class="form-control" min='0' id="gst_no" placeholder="GST No.">
+            </div>
+            <div class="form-group col-md-6">
+              <input type="number" class="form-control" min='0' id="pan_no" placeholder="PAN No.">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputAddress">Address</label>
+            <input type="text" class="form-control" id="address" placeholder="Address Line">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" id="city" placeholder="City">
+            </div>
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" id="pincode" placeholder="PinCode">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+      <button id='create_account' onclick='CreateAccount()' class="btn btn-danger">Create Account</button>
+        <button class="btn btn-secondary" onclick="Reset()">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 
@@ -153,9 +215,57 @@
         $('#account_list').DataTable();
     });
 
+    function Reset() {
+      document.getElementById('account_name').value = '';
+      document.getElementById('mobile_no').value = '';
+      document.getElementById('email_id').value = '';
+      document.getElementById('gst_no').value = '';
+      document.getElementById('pan_no').value = '';
+      document.getElementById('city').value = '';
+      document.getElementById('pincode').value = '';
+      document.getElementById('address').value = '';
+    }
+
     function UpdateStatus(user_id)
     {
         window.location = 'AccountList/Status/'+user_id+'/' + '0';
+    }
+
+    function CreateAccount() {
+
+      //var role_type = document.getElementById('account_type').value;
+      var acc_name = document.getElementById('account_name').value;
+      var mob_no = document.getElementById('mobile_no').value;
+      var email = document.getElementById('email_id').value;
+      var gst = document.getElementById('gst_no').value;
+      var pan = document.getElementById('pan_no').value;
+      var city = document.getElementById('city').value;
+      var pincode = document.getElementById('pincode').value;
+      var address = document.getElementById('address').value;
+
+      $.ajax({
+          type:'POST',
+          url:'/AccountCreate/data',
+          data: {
+          "_token": "{{ csrf_token() }}",
+            'role_id': role_id,
+            'acc_name': acc_name,
+            'mob_no': mob_no,
+            'email': email,
+            'gst': gst,
+            'pan': pan,
+            'city': city,
+            'pincode': pincode,
+            'address': address,
+          },
+
+          success:function(data) 
+          {
+            window.location = "AccountList";
+            $(".alert-success").css("display", "block");
+            $(".alert-success").append("<p>Created Successfully<p>");
+          }
+      });
     }
 
     function Userdetails (id, name, role_name, email, mob, gst, pan, city, pincode, address) {
