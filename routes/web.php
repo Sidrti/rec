@@ -41,10 +41,12 @@ Route::post('AmountFilter/Update', 'App\Http\Controllers\TblAmountFilterControll
 Route::get('SmsSettings', 'App\Http\Controllers\sms_api_controller@index')->name('SmsSettings');
 Route::post('AddApiSms', 'App\Http\Controllers\add_sms_api@index');
 Route::post('SmsSettings/Delete', 'App\Http\Controllers\sms_api_controller@destroy')->name('SmsSettings.delete');
-
 Route::get('APITrailSettings', 'App\Http\Controllers\api_trail_list@index')->name('APITrailSettings');
 Route::post('APITrailSettingsDelete', 'App\Http\Controllers\api_trail_list@destroy')->name('APITrailSettings.delete');
 Route::post('APITrailSettings/Add', 'App\Http\Controllers\api_trail_list@add')->name('APITrailSettings.add');
+Route::get('ManagePackage', 'App\Http\Controllers\PackageMasterController@index')->name('ManagePackage');
+Route::get('ManagePackage/Add/{title}/{username}', 'App\Http\Controllers\PackageMasterController@store');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
