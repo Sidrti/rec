@@ -7,8 +7,6 @@
     color: black;
     max-width: auto;
   }
-
-  
 </style>
 <div class="container-fluid">
 <div class="row mt-3">
@@ -18,14 +16,13 @@
 
     </div>
 </div>
-        <h3 >News Detailing</h2>
+        <h3 >SMS Detailing</h2>
   <table id="apitable" class="table table-striped table-bordered"  style="width:100%">
     <thead>
       <tr>
         <th class="th-sty">#</th>
         <th class="th-sty">Name</th>
         <th class=th-sty>URL</th>
-        <th class="th-sty">ToDate</th>
         <th class="th-sty">Options</th>
       </tr>
     </thead>
@@ -33,15 +30,14 @@
     @php
     $count = 0;
   @endphp
-    @foreach($array as $i)
+    @foreach($data as $i)
     @php
     $count++;
   @endphp
       <tr>
         <td>{{ $count }}</td>
         <td contenteditable="false" id="api_name{{$i->id}}">{{ $i->title}}</td>
-      <td contenteditable="false" id="url{{$i->id}}">{{ $i->from_date}}</td>
-      <td contenteditable="false" id="url{{$i->id}}">{{ $i->to_date}}</td>
+      <td contenteditable="false" id="url{{$i->id}}">{{ $i->sms_url}}</td>
         <td>
          <div class="dropdown">
   <button type="button" class="btn btn-danger" id="{{ $i->id}}" onclick="DeleteClick(this.id)">
@@ -63,19 +59,17 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="AddNews" method="POST" id="form">
+        <form action="AddApiSms" method="POST" id="form">
          @csrf
         
           <div class="form-group">
             <label for="api_name" class="col-form-label">Title:</label>
             <input type="text" name="title" class="form-control" id="title">
 
-            <label class="col-form-label" >From Date :</label>
+            <label class="col-form-label" >SMS URL:</label>
+            <label class="col-form-label"> http://test.com/web-services/httpapi/recharge-request?acc_no=ACC12501&api_key=1d4f8a72-83e8-4bfc-b869-f2e3da9bc5d8&opr_code={code}&rech_num={mobilenumber}&amount={amount}&client_key={client_key}</a></label>
           
-            <input type="date" name="from_date" class="form-control" id="from_date">
-
-            <label class="col-form-label" >To Date :</label>
-            <input type="date" name="to_date" class="form-control" id="to_date">
+            <input type="text" name="sample_url" class="form-control" id="sample_url">
           </div>
 
         </form>
@@ -89,28 +83,15 @@
 </div>
 
 
+
+
 <script>
  function DeleteClick(id)
  {
   if (confirm('Are you sure you want to Delete this entry ?')) {
-<<<<<<< HEAD
 
-    DeleteClickMain(id);
-    //window.location='/News';
-=======
->>>>>>> cf2fa4dc7b291f030bfcdc4bb3a3bca4d1cd7cc1
+    DeleteClickMain();
 
-    DeleteClickMain(id);
-    //window.location='/News';
-
-<<<<<<< HEAD
-} else {
-  // Do nothing!
-  console.log('Thing was not saved to the database.');
-  }
- }
-
-=======
 
 } else {
   // Do nothing!
@@ -118,7 +99,6 @@
   }
  }
 
->>>>>>> cf2fa4dc7b291f030bfcdc4bb3a3bca4d1cd7cc1
 </script>
   <script>
    
@@ -173,10 +153,12 @@
     
             $.ajax({
                type:'POST',
-               url:'NewsDelete',
+               url:'/SmsSettings/Delete',
                data: {
-                "_token": "{{ csrf_token() }}",   
-                  "id":id,
+                "_token": "{{ csrf_token() }}",
+                  'api_name':editname,
+                  'url':editurl,
+                  'id':id,
               },
                
                success:function(data) 
