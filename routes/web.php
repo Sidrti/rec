@@ -28,21 +28,27 @@ Route::post('ApiSettings/Edit', 'App\Http\Controllers\view_api_controller@edit')
 Route::post('AddApi', 'App\Http\Controllers\add_api_controller@index');
 Route::get('OperatorList', 'App\Http\Controllers\TblMyOperatorController@show')->name('OperatorList');
 Route::get('OperatorList/Update/{api_id}/{operator_id}/{operator_api_id}', 'App\Http\Controllers\TblMyOperatorController@update');
+Route::get('OperatorStatus/Update/Status/{status_id}/{operator_id}', 'App\Http\Controllers\TblMyOperatorController@updateStatus');
+Route::get('OperatorAPI/Update/{operator_id}/{api_id}', 'App\Http\Controllers\TblMyOperatorController@removeAPI');
 Route::get('AmountFilter', 'App\Http\Controllers\TblAmountFilterController@show')->name('AmountFilter');
 Route::get('AmountFilter/{id}', 'App\Http\Controllers\TblAmountFilterController@show');
 Route::get('News', 'App\Http\Controllers\news@show')->name('News');
-Route::get('ApiTrail', 'App\Http\Controllers\FailSwitchDetailController@index');
-Route::post('MapApi', 'App\Http\Controllers\FailSwitchDetailController@store')->name('MapApi');
+
+Route::get('ApiTrail', 'App\Http\Controllers\FailSwitchDetailController@index')->name('ApiTrail');
+Route::post('MapApi', 'App\Http\Controllers\FailSwitchDetailController@store');
+
 Route::post('AddNews', 'App\Http\Controllers\news@News_Data');
 Route::post('NewsDelete', 'App\Http\Controllers\news@destroy')->name('News.delete');
 Route::post('AmountFilter/Update', 'App\Http\Controllers\TblAmountFilterController@update')->name('AmountFilter.update');
 Route::get('SmsSettings', 'App\Http\Controllers\sms_api_controller@index')->name('SmsSettings');
 Route::post('AddApiSms', 'App\Http\Controllers\add_sms_api@index');
 Route::post('SmsSettings/Delete', 'App\Http\Controllers\sms_api_controller@destroy')->name('SmsSettings.delete');
-
 Route::get('APITrailSettings', 'App\Http\Controllers\api_trail_list@index')->name('APITrailSettings');
 Route::post('APITrailSettingsDelete', 'App\Http\Controllers\api_trail_list@destroy')->name('APITrailSettings.delete');
 Route::post('APITrailSettings/Add', 'App\Http\Controllers\api_trail_list@add')->name('APITrailSettings.add');
+Route::get('ManagePackage', 'App\Http\Controllers\PackageMasterController@index')->name('ManagePackage');
+Route::get('ManagePackage/Add/{title}/{username}', 'App\Http\Controllers\PackageMasterController@store');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
