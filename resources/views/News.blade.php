@@ -1,187 +1,176 @@
 @include('header')
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Add URL Form</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <style>
-      html, body {
-      min-height: 100%;
-      }
-      body, p { 
-      padding: 0;
-      margin: 0;
-      font-family: Roboto, Arial, sans-serif;
-      font-size: 14px;
-      line-height: 24px;
-      color: #666;
-      }
-      .main-block {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      }
-      form {
-      width: 100%;
-      padding: 20px;
-      background: #fff;
-      box-shadow: 0 2px 5px #ccc; 
-      }
-      h1 {
-      font-weight: 400;
-      line-height: 28px;
-      }
-      hr {
-      margin: 20px 0;
-      }
-      span.required {
-      color: red;
-      }
-      .personal-details, .question-block, .statements-block {
-      padding-bottom: 20px;
-      }
-      .personal-details >div {
-      display: flex;
-      flex-direction: column;
-      }
-      input {
-      padding: 8px 5px;
-      margin-bottom: 10px;
-      border-radius: 3px;
-      border: 1px solid #ccc;
-      outline: none;
-      vertical-align: middle;
-      }
-      input:hover, textarea:hover {
-      outline: none;
-      border: 1px solid #095484;
-      }
-      .question, .answer, table, textarea {
-      width: 100%;
-      }
-      .answer input, table input {
-      width: auto;
-      }
-      th, td {
-      width: 14%;
-      padding: 10px 0;
-      border-bottom: 1px solid #ccc;
-      text-align: center;
-      vertical-align: unset;
-      line-height: 18px;
-      font-weight: 400;
-      word-break: break-all;
-      }
-      .first-col {
-      width: 30%;
-      text-align: left;
-      }
-      small {
-      display: block;
-      line-height: 18px;
-      opacity: 0.5;
-      }
-      .btn-block {
-      text-align: center;
-      }
-      button {
-      width: 150px;
-      padding: 10px;
-      border-radius: 5px; 
-      border: none;
-      background: #095484; 
-      font-size: 16px;
-      color: #fff;
-      cursor: pointer;
-      }
-      button:hover {
-      background: #0666a3;
-      }
-      @media (min-width: 568px) {
-      .personal-details >div {
-      flex-direction: row;
-      align-items: center;
-      }
-      label {
-      width: 95px;
-      }
-      input {
-      width: calc((100% - 130px)/2);
-      }
-      input.first-name, input.seminar-title {
-      margin: 0 5px 10px;
-      }
-      .question-block {
-      display: flex;
-      justify-content: space-between;
-      }
-      .question, .answer {
-      width: 50%;
-      }
-      th, td {
-      word-break: keep-all;
-      }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="main-block">
-      <form method="get" action="formSubmit">
-	  {{@csrf_field()}}
-        <h1>Add Latest News</h1>
-        <hr>
-        <div class="personal-details">
-          <div>
-            <label>Title <span class="required">*</span></label>
-            <input  class="first-name" type="text" name="name" placeholder="Title" required/>
-          </div>
-          <div>
-            <label>From Date:<span class="required">*</span></label>
-			<input type="date" name="FromDate" name="From Date" required/>
-          </div>
-		  <div>
-            <label>To Date:<span class="required">*</span></label>
-			<input type="date" name="ToDate" name="To Date" required/>
-          </div>
-        </div>
-     
-        <div class="btn-block">
-          <button type="submit" href="/">Add News</button>
-        </div>
-      </form>
-    </div>
+<script src ="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
+<script src ="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
 
+<style>
+  .th-sty{
+    color: black;
+    max-width: auto;
+  }
 
-    <div class=" table-responsive">
-      <table class="table table-striped table-bordered">
-          <tr  class="bg-primary">
-              <th style="color:white !important">#</th>
-              <th style="color:white !important">News</th>
-              <th style="color:white !important">Start Date</th>
-              <th style="color:white !important">End Date</th>
-              <th style="color:white !important"><button class="btn btn-danger">Delete</button></th>
-
- 
-          </tr>
-    <tbody id="myTable">
   
-      @for($i=0;$i<count($array);$i++)
-      <tr>
-          <th>{{$i+1}}</th>
-          <th>{{$array[$i]['title'] }}</th>
-          <th>{{$array[$i]['from_date'] }}</th>
-          <th>{{$array[$i]['to_date'] }}</th>
-          <th><a href="OperatorList/Update/Status/{{$array[$i]['id'] }}">{{$array[$i]['status'] }}</a>   </th>
-         
+</style>
+<div class="container-fluid">
+<div class="row mt-3">
+    <div class="col-lg-12">
+        
+      <button class="btn btn-primary float-right" style="border-radius:30px" data-toggle="modal" data-target="#exampleModal">Add API</button>
 
-      </tr>
-         @endfor
-      </tbody>
-   </table>
     </div>
+</div>
+        <h3 >News Detailing</h2>
+  <table id="apitable" class="table table-striped table-bordered"  style="width:100%">
+    <thead>
+      <tr>
+        <th class="th-sty">#</th>
+        <th class="th-sty">Name</th>
+        <th class=th-sty>URL</th>
+        <th class="th-sty">ToDate</th>
+        <th class="th-sty">Options</th>
+      </tr>
+    </thead>
+    <tbody>
+    @php
+    $count = 0;
+  @endphp
+    @foreach($array as $i)
+    @php
+    $count++;
+  @endphp
+      <tr>
+        <td>{{ $count }}</td>
+        <td contenteditable="false" id="api_name{{$i->id}}">{{ $i->title}}</td>
+      <td contenteditable="false" id="url{{$i->id}}">{{ $i->from_date}}</td>
+      <td contenteditable="false" id="url{{$i->id}}">{{ $i->to_date}}</td>
+        <td>
+         <div class="dropdown">
+  <button type="button" class="btn btn-danger" id="{{ $i->id}}" onclick="DeleteClick(this.id)">
+    Delete
+  </button>
+</div> </td>
+      </tr>
+     @endforeach
+    </tbody>
+  </table>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ADD NEW</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="AddNews" method="POST" id="form">
+         @csrf
+        
+          <div class="form-group">
+            <label for="api_name" class="col-form-label">Title:</label>
+            <input type="text" name="title" class="form-control" id="title">
+
+            <label class="col-form-label" >From Date :</label>
+          
+            <input type="date" name="from_date" class="form-control" id="from_date">
+
+            <label class="col-form-label" >To Date :</label>
+            <input type="date" name="to_date" class="form-control" id="to_date">
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit"  onclick="form_submit_fn()" class="btn btn-primary">Save </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
+<script>
+ function DeleteClick(id)
+ {
+  if (confirm('Are you sure you want to Delete this entry ?')) {
+
+    DeleteClickMain(id);
+    //window.location='/News';
 
 
-  </body>
-</html>
+} else {
+  // Do nothing!
+  console.log('Thing was not saved to the database.');
+  }
+ }
+
+</script>
+  <script>
+   
+  $(document).ready(function() {
+    $('#apitable').DataTable();
+} );
+  </script>
+    <script type="text/javascript">
+  function form_submit_fn() {
+    document.getElementById("form").submit();
+   }
+   function EditClick(id)
+   {
+    id = id.substring(4,id.length);
+    document.getElementById('hiddenId2').value = id;
+    document.getElementById('url').value = document.getElementById("url"+id).innerText;
+    document.getElementById('name').value = document.getElementById("api_name"+id).innerText;
+     /*
+    
+      event.preventDefault();
+ 
+      
+      var res = id.substring(4, id.length);
+      if(document.getElementById(id).innerHTML=='Edit')
+      {
+      document.getElementById('url'+res).setAttribute('contenteditable',true)
+      document.getElementById('api_name'+res).setAttribute('contenteditable',true)
+      document.getElementById(id).innerHTML='Save'
+      }
+      else
+      {
+        var editurl = document.getElementById('url'+res).innerText;
+        var editname = document.getElementById('api_name'+res).innerText;
+        
+        SaveEditDB(editurl,editname,res);
+
+        document.getElementById('url'+res).setAttribute('contenteditable',false)
+        document.getElementById('api_name'+res).setAttribute('contenteditable',false)
+        document.getElementById(id).innerHTML='Edit'
+
+        
+      }  */
+   }    
+
+  </script>
+
+  <script>
+    
+
+    function DeleteClickMain(id) 
+   {
+    
+            $.ajax({
+               type:'POST',
+               url:'NewsDelete',
+               data: {
+                "_token": "{{ csrf_token() }}",   
+                  "id":id,
+              },
+               
+               success:function(data) 
+               {
+                  alert('Success');
+               }
+            });
+    } 
+
+  </script>
+
+</div>
