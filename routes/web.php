@@ -33,8 +33,10 @@ Route::get('OperatorAPI/Update/{operator_id}/{api_id}', 'App\Http\Controllers\Tb
 Route::get('AmountFilter', 'App\Http\Controllers\TblAmountFilterController@show')->name('AmountFilter');
 Route::get('AmountFilter/{id}', 'App\Http\Controllers\TblAmountFilterController@show');
 Route::get('News', 'App\Http\Controllers\news@show')->name('News');
+
 Route::get('ApiTrail', 'App\Http\Controllers\FailSwitchDetailController@index')->name('ApiTrail');
 Route::post('MapApi', 'App\Http\Controllers\FailSwitchDetailController@store');
+
 Route::post('AddNews', 'App\Http\Controllers\news@News_Data');
 Route::post('NewsDelete', 'App\Http\Controllers\news@destroy')->name('News.delete');
 Route::post('AmountFilter/Update', 'App\Http\Controllers\TblAmountFilterController@update')->name('AmountFilter.update');

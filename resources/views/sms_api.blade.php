@@ -90,7 +90,7 @@
  {
   if (confirm('Are you sure you want to Delete this entry ?')) {
 
-    DeleteClickMain();
+    DeleteClickMain(id);
 
 
 } else {
@@ -156,14 +156,14 @@
                url:'/SmsSettings/Delete',
                data: {
                 "_token": "{{ csrf_token() }}",
-                  'api_name':editname,
-                  'url':editurl,
+                
                   'id':id,
               },
                
                success:function(data) 
                {
                   alert('Success');
+                  window.location = "SmsSettings";
                }
             });
     } 

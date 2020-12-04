@@ -156,9 +156,9 @@ display: block;
 </ul>
 </li>
 <li><a class="dropdown-item dropdown-item-color" href="#"> Fail Switching</a></li>
-<li><a class="dropdown-item dropdown-item-color" href="{{url('news')}}"> News </a></li>
+<li><a class="dropdown-item dropdown-item-color" href="{{url('News')}}"> News </a></li>
 <li><a class="dropdown-item dropdown-item-color" href="#"> Change Password </a></li>
-<li><a class="dropdown-item dropdown-item-color" href="#"> SMS Api </a></li>
+<li><a class="dropdown-item dropdown-item-color" href="{{url('SmsSettings')}}"> SMS Api </a></li>
 </ul>
 </li>
 <li class="nav-item dropdown">

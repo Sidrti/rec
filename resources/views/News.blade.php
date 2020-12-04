@@ -14,7 +14,7 @@
 <div class="row mt-3">
     <div class="col-lg-12">
         
-      <button class="btn btn-primary float-right" style="border-radius:30px" data-toggle="modal" data-target="#exampleModal">Add API</button>
+      <button class="btn btn-primary float-right" style="border-radius:30px" data-toggle="modal" data-target="#exampleModal">Add News</button>
 
     </div>
 </div>
@@ -93,24 +93,11 @@
  function DeleteClick(id)
  {
   if (confirm('Are you sure you want to Delete this entry ?')) {
-<<<<<<< HEAD
+
 
     DeleteClickMain(id);
-    //window.location='/News';
-=======
->>>>>>> cf2fa4dc7b291f030bfcdc4bb3a3bca4d1cd7cc1
+    
 
-    DeleteClickMain(id);
-    //window.location='/News';
-
-<<<<<<< HEAD
-} else {
-  // Do nothing!
-  console.log('Thing was not saved to the database.');
-  }
- }
-
-=======
 
 } else {
   // Do nothing!
@@ -118,7 +105,6 @@
   }
  }
 
->>>>>>> cf2fa4dc7b291f030bfcdc4bb3a3bca4d1cd7cc1
 </script>
   <script>
    
@@ -182,6 +168,7 @@
                success:function(data) 
                {
                   alert('Success');
+                  window.location='/News';
                }
             });
     } 
