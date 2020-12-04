@@ -31,13 +31,10 @@ Route::get('OperatorList/Update/{api_id}/{operator_id}/{operator_api_id}', 'App\
 Route::get('AmountFilter', 'App\Http\Controllers\TblAmountFilterController@show')->name('AmountFilter');
 Route::get('AmountFilter/{id}', 'App\Http\Controllers\TblAmountFilterController@show');
 Route::get('News', 'App\Http\Controllers\news@show')->name('News');
-<<<<<<< HEAD
-Route::get('ApiTrail', 'App\Http\Controllers\FailSwitchDetailController@index')->name('ApiTrail');
-Route::post('MapApi', 'App\Http\Controllers\FailSwitchDetailController@store');
-=======
+Route::get('ApiTrail', 'App\Http\Controllers\FailSwitchDetailController@index');
+Route::post('MapApi', 'App\Http\Controllers\FailSwitchDetailController@store')->name('MapApi');
 Route::post('AddNews', 'App\Http\Controllers\news@News_Data');
 Route::post('NewsDelete', 'App\Http\Controllers\news@destroy')->name('News.delete');
->>>>>>> cf2fa4dc7b291f030bfcdc4bb3a3bca4d1cd7cc1
 Route::post('AmountFilter/Update', 'App\Http\Controllers\TblAmountFilterController@update')->name('AmountFilter.update');
 Route::get('SmsSettings', 'App\Http\Controllers\sms_api_controller@index')->name('SmsSettings');
 Route::post('AddApiSms', 'App\Http\Controllers\add_sms_api@index');

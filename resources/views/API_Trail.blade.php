@@ -10,9 +10,22 @@
 </style>
 <div class="container-fluid">
 <div class="row mt-3">
-    <div class="col-lg-12">
+
+    <div class="col-md-7 style="padding: 0px;">
+
+
+<div  class="form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
+    <select class="form-control" id="select">
         
-      <button class="btn btn-primary float-right" style="border-radius:30px" data-toggle="modal" data-target="#exampleModal">Map New API</button>
+        @for($i=0;$i<count($fail_switch_master);$i++)
+       <option value={{$fail_switch_master[$i]->id}}>{{$fail_switch_master[$i]->operator}}</option>
+        @endfor
+    </select>
+    </div>
+</div>
+    <div class="col-5">
+        
+      <button class="btn btn-primary float-right" style="border-radius:30px" onclick="ApiTrailClick()" >Map New API</button>
 
     </div>
 </div>
@@ -37,12 +50,12 @@
   @endphp
       <tr>
         <td>{{ $count }}</td>
-        <td contenteditable="false" id="api_name{{$i->id}}">{{ $i->api_name}}</td>
-      <td contenteditable="false" id="url{{$i->id}}">{{ $i->minutes}}</td>
-      <td contenteditable="false" id="url{{$i->id}}">{{ $i->priority}}</td>
+        <td contenteditable="false" id="a{{$i->id}}">{{ $i->api_name}}</td>
+        <td contenteditable="false" id="m{{$i->id}}">{{ $i->minutes}}</td>
+      <td contenteditable="false" id="p{{$i->id}}">{{ $i->priority}}</td>
         <td>
          <div class="dropdown">
-  <button type="button" class="btn btn-danger" id="{{ $i->id}}" onclick="DeleteClick(this.id)">
+         <button type="button" class="btn btn-danger" id="{{ $i->id}}" onclick="DeleteClick(this.id)">
     Delete
   </button>
 </div> </td>
@@ -55,14 +68,11 @@
         <td></td>
         <td contenteditable="false">
           <select id="api_name">
-            @php
-            $count = 0;
-            @endphp
-            @foreach($data as $i)
-            @php
-            $count++;
-            @endphp
-          <option value="{{ $i->api_id}}">{{ $i->api_name}}</option>
+           
+         @foreach($all_api_master as $i)
+          
+          <option value="{{ $i->id}}">{{ $i->api_name}}</option>
+
           @endforeach
           </select></td>
       <td contenteditable="false" id="url{{$i->id}}">
@@ -77,7 +87,7 @@
       </td>
         <td>
          <div class="dropdown">
-  <button type="button" class="btn btn-primary" id="{{ $i->id}}" onclick="AddNewData(api_name.value, minutes.value, priority.value)">
+  <button type="button" class="btn btn-primary" id="{{ $i->id}}" onclick="AddNewData(api_name.value, minutes.value, priority.value,select.value)">
     Add New Api
   </button>
 </div> </td>
@@ -122,6 +132,10 @@
 
 
 <script>
+  function ApiTrailClick()
+  {
+    window.location = "ApiTrail";
+  }
  function DeleteClick(id)
  {
   if (confirm('Are you sure you want to Delete this entry ?')) {
@@ -207,7 +221,7 @@
 
   <script>
     
-    function AddNewData(Api,minutes,priority) 
+    function AddNewData(Api,minutes,priority,master_id) 
    {
     
             $.ajax({
@@ -215,9 +229,10 @@
                url:'APITrailSettings/Add',
                data: {
                 "_token": "{{ csrf_token() }}",
-                  'api_name':Api,
+                  'api_id':Api,
                   'minutes':minutes,
                   'priority':priority,
+                  'master_id':master_id,
               },
                
                success:function(data) 
