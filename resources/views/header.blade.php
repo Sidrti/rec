@@ -164,7 +164,7 @@ display: block;
 <li class="nav-item dropdown">
    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Accounts </a>
      <ul class="dropdown-menu">
- <li><a class="dropdown-item dropdown-item-color" href="#"> Accounts </a></li>
+ <li><a class="dropdown-item dropdown-item-color" href="{{url('AccountList')}}"> Accounts </a></li>
  <li><a class="dropdown-item dropdown-item-color" href="#"> Accounts Capping </a></li>
  <li><a class="dropdown-item dropdown-item-color" href="#"> Promote/Demote </a></li>
  </ul>

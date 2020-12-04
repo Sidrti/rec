@@ -49,6 +49,9 @@ Route::post('APITrailSettings/Add', 'App\Http\Controllers\api_trail_list@add')->
 Route::get('ManagePackage', 'App\Http\Controllers\PackageMasterController@index')->name('ManagePackage');
 Route::get('ManagePackage/Add/{title}/{username}', 'App\Http\Controllers\PackageMasterController@store');
 
+Route::get('AccountList', 'App\Http\Controllers\AccountListController@index')->name('AccountList');
+Route::get('AccountList/Status/{user_id}/{status_id}', 'App\Http\Controllers\AccountListController@updateStatus');
+Route::post('AccountUpdate/data', 'App\Http\Controllers\AccountListController@updateAccount')->name('AccountUpdate.update');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
