@@ -24,7 +24,7 @@
       <tr>
         <th class="th-sty">#</th>
         <th class="th-sty">Name</th>
-        <th class=th-sty>URL</th>
+        <th class=th-sty>From Date</th>
         <th class="th-sty">ToDate</th>
         <th class="th-sty">Options</th>
       </tr>
