@@ -11,7 +11,7 @@
 <div class="container-fluid">
 <div class="row mt-3">
 
-    <div class="col-md-7 style="padding: 0px;">
+  <div class="col-md-7 style="padding: 0px;">
 
 
 <div  class="form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">

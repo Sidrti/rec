@@ -7,12 +7,15 @@
     color: black;
     max-width: auto;
   }
+  .dataTables_filter{
+    float:right;
+  }
 </style>
 <div class="container-fluid">
 <div class="row mt-3">
     <div class="col-lg-12">
         
-        <button class="btn btn-primary float-right" style="border-radius:30px" data-toggle="modal" data-target="#exampleModal">Add API</button>
+        <button class="btn btn-danger float-right"  data-toggle="modal" data-target="#exampleModal">+ Add API</button>
     </div>
 </div>
         <h3 >API Master</h2>
