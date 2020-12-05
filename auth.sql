@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2020 at 12:16 PM
+-- Generation Time: Dec 04, 2020 at 01:29 PM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -53,6 +53,16 @@ CREATE TABLE `fail_switch_details` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `fail_switch_details`
+--
+
+INSERT INTO `fail_switch_details` (`id`, `fail_switch_master_id`, `api_id`, `minutes`, `priority`, `created_at`, `updated_at`) VALUES
+(14, 13, 2, '1', '2', '2020-12-03 14:43:21', '2020-12-03 14:43:21'),
+(26, 13, 4, '1', '1', '2020-12-04 02:47:44', '2020-12-04 02:47:44'),
+(27, 17, 1, '1', '1', '2020-12-04 02:49:06', '2020-12-04 02:49:06'),
+(28, 17, 2, '1', '2', '2020-12-04 02:49:07', '2020-12-04 02:49:07');
+
 -- --------------------------------------------------------
 
 --
@@ -65,6 +75,14 @@ CREATE TABLE `fail_switch_masters` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `fail_switch_masters`
+--
+
+INSERT INTO `fail_switch_masters` (`id`, `OperatorId`, `created_at`, `updated_at`) VALUES
+(13, 1, '2020-12-03 14:43:21', '2020-12-03 14:43:21'),
+(17, 3, '2020-12-04 02:49:06', '2020-12-04 02:49:06');
 
 -- --------------------------------------------------------
 
@@ -128,6 +146,14 @@ CREATE TABLE `package_masters` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `package_masters`
+--
+
+INSERT INTO `package_masters` (`id`, `package_title`, `package_created_by`, `created_at`, `updated_at`) VALUES
+(1, 'Title', 2, '2020-12-04 01:54:26', '2020-12-04 01:54:26'),
+(2, 'Akash Package', 2, '2020-12-04 02:04:10', '2020-12-04 02:04:10');
 
 -- --------------------------------------------------------
 
@@ -223,8 +249,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('rUXTHad7q2ZFBiJOAjl0qWRV9A2aTfcWbMPU4Teh', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiYURPSXZYNGNhc1ZjdkFYVXphcmxYR2JrOHBoUGZMYnpBSXdicXluMCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9BcGlTZXR0aW5ncyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCRzcFZHbzZ0UkpHLnZrZDhHaThSVmh1eXBmaE91THpEY1hMcEF0VXF4SW5WSG16ZFU5OXhrRyI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkc3BWR282dFJKRy52a2Q4R2k4UlZodXlwZmhPdUx6RGNYTHBBdFVxeEluVkhtemRVOTl4a0ciO30=', 1606993294),
-('RxznuB4QHP6gCCv4T981A19LyxqVeVx2S9ioe6BU', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZElwMXoyMER5N21lR05naUhQdXNGSGQ4MHlqVFF3TDB5c2dLdEYwTyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9BcGlTZXR0aW5ncyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1606992345);
+('E47gdMfzuB3VG2eJXCcGAIfABXPpvlFJa4rJg1be', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiTTJFR2drOHdMMnZuYUMxTWN5aXk0bThyeDc2eUZWNXRQWTBqRlpPaiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9PcGVyYXRvckxpc3QiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO3M6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjYwOiIkMnkkMTAkc3BWR282dFJKRy52a2Q4R2k4UlZodXlwZmhPdUx6RGNYTHBBdFVxeEluVkhtemRVOTl4a0ciO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJHNwVkdvNnRSSkcudmtkOEdpOFJWaHV5cGZoT3VMekRjWExwQXRVcXhJblZIbXpkVTk5eGtHIjt9', 1607083221),
+('z1bpFJ15IiwvlP2ZX9qVdwCyVuZyyIVP5mLgGRmW', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiaWlGMm9iSUlFdDE0VElaZnhqejZLUkd4eHlwUjBUVVFpVWZNTUlhVCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9PcGVyYXRvclN0YXR1cy9VcGRhdGUvU3RhdHVzLzEvMiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCRzcFZHbzZ0UkpHLnZrZDhHaThSVmh1eXBmaE91THpEY1hMcEF0VXF4SW5WSG16ZFU5OXhrRyI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkc3BWR282dFJKRy52a2Q4R2k4UlZodXlwZmhPdUx6RGNYTHBBdFVxeEluVkhtemRVOTl4a0ciO30=', 1607083181);
 
 -- --------------------------------------------------------
 
@@ -259,8 +285,9 @@ CREATE TABLE `tbl_api_codes` (
   `id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `api_id` int(11) NOT NULL,
-  `api_code` varchar(255) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `operator_id` int(5) NOT NULL,
+  `operator_code` varchar(255) DEFAULT NULL,
+  `api_status` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -269,10 +296,10 @@ CREATE TABLE `tbl_api_codes` (
 -- Dumping data for table `tbl_api_codes`
 --
 
-INSERT INTO `tbl_api_codes` (`id`, `category_id`, `api_id`, `api_code`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 4, 'DA', 1, '2020-11-28 20:18:57', '2020-12-02 08:25:57'),
-(2, 2, 5, 'NA', 0, '2020-11-30 19:47:24', '2020-11-30 19:47:24'),
-(3, 3, 3, 'SA', 1, '2020-11-30 19:47:37', '2020-12-01 21:17:57');
+INSERT INTO `tbl_api_codes` (`id`, `category_id`, `api_id`, `operator_id`, `operator_code`, `api_status`, `created_at`, `updated_at`) VALUES
+(1, 1, 4, 1, '1', 2, '2020-11-28 20:18:57', '2020-12-04 11:03:47'),
+(2, 2, 7, 2, 'NA', 2, '2020-11-30 19:47:24', '2020-12-04 10:48:15'),
+(3, 3, 8, 3, 'DA', 1, '2020-11-30 19:47:37', '2020-12-04 10:53:33');
 
 -- --------------------------------------------------------
 
@@ -322,7 +349,9 @@ CREATE TABLE `tbl_my_operators` (
 --
 
 INSERT INTO `tbl_my_operators` (`id`, `category_id`, `operator`, `code`, `status`, `api_1`, `api_2`, `api_3`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Airtel', 'AT', 1, 1, NULL, NULL, '2020-11-30 23:51:26', '2020-11-30 23:51:26');
+(1, 1, 'Airtel', 'AT', 0, 4, 8, 9, '2020-11-30 23:51:26', '2020-12-04 11:59:33'),
+(2, 2, 'DOCOMO', 'DO', 0, NULL, NULL, NULL, '2020-12-04 01:57:47', '2020-12-04 11:59:41'),
+(3, 2, 'AIRCEL', 'AI', 0, NULL, NULL, NULL, '2020-12-04 01:57:56', '2020-12-04 12:00:20');
 
 -- --------------------------------------------------------
 
@@ -347,7 +376,6 @@ INSERT INTO `tbl_news` (`id`, `title`, `from_date`, `to_date`, `created_at`, `up
 (1, 'HI', '2020-12-11 00:00:00', '2020-12-18 00:00:00', '2020-12-02 15:18:17', '2020-12-02 15:18:17'),
 (2, 'details', '2020-12-16 00:00:00', '2020-12-17 00:00:00', '2020-12-02 15:21:21', '2020-12-02 15:21:21'),
 (3, 'details', '2020-12-16 00:00:00', '2020-12-17 00:00:00', '2020-12-02 15:22:02', '2020-12-02 15:22:02'),
-(4, 'details', '2020-12-16 00:00:00', '2020-12-17 00:00:00', '2020-12-02 15:29:24', '2020-12-02 15:29:24'),
 (5, 'this is akash', '2020-12-01 00:00:00', '2020-12-15 00:00:00', '2020-12-02 17:46:39', '2020-12-02 17:46:39');
 
 -- --------------------------------------------------------
@@ -376,6 +404,30 @@ INSERT INTO `tbl_recharge_categories` (`id`, `name`, `created_at`, `updated_at`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_sms_apis`
+--
+
+CREATE TABLE `tbl_sms_apis` (
+  `id` int(11) NOT NULL,
+  `title` varchar(1000) NOT NULL,
+  `sms_url` varchar(10000) NOT NULL,
+  `created_at` timestamp(5) NOT NULL DEFAULT current_timestamp(5),
+  `updated_at` timestamp(5) NULL DEFAULT current_timestamp(5)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_sms_apis`
+--
+
+INSERT INTO `tbl_sms_apis` (`id`, `title`, `sms_url`, `created_at`, `updated_at`) VALUES
+(2, 'No', 'One', '2020-12-03 08:41:31.00000', '2020-12-03 08:41:31.00000'),
+(3, 'no', 'One', '2020-12-03 08:43:04.00000', '2020-12-03 08:43:04.00000'),
+(4, 'Ji', 'tuu', '2020-12-03 10:02:30.00000', '2020-12-03 10:02:30.00000'),
+(5, 'Check', 'https://www.google.com', '2020-12-04 02:54:08.00000', '2020-12-04 02:54:08.00000');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -388,7 +440,7 @@ CREATE TABLE `users` (
   `two_factor_secret` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `two_factor_recovery_codes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `current_team_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `parent_id` bigint(20) UNSIGNED DEFAULT NULL,
   `profile_photo_path` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -398,7 +450,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `parent_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
 (1, 'Siddhant Singh', 'siddhant.singh326@gmail.com', NULL, '$2y$10$uKHYuM1FJZdHnIERbTeTeeSO015/AQgJRSTAilVVdHGq5NtevhNi6', 'eyJpdiI6ImdIMlpzZi9wTFdpZ2ZhR0tZNXpoVGc9PSIsInZhbHVlIjoiTEpRVUUrY05mT0U3dncvTlJOYVN3ZE9JNitKcjFRWnFrVWJzNncxOEtKdz0iLCJtYWMiOiIzMzIyOGQwZmQwM2VkNDM1OTE0ZDM2MTM2NDNkZTc0MjI3YzljNDc0ZTlmNGRkNjBmZDczNTQxODRkNTE3NTFhIn0=', 'eyJpdiI6IkNZQzA3SzU1T3RGTXZJU3ppbXBNYmc9PSIsInZhbHVlIjoiZGdhdVVhWjQzRkVZMVR2ZHN3SjB5bVZxdUlNUDBsUEwzbmNTQTRuelZLbFAzL1R5cnVqcXRIQkE5a25aSUlyMGo2L04xRnJVZzFzd04vOERXMTVJdmFsMFdSNTU4NDRuWm5DWTNsTlNhai96OGI0Z1dVMkQza0xjckpDbmZqR1RDVHpLVUdicTgyTXhtVmkveE9semVGV1Y0eVdrMjU2NU5HOVlONm92VklvTWdFbzJ3bDdVNVJleDBuZHBkTWhNS0FvU2JYRWNiYXY3N1liYk1FS0tJMDJrdzg1T2ZNaVRsS2k0WHVyY3NseHpuRE03SS8zdEZKUWlUOFFUSWJHRm16YnN6cVRsaGRCTUsxcDhlUkdhaFE9PSIsIm1hYyI6IjFlMzlkZTY4OTExNWRkMzE1ZDI4NDNlYjQ2NmMxN2ExMTZhMzhkNmUyY2M1ZGQ5M2E4NWQ4MGYxNjUyNTEzMGIifQ==', NULL, NULL, NULL, '2020-11-26 22:43:13', '2020-11-30 09:57:21'),
 (2, 'SIddhant', 'pallavbansal2@gmail.com', NULL, '$2y$10$spVGo6tRJG.vkd8Gi8RVhuypfhOuLzDcXLpAtUqxInVHmzdU99xkG', NULL, NULL, NULL, NULL, NULL, '2020-12-01 03:48:23', '2020-12-01 03:48:23'),
 (3, 'Chirag', 'cdeol48@gmail.com', NULL, '$2y$10$SHSDi.SMq6f.pldsnHdHn.u0Jhp2LZTkGP9luW2MwPM29vwmyrpCy', NULL, NULL, NULL, NULL, NULL, '2020-12-01 08:14:23', '2020-12-01 08:14:23');
@@ -451,7 +503,8 @@ ALTER TABLE `fail_switch_details`
 -- Indexes for table `fail_switch_masters`
 --
 ALTER TABLE `fail_switch_masters`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `OperatorId` (`OperatorId`);
 
 --
 -- Indexes for table `migrations`
@@ -542,6 +595,12 @@ ALTER TABLE `tbl_recharge_categories`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_sms_apis`
+--
+ALTER TABLE `tbl_sms_apis`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -568,13 +627,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `fail_switch_details`
 --
 ALTER TABLE `fail_switch_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `fail_switch_masters`
 --
 ALTER TABLE `fail_switch_masters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -592,7 +651,7 @@ ALTER TABLE `package_lists`
 -- AUTO_INCREMENT for table `package_masters`
 --
 ALTER TABLE `package_masters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -634,7 +693,7 @@ ALTER TABLE `tbl_api_masters`
 -- AUTO_INCREMENT for table `tbl_my_operators`
 --
 ALTER TABLE `tbl_my_operators`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_news`
@@ -647,6 +706,12 @@ ALTER TABLE `tbl_news`
 --
 ALTER TABLE `tbl_recharge_categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tbl_sms_apis`
+--
+ALTER TABLE `tbl_sms_apis`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
