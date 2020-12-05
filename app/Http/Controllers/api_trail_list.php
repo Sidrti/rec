@@ -25,8 +25,8 @@ class api_trail_list extends Controller
        
 
         
-
-      return view('API_Trail',['data'=>$data,'fail_switch_master'=>$fail_switch_master,'all_api_master'=>$all_api_master]);
+ 
+     return view('API_Trail',['data'=>$data,'fail_switch_master'=>$fail_switch_master,'all_api_master'=>$all_api_master]);
 
 
     }

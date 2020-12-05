@@ -155,7 +155,7 @@ display: block;
    <li><a class="dropdown-item dropdown-item-color" href="">Filter Setting</a></li>
 </ul>
 </li>
-<li><a class="dropdown-item dropdown-item-color" href="#"> Fail Switching</a></li>
+<li><a class="dropdown-item dropdown-item-color" href="{{url('APITrailSettings')}}"> Fail Switching</a></li>
 <li><a class="dropdown-item dropdown-item-color" href="{{url('News')}}"> News </a></li>
 <li><a class="dropdown-item dropdown-item-color" href="#"> Change Password </a></li>
 <li><a class="dropdown-item dropdown-item-color" href="{{url('SmsSettings')}}"> SMS Api </a></li>
@@ -166,7 +166,7 @@ display: block;
      <ul class="dropdown-menu">
  <li><a class="dropdown-item dropdown-item-color" href="{{url('AccountList')}}"> Accounts </a></li>
  <li><a class="dropdown-item dropdown-item-color" href="#"> Accounts Capping </a></li>
- <li><a class="dropdown-item dropdown-item-color" href="#"> Promote/Demote </a></li>
+     <li><a class="dropdown-item dropdown-item-color" href="{{url('MoveAccount')}}"> Promote/Demote </a></li>
  </ul>
 </li>
 <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Recharges </a>

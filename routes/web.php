@@ -53,6 +53,10 @@ Route::get('AccountList', 'App\Http\Controllers\AccountListController@index')->n
 Route::get('AccountList/Status/{user_id}/{status_id}', 'App\Http\Controllers\AccountListController@updateStatus');
 Route::post('AccountUpdate/data', 'App\Http\Controllers\AccountListController@updateAccount')->name('AccountUpdate.update');
 Route::post('AccountCreate/data', 'App\Http\Controllers\AccountListController@createAccount');
+Route::post('MoveAccount/Update', 'App\Http\Controllers\move_account@update');
+Route::get('MoveAccount', 'App\Http\Controllers\move_account@index');
+
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
