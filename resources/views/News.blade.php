@@ -27,8 +27,10 @@
       <tr>
         <th class="th-sty">#</th>
         <th class="th-sty">Name</th>
+
         <th class=th-sty>From Date / End Date</th>
         
+
         <th class="th-sty">Options</th>
       </tr>
     </thead>
