@@ -162,41 +162,40 @@
         <form>
           <div class="form-group">
             <label for="account_label">Account Type</label>
-            <select class="form-control" id="account_type">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control" required id="account_type2">
+              <option value='none'>--Select User Type--</option>
+              @for($i=0;$i<count($role_id);$i++)
+                <option value={{$role_id[$i]['role_id']}}>{{$role_id[$i]['role_name']}}</option>
+              @endfor
             </select>
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="account_name" placeholder="Account Name">
+            <input type="text" class="form-control" id="account_name2" placeholder="Account Name" required>
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="mobile_no" placeholder="Mobile Number">
+            <input type="text" class="form-control" id="mobile_no2" placeholder="Mobile Number" required>
           </div>
           <div class="form-group">
-            <input type="email" class="form-control" id="email_id" placeholder="Email">
+            <input type="email" class="form-control" id="email_id2" placeholder="Email" required>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <input type="number" class="form-control" min='0' id="gst_no" placeholder="GST No.">
+              <input type="number" class="form-control" min='0' id="gst_no2" placeholder="GST No.">
             </div>
             <div class="form-group col-md-6">
-              <input type="number" class="form-control" min='0' id="pan_no" placeholder="PAN No.">
+              <input type="number" class="form-control" min='0' id="pan_no2" placeholder="PAN No.">
             </div>
           </div>
           <div class="form-group">
             <label for="inputAddress">Address</label>
-            <input type="text" class="form-control" id="address" placeholder="Address Line">
+            <input type="text" class="form-control" id="address2" placeholder="Address Line" required>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <input type="text" class="form-control" id="city" placeholder="City">
+              <input type="text" class="form-control" id="city2" placeholder="City" required>
             </div>
             <div class="form-group col-md-6">
-              <input type="text" class="form-control" id="pincode" placeholder="PinCode">
+              <input type="text" class="form-control" id="pincode2" placeholder="PinCode" required>
             </div>
           </div>
         </form>
@@ -216,6 +215,7 @@
     });
 
     function Reset() {
+      document.getElementById('account_type').value = 'none';
       document.getElementById('account_name').value = '';
       document.getElementById('mobile_no').value = '';
       document.getElementById('email_id').value = '';
@@ -233,19 +233,19 @@
 
     function CreateAccount() {
 
-      //var role_type = document.getElementById('account_type').value;
-      var acc_name = document.getElementById('account_name').value;
-      var mob_no = document.getElementById('mobile_no').value;
-      var email = document.getElementById('email_id').value;
-      var gst = document.getElementById('gst_no').value;
-      var pan = document.getElementById('pan_no').value;
-      var city = document.getElementById('city').value;
-      var pincode = document.getElementById('pincode').value;
-      var address = document.getElementById('address').value;
+      var role_id = document.getElementById('account_type2').value;
+      var acc_name = document.getElementById('account_name2').value;
+      var mob_no = document.getElementById('mobile_no2').value;
+      var email = document.getElementById('email_id2').value;
+      var gst = document.getElementById('gst_no2').value;
+      var pan = document.getElementById('pan_no2').value;
+      var city = document.getElementById('city2').value;
+      var pincode = document.getElementById('pincode2').value;
+      var address = document.getElementById('address2').value;
 
       $.ajax({
           type:'POST',
-          url:'/AccountCreate/data',
+          url:'AccountCreate/data',
           data: {
           "_token": "{{ csrf_token() }}",
             'role_id': role_id,
