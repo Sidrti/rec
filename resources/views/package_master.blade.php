@@ -3,23 +3,21 @@
 <script src ="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
 <script src ="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
 
-
 <body>
 <div class="container-fluid">
-<div class="row mt-3">
+<div class="row py-3">
     <div class="col-lg-12">
-        
-        <button class="btn btn-danger float-right" data-toggle="modal" data-target="#exampleModal">Add Package</button>
+    <h3 class="float-left ">Package List</h2>
+        <button class="btn btn-danger float-right" data-toggle="modal" data-target="#exampleModal">+ Add Package</button>
     </div>
 </div>
-        <h3 >Package List</h2>
   <table id="packagetable" class="table table-striped table-bordered"  style="width:100%">
     <thead>
       <tr>
-        <th class="th-sty">#</th>
-        <th class="th-sty">Package Title</th>
-        <th class=th-sty> </th>
-        <th class="th-sty"> </th>
+        <th class="text-black">#</th>
+        <th class="text-black">Package Title</th>
+        <th class="text-black"> </th>
+        <th class="text-black"> </th>
       </tr>
     </thead>
     <tbody>

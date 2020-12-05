@@ -1,5 +1,5 @@
 @include('header')
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/operator_list.css">
 
 <body>
@@ -9,37 +9,37 @@
      <h4>{{ Session::get('flash_message') }}</h4>
  </div>
 @endif
-<div class="row mt-5">
-    <div class="col-md-9 col-sm-9" style="padding: 0px;">      
-</div>
-<div class="col-md-3 col-sm-3">
-<button type="button" class="btn btn-light button" onclick="OperatorClick()">Load Operator List</button>
+<div class="container-fluid">
+<div class="row py-3">
+<div class="col-sm-12">
+<h3 class="float-left text-success"><i class="fa fa-file"></i> Operator List</h3>
+<button type="button" class="btn btn-success float-right" onclick="OperatorClick()"><i class="fa fa-refresh"></i> Load Operator List</button>
 </div>
 </div>
 
 <div class=" table-responsive">
 <table class="table table-striped table-bordered">
-    <tr  class="bg-primary">
-        <th style="color:white !important">#</th>
-        <th style="color:white !important">Category</th>
-        <th style="color:white !important">Operator</th>
-        <th style="color:white !important">Code</th>
-        <th style="color:white !important">Status</th>
-        <th style="color:white !important">Curr Api</th>
-        <th style="color:white !important">API 2</th>
-        <th style="color:white !important">Api 3</th>
+    <tr  class="bg-white">
+        <th>#</th>
+        <th>Category</th>
+        <th>Operator</th>
+        <th>Code</th>
+        <th>Status</th>
+        <th>Curr Api</th>
+        <th>API 2</th>
+        <th>Api 3</th>
     </tr>
 
     <tbody id="myTable">
   
     @for($i=0;$i<count($array);$i++)
     <tr>
-        <th>{{$i+1}}</th>
-        <th>{{$array[$i]['category_name'] }}</th>
-        <th>{{$array[$i]['operator'] }}</th>
-        <th>{{$array[$i]['code'] }}</th>
-        <th><a id="{{ $array[$i]['status_value'] }}" href="OperatorStatus/Update/Status/{{ $array[$i]['status_value'] }}/{{ $i+1 }}" >{{ $array[$i]['status'] }}</a></th>
-        <th data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,1)">
+        <td>{{$i+1}}</td>
+        <td>{{$array[$i]['category_name'] }}</td>
+        <td>{{$array[$i]['operator'] }}</td>
+        <td>{{$array[$i]['code'] }}</td>
+        <td><a id="{{ $array[$i]['status_value'] }}" href="OperatorStatus/Update/Status/{{ $array[$i]['status_value'] }}/{{ $i+1 }}" >{{ $array[$i]['status'] }}</a></td>
+        <td data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,1)">
         <div class="divide_equally">
         <div>
         @php
@@ -64,9 +64,9 @@
         @endphp
     </div>
     </div>    
-    </th>
+    </td>
 
-        <th data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,2)">
+        <td data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,2)">
         <div class="divide_equally">
         <div>
         @php
@@ -90,9 +90,9 @@
         @endphp
     </div>
     </div>
-        </th>
+        </td>
 
-        <th data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,3)">
+        <td data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,3)">
         <div class="divide_equally">
         <div>
             @php 
@@ -111,11 +111,12 @@
         @endphp
         </div>
         </div>
-        </th>
+        </td>
     </tr>
        @endfor
     </tbody>
  </table>
+ </div>
 </div>
 
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -1,4 +1,6 @@
 @include('header')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
     th{
         color:black;
@@ -6,10 +8,15 @@
 </style>
 
 <body>
-    <div class="row mt-5">
-        <div class="col-md-9 col-sm-9" style="padding: 0px;">
-
-
+<div class="container-fluid">
+<div class="row mt-3">
+<div class="col-md-12">
+<h3 class="float-left"><i class="fa fa-file"></i> Amount Filter</h3>
+</div>
+</div>
+    <div class="row py-3">
+    <div class="col-md-2 col-sm-2"> <h4>Select Api</h4></div>
+      <div class="col-md-6 col-sm-6">
     <div  class="form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
         <select class="form-control" id="select">
             
@@ -19,19 +26,19 @@
         </select>
         </div>
     </div>
-    <div class="col-md-3 col-sm-3">
-    <button type="button" class="btn btn-light button" onclick="OperatorClick()">Load Operator List</button>
+    <div class="col-md-4 col-sm-4">
+    <button type="button" class="btn btn-danger float-left" onclick="OperatorClick()">Filter Api Amt.</button>
     </div>
     </div>
 
 <div class=" table-responsive">
 <table class="table table-striped table-bordered">
-    <tr  class="bg-primary">
-        <th style="color:white !important">#</th>
-        <th style="color:white !important">Category</th>
-        <th style="color:white !important">Operator</th>
-        <th style="color:white !important">Amount</th>
-        <th style="color:white !important">Action</th>
+    <tr  class="bg-white">
+        <th>#</th>
+        <th>Category</th>
+        <th>Operator</th>
+        <th>Amount</th>
+        <th>Action</th>
 
     </tr>
 
@@ -39,15 +46,16 @@
   
     @for($i=0;$i<count($array);$i++)
     <tr>
-        <th>{{$i+1}}</th>
-        <th>{{$array[$i]['category'] }}</th>
-        <th>{{$array[$i]['operator'] }}</th>
-        <th id="amount{{$array[$i]['id']}}" contenteditable="true">{{$array[$i]['amount'] }}</th>
-        <th><button class="btn btn-primary" id={{$array[$i]['id']}} onclick="UpdateClick(this.id)">Update</button></th>
+        <td>{{$i+1}}</td>
+        <td>{{$array[$i]['category'] }}</td>
+        <td>{{$array[$i]['operator'] }}</td>
+        <td><input class="form-control form-control-sm" type="text"  id="amount{{$array[$i]['id']}}" value="{{$array[$i]['amount'] }}" contenteditable="true"></td>
+        <td><button class="btn text-primary" id={{$array[$i]['id']}} onclick="UpdateClick(this.id)">Update</button></td>
     </tr>
        @endfor
     </tbody>
  </table>
+ </div>
 </div>
 
 
