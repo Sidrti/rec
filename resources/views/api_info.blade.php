@@ -14,6 +14,7 @@
 <div class="col-md-9 col-sm-9">
 <div  class="form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
     <select class="form-control" id="select">
+        <option value="0">---------Select API---------------</option>
         
         @for($i=0;$i<count($all_api_master);$i++)
        <option value={{$all_api_master[$i]->id}}>{{$all_api_master[$i]->api_name}}</option>
@@ -71,7 +72,10 @@
     function OperatorClick()
     {
         var select = document.getElementById("select");
+        if(select.value != '0')
+        {
         window.location  = '/ApiInfo/'+select.value;
+        }
 
     }
     function UpdateClick(id)

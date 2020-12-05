@@ -16,6 +16,7 @@ class AccountListController extends Controller
 
         $user_data = user::select('*')
         ->where('isEnabled', 1)
+        ->where('parent_id',User::find(Auth::user()->id)->id)
         ->join('user_details', 'users.id', '=', 'user_details.user_id')
         ->join('roles', 'roles.user_id', '=', 'user_details.user_id')
         ->join('role_masters', 'role_masters.id', '=', 'roles.role_id')
@@ -23,15 +24,20 @@ class AccountListController extends Controller
 
         $auth_user_id = User::find(Auth::user()->id)->id;
 
+       
+
         $current_role_id = role::select('role_id')
         ->where('user_id', $auth_user_id)
         ->get();
 
+      
+        
         $role_id = role::select('*')
         ->where('role_id', '>', $current_role_id[0]['role_id'])
         ->join('role_masters', 'role_masters.id', '=', 'roles.role_id')
         ->get();
 
+  
         return view('account_list', ['user_data'=>$user_data], ['role_id'=>$role_id]);
     }
 
@@ -67,7 +73,8 @@ class AccountListController extends Controller
         $user_main= new user();
         $user_main->name = $request->acc_name;
         $user_main->email = $request->email;
-        $user_main->password = 'sdfjhfjhf';
+        $user_main->password = Hash::make(rand(10,15));//ToDo - Generate Random Password
+        $user_main->parent_id = User::find(Auth::user()->id)->id;
         $user_main->save();
         $user_id = $user_main->id;
 

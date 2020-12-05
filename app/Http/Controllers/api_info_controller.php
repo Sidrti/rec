@@ -20,12 +20,15 @@ class api_info_controller extends Controller
         $joinData = tbl_api_code::select('*')
         ->join('tbl_recharge_categories', 'tbl_api_codes.category_id', '=', 'tbl_recharge_categories.id')
         ->join('tbl_my_operators', 'tbl_api_codes.operator_id', '=', 'tbl_my_operators.id')
-        
         ->get();
 
+
+        
         
 
         $all_api_master = tbl_api_master::all();
+
+      
 
         foreach ($joinData as $data) 
         {
@@ -49,7 +52,7 @@ class api_info_controller extends Controller
        
          
     
-        return view('api_info',['array'=>$array,'all_api_master'=>$all_api_master,'id'=>$id]);
+       return view('api_info',['array'=>$array,'all_api_master'=>$all_api_master,'id'=>$id]);
 
     }
       public function update(Request $request, tbl_api_code $tbl_api_code)
