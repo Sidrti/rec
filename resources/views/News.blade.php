@@ -8,24 +8,27 @@
     max-width: auto;
   }
 
+  .dataTables_filter{
+    float:right;
+  }
   
 </style>
 <div class="container-fluid">
 <div class="row mt-3">
     <div class="col-lg-12">
         
-      <button class="btn btn-primary float-right" style="border-radius:30px" data-toggle="modal" data-target="#exampleModal">Add News</button>
+      <button class="btn btn-danger float-right" data-toggle="modal" data-target="#exampleModal">+ Add News</button>
 
     </div>
 </div>
-        <h3 >News Detailing</h2>
+        <h3 >News Detailing</h3>
   <table id="apitable" class="table table-striped table-bordered"  style="width:100%">
     <thead>
       <tr>
         <th class="th-sty">#</th>
         <th class="th-sty">Name</th>
-        <th class=th-sty>From Date</th>
-        <th class="th-sty">ToDate</th>
+        <th class=th-sty>From Date / End Date</th>
+        
         <th class="th-sty">Options</th>
       </tr>
     </thead>
@@ -40,8 +43,8 @@
       <tr>
         <td>{{ $count }}</td>
         <td contenteditable="false" id="api_name{{$i->id}}">{{ $i->title}}</td>
-      <td contenteditable="false" id="url{{$i->id}}">{{ $i->from_date}}</td>
-      <td contenteditable="false" id="url{{$i->id}}">{{ $i->to_date}}</td>
+      <td contenteditable="false" id="url{{$i->id}}">{{ $i->from_date}}<br>{{ $i->to_date}}</td>
+      
         <td>
          <div class="dropdown">
   <button type="button" class="btn btn-danger" id="{{ $i->id}}" onclick="DeleteClick(this.id)">
@@ -57,7 +60,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">ADD NEW</h5>
+        <h5 class="modal-title" id="exampleModalLabel">ADD NEWs</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -68,7 +71,7 @@
         
           <div class="form-group">
             <label for="api_name" class="col-form-label">Title:</label>
-            <input type="text" name="title" class="form-control" id="title">
+            <textarea  name="title" class="form-control" id="title"></textarea>
 
             <label class="col-form-label" >From Date :</label>
           
