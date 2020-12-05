@@ -8,6 +8,6 @@ class TestController extends Controller
 {
     function index()
     {
-     echo ('Test Page');
+        echo ('Test Page');
     }
 }
