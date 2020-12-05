@@ -38,12 +38,23 @@
   
     @for($i=0;$i<count($array);$i++)
     <tr>
-       
+       @php
+          if( $array[$i]['tbl_api_code']->api_id == $id)
+          {
+              $operator_code  = $array[$i]['tbl_api_code']->operator_code;
+              $api_status = $array[$i]['tbl_api_code']->api_status;
+          }
+          else {
+              $operator_code = '';
+              $api_status = '';
+  
+         }
+       @endphp
         <th>{{$i+1}}</th>
         <th>{{$array[$i]['tbl_api_code']->name }}</th>
-        <th>{{$array[$i]['tbl_api_master']->api_name }}</th>
-        <th><input type="text" value="{{$array[$i]['tbl_api_code']->api_code }}" id="api_code"></th>
-        <th><input type="text" value="{{$array[$i]['tbl_api_code']->status }}" id="status"></th>
+        <th>{{$array[$i]['tbl_api_code']->operator }}</th>
+        <th><input type="text" value="{{$operator_code}}" id="api_code{{$array[$i]['tbl_api_code']->id}}"></th>
+        <th><input type="text" value="{{$api_status }}" id="status{{$array[$i]['tbl_api_code']->id }}"></th>
         <th><button class="btn btn-primary" onClick="UpdateClick(this.id)" id="{{$array[$i]['tbl_api_code']->id }}">Update</button></th>
     </tr>
        @endfor
@@ -55,11 +66,12 @@
     {
         var select = document.getElementById("select");
         window.location  = '/ApiInfo/'+select.value;
+
     }
     function UpdateClick(id)
     {
-        var api_code_value = document.getElementById("api_code").value;
-        var status_value = document.getElementById("status").value;
+        var api_code_value = document.getElementById("api_code"+id).value;
+        var status_value = document.getElementById("status"+id).value;
 
         window.location  = '/ApiInfo/Update/'+id+'/'+api_code_value+'/'+status_value;
     }

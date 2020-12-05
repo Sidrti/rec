@@ -1,6 +1,8 @@
 @include('header')
 
-<link rel="stylesheet" href="/css/operator_list.css">
+<script src ="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
+<script src ="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
+
 
 <body>
 <div class="container-fluid">
@@ -11,7 +13,7 @@
     </div>
 </div>
         <h3 >Package List</h2>
-  <table id="apitable" class="table table-striped table-bordered"  style="width:100%">
+  <table id="packagetable" class="table table-striped table-bordered"  style="width:100%">
     <thead>
       <tr>
         <th class="th-sty">#</th>
@@ -71,6 +73,10 @@
 
 
 <script>
+
+    $(document).ready(function() {
+        $('#account_list').DataTable();
+    });
 
     function form_submit(username)
     {

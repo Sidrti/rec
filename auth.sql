@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2020 at 12:16 PM
--- Server version: 10.4.16-MariaDB
--- PHP Version: 7.4.12
+-- Generation Time: Dec 05, 2020 at 08:04 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `auth`
+-- Database: `laravel`
 --
 
 -- --------------------------------------------------------
@@ -129,6 +130,15 @@ CREATE TABLE `package_masters` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `package_masters`
+--
+
+INSERT INTO `package_masters` (`id`, `package_title`, `package_created_by`, `created_at`, `updated_at`) VALUES
+(1, 'Siddharth', 4, '2020-12-04 01:46:11', '2020-12-04 01:46:11'),
+(2, 'Siddhant', 4, '2020-12-04 01:54:50', '2020-12-04 01:54:50'),
+(3, 'hello', 4, '2020-12-04 05:12:36', '2020-12-04 05:12:36');
+
 -- --------------------------------------------------------
 
 --
@@ -179,7 +189,10 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `role_id`, `user_id`) VALUES
 (1, NULL, NULL, '1', '1'),
-(2, NULL, NULL, '1', '2');
+(2, NULL, NULL, '1', '2'),
+(3, NULL, NULL, '2', '3'),
+(4, NULL, NULL, '1', '4'),
+(5, '2020-12-05 01:27:47', '2020-12-05 01:27:47', '2', '5');
 
 -- --------------------------------------------------------
 
@@ -223,8 +236,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('rUXTHad7q2ZFBiJOAjl0qWRV9A2aTfcWbMPU4Teh', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiYURPSXZYNGNhc1ZjdkFYVXphcmxYR2JrOHBoUGZMYnpBSXdicXluMCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9BcGlTZXR0aW5ncyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCRzcFZHbzZ0UkpHLnZrZDhHaThSVmh1eXBmaE91THpEY1hMcEF0VXF4SW5WSG16ZFU5OXhrRyI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkc3BWR282dFJKRy52a2Q4R2k4UlZodXlwZmhPdUx6RGNYTHBBdFVxeEluVkhtemRVOTl4a0ciO30=', 1606993294),
-('RxznuB4QHP6gCCv4T981A19LyxqVeVx2S9ioe6BU', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZElwMXoyMER5N21lR05naUhQdXNGSGQ4MHlqVFF3TDB5c2dLdEYwTyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9BcGlTZXR0aW5ncyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1606992345);
+('TnaFePOohkRrKkOgVThynWbelZz8LzBv8VS2RNlf', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiY2V6ZnRSWWU5b3ZrdTBTN1hIa295SU9lVDR2OURCZmRuWXY4bWp4cCI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJFF5Wmk2anFwRkEuUWJPWTFXbkdwd3Vxbmxud0I3c2lrckk1c080WjdKaS9YTm1DeEZ0SmcyIjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czozMzoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL0FjY291bnRMaXN0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1607151694);
 
 -- --------------------------------------------------------
 
@@ -246,7 +258,7 @@ CREATE TABLE `tbl_amount_filters` (
 --
 
 INSERT INTO `tbl_amount_filters` (`Id`, `api_id`, `operator_id`, `Amount`, `created_at`, `updated_at`) VALUES
-(1, 4, 1, '16', '2020-12-01 20:13:56', '2020-12-01 19:33:11'),
+(1, 4, 1, '90', '2020-12-01 20:13:56', '2020-12-04 10:38:03'),
 (2, 3, 2, '28', '2020-12-01 20:14:10', '2020-12-02 17:22:45');
 
 -- --------------------------------------------------------
@@ -322,7 +334,7 @@ CREATE TABLE `tbl_my_operators` (
 --
 
 INSERT INTO `tbl_my_operators` (`id`, `category_id`, `operator`, `code`, `status`, `api_1`, `api_2`, `api_3`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Airtel', 'AT', 1, 1, NULL, NULL, '2020-11-30 23:51:26', '2020-11-30 23:51:26');
+(1, 1, 'Airtel', 'AT', 0, 7, NULL, NULL, '2020-11-30 23:51:26', '2020-12-04 05:20:42');
 
 -- --------------------------------------------------------
 
@@ -401,7 +413,9 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
 (1, 'Siddhant Singh', 'siddhant.singh326@gmail.com', NULL, '$2y$10$uKHYuM1FJZdHnIERbTeTeeSO015/AQgJRSTAilVVdHGq5NtevhNi6', 'eyJpdiI6ImdIMlpzZi9wTFdpZ2ZhR0tZNXpoVGc9PSIsInZhbHVlIjoiTEpRVUUrY05mT0U3dncvTlJOYVN3ZE9JNitKcjFRWnFrVWJzNncxOEtKdz0iLCJtYWMiOiIzMzIyOGQwZmQwM2VkNDM1OTE0ZDM2MTM2NDNkZTc0MjI3YzljNDc0ZTlmNGRkNjBmZDczNTQxODRkNTE3NTFhIn0=', 'eyJpdiI6IkNZQzA3SzU1T3RGTXZJU3ppbXBNYmc9PSIsInZhbHVlIjoiZGdhdVVhWjQzRkVZMVR2ZHN3SjB5bVZxdUlNUDBsUEwzbmNTQTRuelZLbFAzL1R5cnVqcXRIQkE5a25aSUlyMGo2L04xRnJVZzFzd04vOERXMTVJdmFsMFdSNTU4NDRuWm5DWTNsTlNhai96OGI0Z1dVMkQza0xjckpDbmZqR1RDVHpLVUdicTgyTXhtVmkveE9semVGV1Y0eVdrMjU2NU5HOVlONm92VklvTWdFbzJ3bDdVNVJleDBuZHBkTWhNS0FvU2JYRWNiYXY3N1liYk1FS0tJMDJrdzg1T2ZNaVRsS2k0WHVyY3NseHpuRE03SS8zdEZKUWlUOFFUSWJHRm16YnN6cVRsaGRCTUsxcDhlUkdhaFE9PSIsIm1hYyI6IjFlMzlkZTY4OTExNWRkMzE1ZDI4NDNlYjQ2NmMxN2ExMTZhMzhkNmUyY2M1ZGQ5M2E4NWQ4MGYxNjUyNTEzMGIifQ==', NULL, NULL, NULL, '2020-11-26 22:43:13', '2020-11-30 09:57:21'),
 (2, 'SIddhant', 'pallavbansal2@gmail.com', NULL, '$2y$10$spVGo6tRJG.vkd8Gi8RVhuypfhOuLzDcXLpAtUqxInVHmzdU99xkG', NULL, NULL, NULL, NULL, NULL, '2020-12-01 03:48:23', '2020-12-01 03:48:23'),
-(3, 'Chirag', 'cdeol48@gmail.com', NULL, '$2y$10$SHSDi.SMq6f.pldsnHdHn.u0Jhp2LZTkGP9luW2MwPM29vwmyrpCy', NULL, NULL, NULL, NULL, NULL, '2020-12-01 08:14:23', '2020-12-01 08:14:23');
+(3, 'Chirag', 'cdeol48@gmail.com', NULL, '$2y$10$SHSDi.SMq6f.pldsnHdHn.u0Jhp2LZTkGP9luW2MwPM29vwmyrpCy', NULL, NULL, NULL, NULL, NULL, '2020-12-01 08:14:23', '2020-12-01 08:14:23'),
+(4, 'Siddharth Rastogi', 'sidd15597@gmail.com', NULL, '$2y$10$QyZi6jqpFA.QbOY1WnGpwuqnlnwB7sikrI5sO4Z7Ji/XNmCxFtJg2', NULL, NULL, 'LwBUTP4eEBCLTSJIRmU6XzMkFFW04fgHtOimuNL3dRkE5mrTVl45AOHrv66e', NULL, NULL, '2020-12-03 23:36:19', '2020-12-04 16:59:56'),
+(5, 'sadfsdf', 'siddharth.rastogi3@bogtf.com', NULL, 'sdfjhfjhf', NULL, NULL, NULL, NULL, NULL, '2020-12-05 01:27:47', '2020-12-05 01:27:47');
 
 -- --------------------------------------------------------
 
@@ -415,20 +429,24 @@ CREATE TABLE `user_details` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `pan_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `gst_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mobile_number` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pincode` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `isEnabled` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_details`
 --
 
-INSERT INTO `user_details` (`id`, `created_at`, `updated_at`, `pan_number`, `gst_number`, `address`, `city`, `pincode`, `user_id`) VALUES
-(1, '2020-11-26 22:43:13', '2020-11-26 22:43:13', '789678787', '77979798797', 'Noida', 'mOIDA', '768687', 1),
-(2, '2020-12-01 03:48:23', '2020-12-01 03:48:23', '4324244', '342445', 'Noida', 'Noida', '3209203', 2),
-(3, '2020-12-01 08:14:23', '2020-12-01 08:14:23', '378829878', '97492949202', 'Noida', 'Noida', '244001', 3);
+INSERT INTO `user_details` (`id`, `created_at`, `updated_at`, `pan_number`, `gst_number`, `mobile_number`, `address`, `city`, `pincode`, `user_id`, `isEnabled`) VALUES
+(1, '2020-11-26 22:43:13', '2020-11-26 22:43:13', '789678787', '77979798797', '8384863081', 'Noida', 'mOIDA', '768687', 1, 1),
+(2, '2020-12-01 03:48:23', '2020-12-04 14:29:13', '4324244', '342445', '1234656799', 'Noida', 'Noida', '3209203', 2, 1),
+(3, '2020-12-01 08:14:23', '2020-12-05 01:31:34', '378829878', '97492949202', '8945612377', 'Noida', 'Noida', '244001', 3, 0),
+(4, '2020-12-03 23:36:19', '2020-12-04 16:59:55', '324234', '45436', '8938052751', 'Hno 93 Ballabh street, Mandi chowk near Dr. Pushpendra, Moradabad', 'Moradabad', '244001', 4, 1),
+(5, '2020-12-05 01:27:47', '2020-12-05 01:28:04', '435345345', '43534534', '8923860013', 'Hno 93 Ballabh street, Mandi chowk near Dr. Pushpendra, Moradabad', 'Moradabad', '244001', 5, 1);
 
 --
 -- Indexes for dumped tables
@@ -592,7 +610,7 @@ ALTER TABLE `package_lists`
 -- AUTO_INCREMENT for table `package_masters`
 --
 ALTER TABLE `package_masters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -604,7 +622,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `role_masters`
@@ -652,13 +670,13 @@ ALTER TABLE `tbl_recharge_categories`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user_details`
 --
 ALTER TABLE `user_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

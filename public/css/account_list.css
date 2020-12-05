@@ -1,0 +1,18 @@
+tr button {
+    padding-top: .3rem !important;
+    padding-bottom: .3rem !important;
+}
+th {
+    color: black;
+}
+
+input[type=checkbox] {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+@media (min-width: 576px) {
+    .size_modal {
+        max-width: 600px;
+    }
+}
