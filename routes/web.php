@@ -57,7 +57,6 @@ Route::post('MoveAccount/Update', 'App\Http\Controllers\move_account@update');
 Route::get('MoveAccount', 'App\Http\Controllers\move_account@index');
 
 
-
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');

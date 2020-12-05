@@ -7,17 +7,16 @@ use App\Models\tbl_sms_api;
 
 class sms_api_controller extends Controller
 {
-    function index()
+    public function index()
     {
-    $data=  tbl_sms_api::all();
+        $data =  tbl_sms_api::all();
 
-    return view('sms_api',['data'=>$data]);
-
-
+        return view('sms_api', ['data' => $data]);
     }
+
     public function destroy(Request $request, tbl_sms_api $tbl_sms_api)
     {
-        tbl_sms_api::destroy(array('id',$request->id));
+        tbl_sms_api::destroy(array('id', $request->id));
         return redirect('SmsSettings');
     }
 
@@ -30,5 +29,4 @@ class sms_api_controller extends Controller
         return redirect()->route('SmsSettings');
 
     }*/
-    
 }

@@ -13,6 +13,6 @@ input[type=checkbox] {
 
 @media (min-width: 576px) {
     .size_modal {
-        max-width: 600px;
+        max-width: 60px;
     }
 }
