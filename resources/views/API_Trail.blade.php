@@ -41,13 +41,17 @@
         $count++;
         @endphp
         <tr>
-          <td>{{ $count }}</td>
-          <td contenteditable="false" id="a{{$i->id}}">{{ $i->api_name}}</td>
-          <td contenteditable="false" id="m{{$i->id}}">{{ $i->minutes}}</td>
-          <td contenteditable="false" id="p{{$i->id}}">{{ $i->priority}}</td>
+          <td class="row_id">{{ $count }}</td>
+          <td contenteditable="false" id='a{{ $i->id }}'>{{ $i->api_name }}</td>
+          <td contenteditable="false" >
+            <input type='text' class="form-control minutes" id='{{ $i->id }}' value='{{ $i->minutes }}' disabled>
+          </td>
+          <td contenteditable="false" >
+            <input type='text' class="form-control priority" id='{{ $i->id }}' value='{{ $i->priority }}' disabled>
+          </td>
           <td>
             <div class="dropdown">
-              <button type="button" class="btn btn-danger" id="{{ $i->id}}" onclick="DeleteClick(this.id)">
+              <button type="button" class="btn btn-danger" id="{{ $i->id }}" onclick="DeleteClick(this.id)">
                 Delete
               </button>
             </div>
@@ -84,6 +88,22 @@
               </button>
             </div>
           </td>
+        </tr>
+        <tr colspan="2">
+        <td>
+          <div>
+            <button type="button" class="btn btn-danger" id="edit_records">
+              Edit Record
+            </button>
+          </div>
+        </td>
+        <td>
+          <div>
+            <button type="button" class="btn btn-primary" id="update_records">
+              Update Record
+            </button>
+          </div>
+        </td>
         </tr>
       </tbody>
     </table>
@@ -132,13 +152,52 @@
           DeleteClickMain(id);
         } 
         else {
-          // Do nothing!
           console.log('Thing was not saved to the database.');
         }
       }
 
       $(document).ready(function() {
         $('#apitable').DataTable();
+
+        $('#edit_records').click(function () {
+          $('#apitable > tbody  > tr').each(function() {
+            
+            if ($(this).find('.minutes').attr('disabled')) {
+              $(this).find('.minutes').removeAttr('disabled');
+              $(this).find('.priority').removeAttr('disabled');
+            }
+          });
+        });
+
+        $('#update_records').click(function () {
+
+          var row_id = [];
+          var minutes_value = [];
+          var priority_value = [];
+          var inside_table = false;
+          
+          $('#apitable > tbody  > tr').each(function() {
+
+              if(!$(this).find('.minutes').attr('disabled')) {
+                var id = $(this).find('.row_id').text();
+                var minutesValue = $(this).find('.minutes').val();
+                var priorityValue = $(this).find('.priority').val();
+                if (id) {
+                    row_id.push(id);
+                }
+
+                if (minutesValue) {
+                    minutes_value.push(minutesValue);
+                }
+
+                if (priorityValue) {
+                    priority_value.push(priorityValue);
+                }
+              }
+
+          });
+          window.location = '/APIUpdateRecords/' + row_id + '/' + minutes_value + '/' + priority_value;
+        });
       });
 
       function form_submit_fn() {
@@ -150,29 +209,6 @@
         document.getElementById('hiddenId2').value = id;
         document.getElementById('url').value = document.getElementById("url" + id).innerText;
         document.getElementById('name').value = document.getElementById("api_name" + id).innerText;
-        /*
-          event.preventDefault();
-    
-          
-          var res = id.substring(4, id.length);
-          if(document.getElementById(id).innerHTML=='Edit')
-          {
-          document.getElementById('url'+res).setAttribute('contenteditable',true)
-          document.getElementById('api_name'+res).setAttribute('contenteditable',true)
-          document.getElementById(id).innerHTML='Save'
-          }
-          else
-          {
-            var editurl = document.getElementById('url'+res).innerText;
-            var editname = document.getElementById('api_name'+res).innerText;
-            
-            SaveEditDB(editurl,editname,res);
-
-            document.getElementById('url'+res).setAttribute('contenteditable',false)
-            document.getElementById('api_name'+res).setAttribute('contenteditable',false)
-            document.getElementById(id).innerHTML='Edit'
-          }
-        */
       }
  
       function DeleteClickMain(id) {

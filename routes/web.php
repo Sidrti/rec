@@ -55,6 +55,7 @@ Route::post('AccountUpdate/data', 'App\Http\Controllers\AccountListController@up
 Route::post('AccountCreate/data', 'App\Http\Controllers\AccountListController@createAccount');
 Route::post('MoveAccount/Update', 'App\Http\Controllers\move_account@update');
 Route::get('MoveAccount', 'App\Http\Controllers\move_account@index');
+Route::get('APIUpdateRecords/{id}/{minutes}/{priority}', 'App\Http\Controllers\api_trail_list@updateRecords');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
