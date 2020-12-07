@@ -43,13 +43,20 @@ class api_trail_list extends Controller
 
     }
 
-    /*function edit(Request $request)
-    {
-        
-        $res = tbl_sms_api::where('id', $request->id)
-        ->update(['title' => $request->url,'title'=>$request->name]);
+    //update the records
+    function updateRecords(Request $request)
+    {   
+        $ids = explode(',', $request->id);
+        $priority_d = explode(',', $request->priority);
+        $minutes_d = explode(',', $request->minutes);
 
-        return redirect()->route('SmsSettings');
-
-    }*/
+        for ($i = 0 ; $i < count($ids) ; $i++ ) {
+            $update_status = fail_switch_detail::where('id', $ids[$i])
+                ->update(
+                    ['minutes' => $minutes_d[$i]],
+                    ['priority' => $priority_d[$i]],
+            );
+        }
+        return redirect()->route('APITrailSettings');
+    }
 }
