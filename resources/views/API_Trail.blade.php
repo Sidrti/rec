@@ -97,7 +97,7 @@
             </button>
           </div>
         </td>
-        <td>
+        <td colspan="1">
           <div>
             <button type="button" class="btn btn-primary" id="update_records">
               Update Record
@@ -174,7 +174,6 @@
           var row_id = [];
           var minutes_value = [];
           var priority_value = [];
-          var inside_table = false;
           
           $('#apitable > tbody  > tr').each(function() {
 
@@ -194,7 +193,6 @@
                     priority_value.push(priorityValue);
                 }
               }
-
           });
           window.location = '/APIUpdateRecords/' + row_id + '/' + minutes_value + '/' + priority_value;
         });

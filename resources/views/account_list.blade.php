@@ -17,6 +17,17 @@
       </div>
     </div>
     <h3>Accounts List</h3>
+    <div class="form-row">
+      <div class="form-group col-md-2">
+        <input type="number" class="form-control" min='0' id="pan_no" placeholder="Account No.">
+      </div>
+      <div class="form-group col-md-2">
+        <input type="text" class="form-control" min='0' id="pan_no" placeholder="Name">
+      </div>
+      <div class="form-group col-md-2">
+        <input type="number" class="form-control" min='0' id="pan_no" placeholder="Mobile No.">
+      </div>
+    </div>
     <table id="account_list" class="table table-striped table-bordered" style="width:100%">
       <thead>
         <tr>
@@ -51,7 +62,8 @@
              "<?php echo $data->city; ?>", "<?php echo $data->pincode; ?>", "<?php echo $data->address; ?>")'>{{ $data->user_id}}</button>
           </td>
           <td>
-            <button class="btn btn-danger">Trans Stock</button>
+            <button id='{{$data->user_id}}' data={{ $data }} class="btn btn-danger" data-toggle="modal" data-target="#TransferStockModal" onclick='UserTransferDetail(this.id,
+             "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>")'>Trans Stock</button>
           </td>
           <td>{{ $data->name }}</td>
           <td>{{ $data->role_name }}</td>
@@ -82,7 +94,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
-          </div>w
+          </div>
           <div class="modal-body">
             <div class="form-row">
               <div class="form-group col-md-6">
@@ -139,7 +151,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button username='{{ $data->user_id }}' id='create_package' onclick='UpdateAccount()' class="btn btn-danger">Update Account</button>
+            <button id='create_package' onclick='UpdateAccount()' class="btn btn-danger">Update Account</button>
           </div>
         </div>
       </div>
@@ -206,6 +218,82 @@
       </div>
     </div>
 
+
+     <!-- Transfer Stock Modal -->
+
+     <div class="modal fade" id="TransferStockModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog trans_size_modal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">TRANSFER STOCK</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body stock" id="modal-transfer-stock">
+            <div class="form-row">
+              <div class="col-md-10 d-flex">
+                <div class='d-flex'>
+                  <label for="AccountName" class="text-success">Name:&nbsp;&nbsp;</label>
+                  <label for="AccountName" class="font-weight-bold text-success" id='transfer_to_name'></label> <!-- account name -->
+                </div>
+                <div class='d-flex'>
+                  <label for="Account" class="text-success">&nbsp;&nbsp;&nbsp;Account No:&nbsp;&nbsp;</label>
+                  <label for="AccountValue" class="font-weight-bold text-success" id='transfer_account_no'></label> <!-- account value -->
+                </div>
+                <div class='d-flex'>
+                  <label for="mobile" class="text-success">&nbsp;&nbsp;&nbsp;Mobile No:&nbsp;&nbsp;</label>
+                  <label for="mobile_value" class="font-weight-bold text-success" id='transfer_mobile_no'></label>  <!-- mobile no -->
+                </div>
+              </div>
+              <div class="form-group col-md-10 d-flex">
+                <div class='d-flex'>
+                  <label for="balance" class="text-warning">Current Balance:&nbsp;&nbsp;</label>
+                    <label for="balance" class="font-weight-bold text-warning" id='remaining_bal'>₹ {{$auth_balance[0]['balance']}}</label> <!-- current balance -->
+                </div>
+              </div>
+            </div>
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-2">
+                  <label for="Amount">Amount</label>
+                  <input type="number" class="form-control" min='0' id="amount_calc" oninput="AmountCalculation()" placeholder="Amount">
+                </div>
+                <div class="form-group col-md-2 ml-2">
+                  <label for="percent">Percentage</label>
+                  <input type="number" class="form-control" min='0' id="percent_calc" oninput="AmountCalculation()" placeholder="%">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-2">
+                  <label for="FinalAmount">Final Amount</label>
+                  <input type="number" class="form-control" min='0' id="final_amount" step="0.01" value="0.00" disabled>
+                </div>
+                <div class="form-group col-md-3 ml-2">
+                  <label for="Mode_type">Mode</label>
+                  <select class="form-control" required="true" id="mode_type">
+                    <option value='payment'>On Payment</option>
+                    <option value='credit'>On Credit</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-5 ml-2">
+                  <label for="Remarks">Remarks</label>
+                  <input type="text" class="form-control" id="remarks" placeholder="Remarks">
+                </div>
+                <div class="form-group col-md-1 ml-2 mt-2 transfer">
+                  <label for="tansfer_button"></label>
+                  <button class="btn btn-danger form-control" id="transfer_stock" onclick='TransferStock("<?php echo $auth_balance[0]["user_id"]; ?>", "<?php echo $auth_balance[0]["balance"]; ?>")'>Transfer Stock</button>
+                </div>
+              </div>
+              <div id="parent_stock_table">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <script>
       $(document).ready(function() {
         $('#account_list').DataTable();
@@ -225,6 +313,19 @@
 
       function UpdateStatus(user_id) {
         window.location = 'AccountList/Status/' + user_id + '/' + '0';
+      }
+
+      function AmountCalculation() {
+        var amount = document.getElementById('amount_calc');
+        var percent = document.getElementById('percent_calc');
+        var final_amount = document.getElementById('final_amount');
+        
+        if(amount.value.length > 0 && percent.value.length > 0) {
+          final_amount.value = Number(amount.value) + Number((amount.value * (percent.value/100)).toFixed(2));
+        }
+        else {
+          final_amount.value = '0.00';
+        }
       }
 
       function CreateAccount() {
@@ -277,6 +378,25 @@
 
       }
 
+      function UserTransferDetail(id, name, mob) {
+        document.getElementById('transfer_account_no').innerHTML = id;
+        document.getElementById('transfer_to_name').innerHTML = name;
+        document.getElementById('transfer_mobile_no').innerHTML = mob;
+
+        $.ajax({
+            url : '{{ route("stock_getdata") }}',
+            type: 'POST',
+            data:{
+              "_token": "{{ csrf_token() }}",
+              'to_id': id,
+            },
+            success:function(data){
+              document.getElementById('parent_stock_table').innerHTML= data;
+            },
+          });
+
+      }
+
       function UpdateAccount() {
 
         var user_id = document.getElementById('account_value').innerHTML;
@@ -289,20 +409,57 @@
         var pincode = document.getElementById('pincode').value;
         var address = document.getElementById('address').value;
 
+        if (user_id && acc_name && mob_no && email && gst && pan && city && pincode && address) {
+          
+          $.ajax({
+            type: 'POST',
+            url: '/AccountUpdate/data',
+            data: {
+              "_token": "{{ csrf_token() }}",
+              'user_id': user_id,
+              'acc_name': acc_name,
+              'mob_no': mob_no,
+              'email': email,
+              'gst': gst,
+              'pan': pan,
+              'city': city,
+              'pincode': pincode,
+              'address': address,
+            },
+
+            success: function(data) {
+              window.location = "AccountList";
+              $(".alert-success").css("display", "block");
+              $(".alert-success").append("<p>Updated Successfully<p>");
+            }
+          });
+        }
+      }
+
+      function TransferStock(from_id, current_bal) {
+        var to_id = document.getElementById('transfer_account_no').innerHTML;
+        var amount = document.getElementById('amount_calc').value;
+        var percent = document.getElementById('percent_calc').value;
+        var final_amount = document.getElementById('final_amount').value;
+        var remarks = document.getElementById('remarks').value;
+        var mode_type = document.getElementById('mode_type').value;
+        var remaining_balance = Number(current_bal) - Number(final_amount);
+       
+       if (from_id && to_id && amount && percent && final_amount && remarks && mode_type) {
+        
         $.ajax({
           type: 'POST',
-          url: '/AccountUpdate/data',
+          url: '/TransferStock/data',
           data: {
             "_token": "{{ csrf_token() }}",
-            'user_id': user_id,
-            'acc_name': acc_name,
-            'mob_no': mob_no,
-            'email': email,
-            'gst': gst,
-            'pan': pan,
-            'city': city,
-            'pincode': pincode,
-            'address': address,
+            'from_id': from_id,
+            'to_id': to_id,
+            'amount': amount,
+            'percent': percent,
+            'final_amount': final_amount,
+            'remarks': remarks,
+            'mode_type': mode_type,
+            'remaining_balance': remaining_balance,
           },
 
           success: function(data) {
@@ -311,6 +468,10 @@
             $(".alert-success").append("<p>Updated Successfully<p>");
           }
         });
+       }
+       else {
+          alert('heelo');
+       }
       }
     </script>
 </body>

@@ -53,10 +53,12 @@ Route::get('AccountList', 'App\Http\Controllers\AccountListController@index')->n
 Route::get('AccountList/Status/{user_id}/{status_id}', 'App\Http\Controllers\AccountListController@updateStatus');
 Route::post('AccountUpdate/data', 'App\Http\Controllers\AccountListController@updateAccount')->name('AccountUpdate.update');
 Route::post('AccountCreate/data', 'App\Http\Controllers\AccountListController@createAccount');
+Route::post('TransferStock/data', 'App\Http\Controllers\AccountListController@addTransferStock');
 Route::post('MoveAccount/Update', 'App\Http\Controllers\move_account@update');
 Route::get('MoveAccount', 'App\Http\Controllers\move_account@index');
 Route::get('APIUpdateRecords/{id}/{minutes}/{priority}', 'App\Http\Controllers\api_trail_list@updateRecords');
 
+Route::post('/getdata', 'App\Http\Controllers\AccountListController@getIndividualStatements')->name('stock_getdata');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
