@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2020 at 12:54 PM
--- Server version: 10.4.16-MariaDB
--- PHP Version: 7.4.12
+-- Generation Time: Dec 08, 2020 at 09:01 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,22 +19,30 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `auth1`
+-- Database: `laravel`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `balance`
+-- Table structure for table `balances`
 --
 
-CREATE TABLE `balance` (
+CREATE TABLE `balances` (
   `id` int(11) NOT NULL,
   `user_id` int(5) NOT NULL,
-  `balance` int(5) NOT NULL,
+  `balance` float NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `balances`
+--
+
+INSERT INTO `balances` (`id`, `user_id`, `balance`, `created_at`, `updated_at`) VALUES
+(1, 4, 99.78, '2020-12-08 07:50:29', '2020-12-08 02:20:29'),
+(2, 1, 110.6, '2020-12-08 07:50:29', '2020-12-08 02:20:29');
 
 -- --------------------------------------------------------
 
@@ -96,9 +105,9 @@ INSERT INTO `fail_switch_masters` (`id`, `OperatorId`, `created_at`, `updated_at
 
 CREATE TABLE `ledgers` (
   `id` int(11) NOT NULL,
-  `amount` int(5) NOT NULL,
-  `percentage` int(5) NOT NULL,
-  `final_amount` int(5) NOT NULL,
+  `amount` float NOT NULL,
+  `percentage` float NOT NULL,
+  `final_amount` float NOT NULL,
   `remarks` varchar(200) NOT NULL,
   `mode` varchar(100) NOT NULL,
   `from_account_id` int(5) NOT NULL,
@@ -106,6 +115,15 @@ CREATE TABLE `ledgers` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ledgers`
+--
+
+INSERT INTO `ledgers` (`id`, `amount`, `percentage`, `final_amount`, `remarks`, `mode`, `from_account_id`, `to_account_id`, `created_at`, `updated_at`) VALUES
+(1, 100, 5, 105, 'Hello Siddharth Rastogi', 'payment', 4, 1, '2020-12-08 06:36:40', '2020-12-08 06:36:40'),
+(8, 45, 6, 48, 'Hello everyone', 'credit', 4, 1, '2020-12-08 01:10:50', '2020-12-08 01:10:50'),
+(19, 45, 4, 46.8, 'hello sid', 'credit', 4, 1, '2020-12-08 02:20:29', '2020-12-08 02:20:29');
 
 -- --------------------------------------------------------
 
@@ -232,9 +250,7 @@ INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `role_id`, `user_id`) VAL
 (7, NULL, NULL, '2', '1'),
 (8, NULL, '2020-12-05 04:21:39', '2', '3'),
 (9, NULL, NULL, '1', '4'),
-(10, NULL, NULL, '2', '5'),
-(11, '2020-12-05 05:29:37', '2020-12-05 05:29:37', '2', '10'),
-(12, '2020-12-05 05:34:17', '2020-12-05 05:34:17', '2', '11'),
+(12, '2020-12-05 05:34:17', '2020-12-05 05:34:17', '3', '11'),
 (13, '2020-12-05 05:36:53', '2020-12-05 05:36:53', '2', '12');
 
 -- --------------------------------------------------------
@@ -280,12 +296,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('4EwmctZz6S8bFYTRytCB2zqIF4ldJjeV6jol4mJO', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQ3NWa0NCY0R4VDBPSUliU1pBWk1wYVA0Z3ppMkNoSTNVeHpMWklxbiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9Nb3ZlQWNjb3VudCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1607161172),
-('7Y1gpjI6asA7GgUpRoAErDF8pqhaQgqvBnf8kWKM', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoibzk1Q21Tek44TVY1MWROR3lCNFV3OEZLY2NXWDZSdWhTcXhFcXBRSyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9TbXNTZXR0aW5ncyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCRzcFZHbzZ0UkpHLnZrZDhHaThSVmh1eXBmaE91THpEY1hMcEF0VXF4SW5WSG16ZFU5OXhrRyI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkc3BWR282dFJKRy52a2Q4R2k4UlZodXlwZmhPdUx6RGNYTHBBdFVxeEluVkhtemRVOTl4a0ciO30=', 1607340925),
-('Iqon6balPRhrx2kLJKWC5im1xGOAR2qURGmG1seU', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoicmR0b0FWcmNaRVdGNjJXNDd4TzFPbW9KMHBva1p0OTVaSWtzaVFqaSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BUElUcmFpbFNldHRpbmdzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJHNwVkdvNnRSSkcudmtkOEdpOFJWaHV5cGZoT3VMekRjWExwQXRVcXhJblZIbXpkVTk5eGtHIjtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRzcFZHbzZ0UkpHLnZrZDhHaThSVmh1eXBmaE91THpEY1hMcEF0VXF4SW5WSG16ZFU5OXhrRyI7fQ==', 1607326349),
-('qt5aPXFUQuXkyC7oJbq3kBl03c9eBgh8NQ7scg02', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiWjhIanN3bzlVNUZNaHcwMlNXQXY1b2ZEM0dHN2JMYWFJM0NKSW03OSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BcGlJbmZvIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJHNwVkdvNnRSSkcudmtkOEdpOFJWaHV5cGZoT3VMekRjWExwQXRVcXhJblZIbXpkVTk5eGtHIjtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRzcFZHbzZ0UkpHLnZrZDhHaThSVmh1eXBmaE91THpEY1hMcEF0VXF4SW5WSG16ZFU5OXhrRyI7fQ==', 1607171328),
-('r7fZQXmKxGYcb4dW03gcE9IBcv8oHWDQec4hMySv', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiZjJWajNrd3R2VE1UOUJVNWhaU29rQTB0UjdBM3VrM01GUTdGSW5KcCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BY2NvdW50TGlzdCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCRzcFZHbzZ0UkpHLnZrZDhHaThSVmh1eXBmaE91THpEY1hMcEF0VXF4SW5WSG16ZFU5OXhrRyI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkc3BWR282dFJKRy52a2Q4R2k4UlZodXlwZmhPdUx6RGNYTHBBdFVxeEluVkhtemRVOTl4a0ciO30=', 1607173156),
-('vcuLvlJfvKtP4NqKNLrImHHhQoSr7rlRUK09jwLR', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVDFzYjBRbldlQ0tTUkZqSDkzVG9hb00xWkdDSHBqTUFJdUEzNXBiSiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BY2NvdW50TGlzdCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1607165935);
+('jDG2QL4TGwHY1KFpvVY1u1PCA8y249uCikWzGLpY', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoia0l0RWxJVDJydVdJRURvOW1uWFpWMEpLWjJyY2hrWjhodW1qNEUwciI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJFF5Wmk2anFwRkEuUWJPWTFXbkdwd3Vxbmxud0I3c2lrckk1c080WjdKaS9YTm1DeEZ0SmcyIjtzOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRReVppNmpxcEZBLlFiT1kxV25HcHd1cW5sbndCN3Npa3JJNXNPNFo3SmkvWE5tQ3hGdEpnMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BY2NvdW50TGlzdCI7fX0=', 1607413833);
 
 -- --------------------------------------------------------
 
@@ -486,10 +497,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `parent_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
-(1, 'Siddhant Singh', 'siddhant.singh326@gmail.com', NULL, '$2y$10$uKHYuM1FJZdHnIERbTeTeeSO015/AQgJRSTAilVVdHGq5NtevhNi6', 'eyJpdiI6ImdIMlpzZi9wTFdpZ2ZhR0tZNXpoVGc9PSIsInZhbHVlIjoiTEpRVUUrY05mT0U3dncvTlJOYVN3ZE9JNitKcjFRWnFrVWJzNncxOEtKdz0iLCJtYWMiOiIzMzIyOGQwZmQwM2VkNDM1OTE0ZDM2MTM2NDNkZTc0MjI3YzljNDc0ZTlmNGRkNjBmZDczNTQxODRkNTE3NTFhIn0=', 'eyJpdiI6IkNZQzA3SzU1T3RGTXZJU3ppbXBNYmc9PSIsInZhbHVlIjoiZGdhdVVhWjQzRkVZMVR2ZHN3SjB5bVZxdUlNUDBsUEwzbmNTQTRuelZLbFAzL1R5cnVqcXRIQkE5a25aSUlyMGo2L04xRnJVZzFzd04vOERXMTVJdmFsMFdSNTU4NDRuWm5DWTNsTlNhai96OGI0Z1dVMkQza0xjckpDbmZqR1RDVHpLVUdicTgyTXhtVmkveE9semVGV1Y0eVdrMjU2NU5HOVlONm92VklvTWdFbzJ3bDdVNVJleDBuZHBkTWhNS0FvU2JYRWNiYXY3N1liYk1FS0tJMDJrdzg1T2ZNaVRsS2k0WHVyY3NseHpuRE03SS8zdEZKUWlUOFFUSWJHRm16YnN6cVRsaGRCTUsxcDhlUkdhaFE9PSIsIm1hYyI6IjFlMzlkZTY4OTExNWRkMzE1ZDI4NDNlYjQ2NmMxN2ExMTZhMzhkNmUyY2M1ZGQ5M2E4NWQ4MGYxNjUyNTEzMGIifQ==', NULL, NULL, NULL, '2020-11-26 22:43:13', '2020-11-30 09:57:21'),
+(1, 'Siddhant Singh', 'siddhant.singh326@gmail.com', NULL, '$2y$10$uKHYuM1FJZdHnIERbTeTeeSO015/AQgJRSTAilVVdHGq5NtevhNi6', 'eyJpdiI6ImdIMlpzZi9wTFdpZ2ZhR0tZNXpoVGc9PSIsInZhbHVlIjoiTEpRVUUrY05mT0U3dncvTlJOYVN3ZE9JNitKcjFRWnFrVWJzNncxOEtKdz0iLCJtYWMiOiIzMzIyOGQwZmQwM2VkNDM1OTE0ZDM2MTM2NDNkZTc0MjI3YzljNDc0ZTlmNGRkNjBmZDczNTQxODRkNTE3NTFhIn0=', 'eyJpdiI6IkNZQzA3SzU1T3RGTXZJU3ppbXBNYmc9PSIsInZhbHVlIjoiZGdhdVVhWjQzRkVZMVR2ZHN3SjB5bVZxdUlNUDBsUEwzbmNTQTRuelZLbFAzL1R5cnVqcXRIQkE5a25aSUlyMGo2L04xRnJVZzFzd04vOERXMTVJdmFsMFdSNTU4NDRuWm5DWTNsTlNhai96OGI0Z1dVMkQza0xjckpDbmZqR1RDVHpLVUdicTgyTXhtVmkveE9semVGV1Y0eVdrMjU2NU5HOVlONm92VklvTWdFbzJ3bDdVNVJleDBuZHBkTWhNS0FvU2JYRWNiYXY3N1liYk1FS0tJMDJrdzg1T2ZNaVRsS2k0WHVyY3NseHpuRE03SS8zdEZKUWlUOFFUSWJHRm16YnN6cVRsaGRCTUsxcDhlUkdhaFE9PSIsIm1hYyI6IjFlMzlkZTY4OTExNWRkMzE1ZDI4NDNlYjQ2NmMxN2ExMTZhMzhkNmUyY2M1ZGQ5M2E4NWQ4MGYxNjUyNTEzMGIifQ==', NULL, 4, NULL, '2020-11-26 22:43:13', '2020-11-30 09:57:21'),
 (2, 'SIddhant Testtt', 'pallavbansal2@gmail.com', NULL, '$2y$10$spVGo6tRJG.vkd8Gi8RVhuypfhOuLzDcXLpAtUqxInVHmzdU99xkG', NULL, NULL, NULL, NULL, NULL, '2020-12-01 03:48:23', '2020-12-05 02:27:38'),
 (3, 'Chirag', 'cdeol48@gmail.com', NULL, '$2y$10$SHSDi.SMq6f.pldsnHdHn.u0Jhp2LZTkGP9luW2MwPM29vwmyrpCy', NULL, NULL, NULL, 2, NULL, '2020-12-01 08:14:23', '2020-12-01 08:14:23'),
-(4, 'Siddharth Rastogi', 'sidd15597@gmail.com', NULL, '$2y$10$QyZi6jqpFA.QbOY1WnGpwuqnlnwB7sikrI5sO4Z7Ji/XNmCxFtJg2', NULL, NULL, 'LwBUTP4eEBCLTSJIRmU6XzMkFFW04fgHtOimuNL3dRkE5mrTVl45AOHrv66e', 2, NULL, '2020-12-03 23:36:19', '2020-12-04 16:59:56'),
+(4, 'Siddharth Rastogi', 'sidd15597@gmail.com', NULL, '$2y$10$QyZi6jqpFA.QbOY1WnGpwuqnlnwB7sikrI5sO4Z7Ji/XNmCxFtJg2', NULL, NULL, 'LwBUTP4eEBCLTSJIRmU6XzMkFFW04fgHtOimuNL3dRkE5mrTVl45AOHrv66e', 4, NULL, '2020-12-03 23:36:19', '2020-12-04 16:59:56'),
 (11, 'Sumith', 'bia@gmail.com', NULL, '$2y$10$.zakfyq.ONQHqFqCr96mV.31ch7/Rlsm9DiqUTKj3jzQKls9uOPIS', NULL, NULL, NULL, 2, NULL, '2020-12-05 05:34:17', '2020-12-05 05:34:17'),
 (12, 'Gully', 'boxinall@gmail.com', NULL, '$2y$10$VVuVzr8H4lPQLrw3s5oEGeSj4nJZMwSiyATo95inHEkleXa.Ew9Ra', NULL, NULL, NULL, 2, NULL, '2020-12-05 05:36:53', '2020-12-05 05:36:53');
 
@@ -519,22 +530,20 @@ CREATE TABLE `user_details` (
 
 INSERT INTO `user_details` (`id`, `created_at`, `updated_at`, `pan_number`, `gst_number`, `mobile_number`, `address`, `city`, `pincode`, `user_id`, `isEnabled`) VALUES
 (1, '2020-11-26 22:43:13', '2020-12-05 02:30:19', '789678787', '77979798797', '8384863081', 'Noida', 'mOIDA', '768687', 1, 1),
-(2, '2020-12-01 03:48:23', '2020-12-05 02:30:06', NULL, '342445', '1234656799', NULL, NULL, '3209203', 2, 0),
+(2, '2020-12-01 03:48:23', '2020-12-05 02:30:06', NULL, '342445', '1234656799', NULL, NULL, '3209203', 2, 1),
 (3, '2020-12-01 08:14:23', '2020-12-05 01:31:34', '378829878', '97492949202', '8945612377', 'Noida', 'Noida', '244001', 3, 0),
 (4, '2020-12-03 23:36:19', '2020-12-05 02:30:25', '324234', '45436', '8938052751', 'Hno 93 Ballabh street, Mandi chowk near Dr. Pushpendra, Moradabad', 'Moradabad', '244001', 4, 1),
-(5, '2020-12-05 01:27:47', '2020-12-05 02:05:43', '435345345', '43534534', '8923860013', 'Hno 93 Ballabh street, Mandi chowk near Dr. Pushpendra, Moradabad', 'Moradabad', '244001', 5, 0),
-(6, '2020-12-05 05:29:37', '2020-12-05 05:29:37', '9890850928', '83472938749', '384932', 'Moradabad', 'Moradabad', '244001', 10, 1),
 (7, '2020-12-05 05:34:17', '2020-12-05 05:34:17', '7987987', '897878', '788979', 'Moradabad', 'Kanpur', '37489', 11, 1),
-(8, '2020-12-05 05:36:53', '2020-12-07 04:13:21', '897987987', '879797', '8797789789', 'Moradabad', 'Moradabad', '6878789', 12, 0);
+(8, '2020-12-05 05:36:53', '2020-12-07 04:13:21', '897987987', '879797', '8797789789', 'Moradabad', 'Moradabad', '6878789', 12, 1);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `balance`
+-- Indexes for table `balances`
 --
-ALTER TABLE `balance`
+ALTER TABLE `balances`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -674,10 +683,10 @@ ALTER TABLE `user_details`
 --
 
 --
--- AUTO_INCREMENT for table `balance`
+-- AUTO_INCREMENT for table `balances`
 --
-ALTER TABLE `balance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `balances`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -701,7 +710,7 @@ ALTER TABLE `fail_switch_masters`
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `migrations`
