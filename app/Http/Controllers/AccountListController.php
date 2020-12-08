@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\balance;
+use App\Models\ledger;
 use App\Models\role;
 use App\Models\user_detail;
 use App\Models\user;
@@ -32,7 +33,11 @@ class AccountListController extends Controller
             ->join('role_masters', 'role_masters.id', '=', 'roles.role_id')
             ->get();
 
-        return view('account_list', ['user_data' => $user_data], ['role_id' => $role_id]);
+        $auth_balance = balance::select('user_id', 'balance')
+            ->where('user_id', $auth_user_id)
+            ->get();
+
+        return view('account_list', ['user_data' => $user_data, 'role_id' => $role_id, 'auth_balance' => $auth_balance]);
     }
 
     public function updateStatus(Request $request)
@@ -67,7 +72,7 @@ class AccountListController extends Controller
         $user_main = new user();
         $user_main->name = $request->acc_name;
         $user_main->email = $request->email;
-        $user_main->password = Hash::make(rand(10, 15)); //ToDo - Generate Random Password
+        $user_main->password = Hash::make(rand(10, 15)); //@ToDo - Generate Random Password
         $user_main->parent_id = User::find(Auth::user()->id)->id;
         $user_main->save();
         $user_id = $user_main->id;
@@ -88,8 +93,37 @@ class AccountListController extends Controller
         $user->save();
     }
 
-    // function rand_password( $length ) {
-    //     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    //     return substr(str_shuffle($chars),0,$length);
-    // }
+    public function addTransferStock(Request $request) {
+        $transfer_stock = new ledger();
+        $transfer_stock->from_account_id = $request->from_id;
+        $transfer_stock->to_account_id = $request->to_id;
+        $transfer_stock->amount = $request->amount;
+        $transfer_stock->percentage = $request->percent;
+        $transfer_stock->final_amount = $request->final_amount;
+        $transfer_stock->remarks = $request->remarks;
+        $transfer_stock->mode = $request->mode_type;
+        $transfer_stock->save();
+
+        $balance_to = balance::select('balance')
+        ->where('user_id', $request->to_id)->get();
+
+        $balance_total = (float)$balance_to[0]['balance'] + $request->final_amount;
+        $balance_to = balance::where('user_id', $request->to_id)
+            ->update(['balance' => $balance_total]);
+
+        $balance_from = balance::where('user_id', $request->from_id)
+            ->update(['balance' => $request->remaining_balance]);
+
+    }
+
+    public function getIndividualStatements(Request $request) {
+        $auth_user_id = User::find(Auth::user()->id)->id;
+
+        $ledgers_data = ledger::select('*')
+            ->where('from_account_id', $auth_user_id)
+            ->where('to_account_id', $request->to_id)
+            ->get();
+
+        return view('getdata', ['stock_data' => $ledgers_data])->render();
+    }
 }
