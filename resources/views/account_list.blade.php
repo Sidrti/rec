@@ -2,6 +2,10 @@
 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
+
+<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script src="/js/jquery.table-filterable.js"></script>
+
 <link rel="stylesheet" href="/css/account_list.css">
 
 <body>
@@ -19,13 +23,13 @@
     <h3>Accounts List</h3>
     <div class="form-row">
       <div class="form-group col-md-2">
-        <input type="number" class="form-control" min='0' id="pan_no" placeholder="Account No.">
+        <input type="number" class="form-control" min='0' id="account-no" placeholder="Account No.">
       </div>
       <div class="form-group col-md-2">
-        <input type="text" class="form-control" min='0' id="pan_no" placeholder="Name">
+        <input type="text" class="form-control" min='0' id="customer-name" placeholder="Name">
       </div>
       <div class="form-group col-md-2">
-        <input type="number" class="form-control" min='0' id="pan_no" placeholder="Mobile No.">
+        <input type="number" class="form-control" min='0' id="mobile-no" placeholder="Mobile No.">
       </div>
     </div>
     <table id="account_list" class="table table-striped table-bordered" style="width:100%">
@@ -296,6 +300,35 @@
 
     <script>
       $(document).ready(function() {
+
+        $('#account_list').tableFilterable({
+          filters: [
+            {
+              filterSelector: '#customer-name',
+              event: 'keyup',
+              filterCallback: function($tr, filterValue) {
+                  return  $tr.children().eq(3).text().toLowerCase().indexOf(filterValue) != -1;
+              },
+              delay: 100
+            },
+            {
+              filterSelector: '#account-no',
+              event: 'keyup',
+              filterCallback: function($tr, filterValue) {
+                  return  $tr.children().eq(1).text().toLowerCase().indexOf(filterValue) != -1;
+              },
+              delay: 100
+            },
+            {
+              filterSelector: '#mobile-no',
+              event: 'keyup',
+              filterCallback: function($tr, filterValue) {
+                  return  $tr.children().eq(5).text().toLowerCase().indexOf(filterValue) != -1;
+              },
+              delay: 100
+            }
+          ]
+        });
         $('#account_list').DataTable();
       });
 
