@@ -59,6 +59,9 @@ Route::get('MoveAccount', 'App\Http\Controllers\move_account@index');
 Route::get('APIUpdateRecords/{id}/{minutes}/{priority}', 'App\Http\Controllers\api_trail_list@updateRecords');
 
 Route::post('/getdata', 'App\Http\Controllers\AccountListController@getIndividualStatements')->name('stock_getdata');
+Route::get('recharge',function(){
+    return view('recharge2');
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

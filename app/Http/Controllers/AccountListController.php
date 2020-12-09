@@ -37,7 +37,8 @@ class AccountListController extends Controller
             ->where('user_id', $auth_user_id)
             ->get();
 
-        return view('account_list', ['user_data' => $user_data, 'role_id' => $role_id, 'auth_balance' => $auth_balance]);
+
+           return view('account_list', ['user_data' => $user_data, 'role_id' => $role_id, 'auth_balance' => $auth_balance]);
     }
 
     public function updateStatus(Request $request)
