@@ -37,6 +37,8 @@ class AccountListController extends Controller
             ->where('user_id', $auth_user_id)
             ->get();
 
+           return view('account_list', ['user_data' => $user_data, 'role_id' => $role_id, 'auth_balance' => $auth_balance]);
+
         for ($i = 0 ; $i < count($user_data) ; $i++) {
             $stock_sum[$user_data[$i]->user_id] = round(ledger::where('from_account_id', $auth_user_id)
                 ->where('to_account_id', $user_data[$i]->user_id)
