@@ -2,6 +2,10 @@
 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
+
+<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script src="/js/jquery.table-filterable.js"></script>
+
 <link rel="stylesheet" href="/css/account_list.css">
 
 <body>
@@ -19,13 +23,13 @@
     <h3>Accounts List</h3>
     <div class="form-row">
       <div class="form-group col-md-2">
-        <input type="number" class="form-control" min='0' id="pan_no" placeholder="Account No.">
+        <input type="number" class="form-control" min='0' id="account-no" placeholder="Account No.">
       </div>
       <div class="form-group col-md-2">
-        <input type="text" class="form-control" min='0' id="pan_no" placeholder="Name">
+        <input type="text" class="form-control" min='0' id="customer-name" placeholder="Name">
       </div>
       <div class="form-group col-md-2">
-        <input type="number" class="form-control" min='0' id="pan_no" placeholder="Mobile No.">
+        <input type="number" class="form-control" min='0' id="mobile-no" placeholder="Mobile No.">
       </div>
     </div>
     <table id="account_list" class="table table-striped table-bordered" style="width:100%">
@@ -63,13 +67,15 @@
           </td>
           <td>
             <button id='{{$data->user_id}}' data={{ $data }} class="btn btn-danger" data-toggle="modal" data-target="#TransferStockModal" onclick='UserTransferDetail(this.id,
-             "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>")'>Trans Stock</button>
+             "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>", "stock")'>Trans Stock</button>
           </td>
           <td>{{ $data->name }}</td>
           <td>{{ $data->role_name }}</td>
           <td>{{ $data->mobile_number }}</td>
-          <td>-------</td> <!-- Stock value -->
-          <td>-----</td> <!-- Credit value -->
+          <td>{{ $stock_sum[$data->user_id] }}</td> <!-- Stock value -->
+          <td id='{{$data->user_id}}' data-toggle="modal" data-target="#CreditModal" id="{{ $data->user_id }}" onclick='UserCreditDetail(this.id,
+             "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>", "credit")'>
+            <a href="#" onclick="return false;">{{ $credit_sum[$data->user_id] }}</td> <!-- Credit value -->
           <td>
             <button class="btn btn-danger">₹ Set Referral</button>
           </td>
@@ -293,9 +299,94 @@
       </div>
     </div>
 
+     <!-- Transfer Credit Modal -->
+
+     <div class="modal fade" id="CreditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog trans_size_modal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">RECEIVE CREDIT</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body stock" id="modal-transfer-stock">
+            <div class="form-row">
+              <div class="col-md-10 d-flex">
+                <div class='d-flex'>
+                  <label for="AccountName" class="text-success">Name:&nbsp;&nbsp;</label>
+                  <label for="AccountName" class="font-weight-bold text-success" id='credit_to_name'></label> <!-- account name -->
+                </div>
+                <div class='d-flex'>
+                  <label for="Account" class="text-success">&nbsp;&nbsp;&nbsp;Account No:&nbsp;&nbsp;</label>
+                  <label for="AccountValue" class="font-weight-bold text-success" id='credit_account_no'></label> <!-- account value -->
+                </div>
+                <div class='d-flex'>
+                  <label for="mobile" class="text-success">&nbsp;&nbsp;&nbsp;Mobile No:&nbsp;&nbsp;</label>
+                  <label for="mobile_value" class="font-weight-bold text-success" id='credit_mobile_no'></label>  <!-- mobile no -->
+                </div>
+              </div>
+              <div class="form-group col-md-10 d-flex">
+                <div class='d-flex'>
+                  <label for="balance" class="text-warning">Current Credit:&nbsp;&nbsp;</label>
+                    <label for="balance" class="font-weight-bold text-warning" id='current_credit'>₹ {{$auth_balance[0]['balance']}}</label> <!-- current balance -->
+                </div>
+              </div>
+            </div>
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label for="Amount">Amount</label>
+                  <input type="number" class="form-control" min='0' id="credit_amount" value="0.00">
+                </div>
+                <div class="form-group col-md-6 ml-2">
+                  <label for="Remarks">Remarks</label>
+                  <input type="text" class="form-control" id="remarks" placeholder="Remarks">
+                </div>
+                <div class="form-group col-md-2 ml-2 mt-2">
+                  <label for="receive_button"></label>
+                  <button class="btn btn-danger form-control" id="receive_credit" onclick='TransferCredit("<?php echo $auth_balance[0]["user_id"]; ?>", "<?php echo $auth_balance[0]["balance"]; ?>")'>Receive Credit</button>
+                </div>
+              </div>
+              <div id="parent_credit_table">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script>
       $(document).ready(function() {
+
+        $('#account_list').tableFilterable({
+          filters: [
+            {
+              filterSelector: '#customer-name',
+              event: 'keyup',
+              filterCallback: function($tr, filterValue) {
+                  return  $tr.children().eq(3).text().toLowerCase().indexOf(filterValue) != -1;
+              },
+              delay: 100
+            },
+            {
+              filterSelector: '#account-no',
+              event: 'keyup',
+              filterCallback: function($tr, filterValue) {
+                  return  $tr.children().eq(1).text().toLowerCase().indexOf(filterValue) != -1;
+              },
+              delay: 100
+            },
+            {
+              filterSelector: '#mobile-no',
+              event: 'keyup',
+              filterCallback: function($tr, filterValue) {
+                  return  $tr.children().eq(5).text().toLowerCase().indexOf(filterValue) != -1;
+              },
+              delay: 100
+            }
+          ]
+        });
         $('#account_list').DataTable();
       });
 
@@ -378,7 +469,7 @@
 
       }
 
-      function UserTransferDetail(id, name, mob) {
+      function UserTransferDetail(id, name, mob, mode) {
         document.getElementById('transfer_account_no').innerHTML = id;
         document.getElementById('transfer_to_name').innerHTML = name;
         document.getElementById('transfer_mobile_no').innerHTML = mob;
@@ -389,9 +480,30 @@
             data:{
               "_token": "{{ csrf_token() }}",
               'to_id': id,
+              'mode_name': mode,
             },
             success:function(data){
               document.getElementById('parent_stock_table').innerHTML= data;
+            },
+          });
+
+      }
+
+      function UserCreditDetail(id, name, mob, mode) {
+        document.getElementById('credit_account_no').innerHTML = id;
+        document.getElementById('credit_to_name').innerHTML = name;
+        document.getElementById('credit_mobile_no').innerHTML = mob;
+
+        $.ajax({
+            url : '{{ route("credit_getdata") }}',
+            type: 'POST',
+            data:{
+              "_token": "{{ csrf_token() }}",
+              'to_id': id,
+              'mode_name': mode,
+            },
+            success:function(data){
+              document.getElementById('parent_credit_table').innerHTML= data;
             },
           });
 
@@ -470,7 +582,43 @@
         });
        }
        else {
-          alert('heelo');
+          alert('All fields required');
+       }
+      }
+
+
+      function ReceiveCredit(from_id, current_bal) {
+        var to_id = document.getElementById('credit_account_no').innerHTML;
+        var final_amount = document.getElementById('final_amount').value;
+        var remarks = document.getElementById('remarks').value;
+        var remaining_balance = Number(current_bal) - Number(final_amount);
+       
+       if (from_id && to_id && amount && percent && final_amount && remarks && mode_type) {
+        
+        $.ajax({
+          type: 'POST',
+          url: '/TransferStock/data',
+          data: {
+            "_token": "{{ csrf_token() }}",
+            'from_id': from_id,
+            'to_id': to_id,
+            'amount': amount,
+            'percent': percent,
+            'final_amount': final_amount,
+            'remarks': remarks,
+            'mode_type': mode_type,
+            'remaining_balance': remaining_balance,
+          },
+
+          success: function(data) {
+            window.location = "AccountList";
+            $(".alert-success").css("display", "block");
+            $(".alert-success").append("<p>Updated Successfully<p>");
+          }
+        });
+       }
+       else {
+          alert('All fields required');
        }
       }
     </script>

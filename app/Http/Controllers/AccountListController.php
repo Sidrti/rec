@@ -37,8 +37,21 @@ class AccountListController extends Controller
             ->where('user_id', $auth_user_id)
             ->get();
 
-
            return view('account_list', ['user_data' => $user_data, 'role_id' => $role_id, 'auth_balance' => $auth_balance]);
+
+        for ($i = 0 ; $i < count($user_data) ; $i++) {
+            $stock_sum[$user_data[$i]->user_id] = round(ledger::where('from_account_id', $auth_user_id)
+                ->where('to_account_id', $user_data[$i]->user_id)
+                ->sum('final_amount'), 2);
+            
+            $credit_sum[$user_data[$i]->user_id] = round(ledger::where('from_account_id', $auth_user_id)
+                ->where('to_account_id', $user_data[$i]->user_id)
+                ->where('mode', 'credit')
+                ->sum('final_amount'), 2);
+        }
+
+        return view('account_list', ['user_data' => $user_data, 'role_id' => $role_id, 'auth_balance' => $auth_balance,
+                'stock_sum' => $stock_sum, 'credit_sum' => $credit_sum]);
     }
 
     public function updateStatus(Request $request)
@@ -125,6 +138,11 @@ class AccountListController extends Controller
             ->where('to_account_id', $request->to_id)
             ->get();
 
-        return view('getdata', ['stock_data' => $ledgers_data])->render();
+        if($request->mode_name == 'credit') {
+            return view('getdata_credit', ['credit_data' => $ledgers_data])->render();
+        }
+        else {
+            return view('getdata', ['stock_data' => $ledgers_data])->render();
+        }
     }
 }
