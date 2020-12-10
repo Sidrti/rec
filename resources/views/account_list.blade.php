@@ -31,6 +31,13 @@
       <div class="form-group col-md-2">
         <input type="number" class="form-control" min='0' id="mobile-no" placeholder="Mobile No.">
       </div>
+      <div class="form-group col-md-2 float-right">
+        <select class="form-control" required="true" id="is_active_account">
+          <option value='none'>--Select Active ACs--</option>
+          <option value='active'>Active ACs</option>
+          <option value='non_active'>Non Active ACs</option>
+        </select>
+      </div>
     </div>
     <table id="account_list" class="table table-striped table-bordered" style="width:100%">
       <thead>
@@ -74,7 +81,7 @@
           <td>{{ $data->mobile_number }}</td>
           <td>{{ $stock_sum[$data->user_id] }}</td> <!-- Stock value -->
           <td id='{{$data->user_id}}' data-toggle="modal" data-target="#CreditModal" id="{{ $data->user_id }}" onclick='UserCreditDetail(this.id,
-             "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>", "credit")'>
+             "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>", "<?php echo $credit_sum[$data->user_id]; ?>", "credit")'>
             <a href="#" onclick="return false;">{{ $credit_sum[$data->user_id] }}</td> <!-- Credit value -->
           <td>
             <button class="btn btn-danger">₹ Set Referral</button>
@@ -82,7 +89,15 @@
           <td>-----</td> <!-- D icon -->
           <td>-----</td> <!-- Lock icon -->
           <td>
-            <input id='{{ $data->user_id }}' class='user_status' type="checkbox" checked="true" onchange='UpdateStatus(this.id)'>
+          @php
+            if ($data->isEnabled == 1) {
+              $checked = 'checked';
+            }
+            else {
+              $checked = '';
+            }
+          @endphp
+            <input id='{{ $data->user_id }}' class='user_status' type="checkbox" onchange='UpdateStatus(this.id)' {{ $checked }}/>
           </td>
         </tr>
         @endforeach
@@ -328,8 +343,8 @@
               </div>
               <div class="form-group col-md-10 d-flex">
                 <div class='d-flex'>
-                  <label for="balance" class="text-warning">Current Credit:&nbsp;&nbsp;</label>
-                    <label for="balance" class="font-weight-bold text-warning" id='current_credit'>₹ {{$auth_balance[0]['balance']}}</label> <!-- current balance -->
+                  <label for="balance" class="text-danger">Current Credit:&nbsp;&nbsp;</label>
+                    <label for="balance" class="font-weight-bold text-danger" id='current_credit'></label> <!-- current credit -->
                 </div>
               </div>
             </div>
@@ -337,15 +352,15 @@
               <div class="form-row">
                 <div class="form-group col-md-3">
                   <label for="Amount">Amount</label>
-                  <input type="number" class="form-control" min='0' id="credit_amount" value="0.00">
+                  <input type="number" class="form-control" min='0' id="credit_amount" step="0.01" placeholder="0.00">
                 </div>
                 <div class="form-group col-md-6 ml-2">
                   <label for="Remarks">Remarks</label>
-                  <input type="text" class="form-control" id="remarks" placeholder="Remarks">
+                  <input type="text" class="form-control" id="credit_remarks" placeholder="Remarks">
                 </div>
                 <div class="form-group col-md-2 ml-2 mt-2">
                   <label for="receive_button"></label>
-                  <button class="btn btn-danger form-control" id="receive_credit" onclick='TransferCredit("<?php echo $auth_balance[0]["user_id"]; ?>", "<?php echo $auth_balance[0]["balance"]; ?>")'>Receive Credit</button>
+                  <button class="btn btn-danger form-control" id="receive_credit" onclick='ReceiveCredit("<?php echo $auth_balance[0]["user_id"]; ?>")'>Receive Credit</button>
                 </div>
               </div>
               <div id="parent_credit_table">
@@ -382,6 +397,21 @@
               event: 'keyup',
               filterCallback: function($tr, filterValue) {
                   return  $tr.children().eq(5).text().toLowerCase().indexOf(filterValue) != -1;
+              },
+              delay: 100
+            },
+            {
+              filterSelector: '#is_active_account',
+              event: 'change',
+              filterCallback: function($tr, filterValue) {
+                var first = 0;
+                if (filterValue == 'active') {
+                  return $tr.children().last().find('input').is(':checked') == true;
+                }
+                else if (filterValue == 'non_active') {
+                  return $tr.children().last().find('input').is(':checked') == false;
+                }
+                return true;
               },
               delay: 100
             }
@@ -489,10 +519,11 @@
 
       }
 
-      function UserCreditDetail(id, name, mob, mode) {
+      function UserCreditDetail(id, name, mob, credit_sum, mode) {
         document.getElementById('credit_account_no').innerHTML = id;
         document.getElementById('credit_to_name').innerHTML = name;
         document.getElementById('credit_mobile_no').innerHTML = mob;
+        document.getElementById('current_credit').innerHTML = '₹ ' + parseFloat(credit_sum).toFixed(2);
 
         $.ajax({
             url : '{{ route("credit_getdata") }}',
@@ -587,27 +618,21 @@
       }
 
 
-      function ReceiveCredit(from_id, current_bal) {
+      function ReceiveCredit(from_id) {
         var to_id = document.getElementById('credit_account_no').innerHTML;
-        var final_amount = document.getElementById('final_amount').value;
-        var remarks = document.getElementById('remarks').value;
-        var remaining_balance = Number(current_bal) - Number(final_amount);
-       
-       if (from_id && to_id && amount && percent && final_amount && remarks && mode_type) {
+        var credit_amount = document.getElementById('credit_amount').value;
+        var remarks = document.getElementById('credit_remarks').value;
+       if (from_id && to_id && credit_amount && remarks) {
         
         $.ajax({
           type: 'POST',
-          url: '/TransferStock/data',
+          url: 'ReceiveCredit/data',
           data: {
             "_token": "{{ csrf_token() }}",
             'from_id': from_id,
             'to_id': to_id,
-            'amount': amount,
-            'percent': percent,
-            'final_amount': final_amount,
+            'credit_amount': credit_amount,
             'remarks': remarks,
-            'mode_type': mode_type,
-            'remaining_balance': remaining_balance,
           },
 
           success: function(data) {

@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 use App\Models\balance;
 use App\Models\ledger;
+use App\Models\receive_credit;
 use App\Models\role;
 use App\Models\user_detail;
 use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Stmt\TryCatch;
 
 class AccountListController extends Controller
 {
     public function index(Request $request)
     {
         $user_data = user::select('*')
-            ->where('isEnabled', 1)
             ->where('parent_id', User::find(Auth::user()->id)->id)
             ->join('user_details', 'users.id', '=', 'user_details.user_id')
             ->join('roles', 'roles.user_id', '=', 'user_details.user_id')
@@ -48,6 +49,14 @@ class AccountListController extends Controller
                 ->where('to_account_id', $user_data[$i]->user_id)
                 ->where('mode', 'credit')
                 ->sum('final_amount'), 2);
+
+            $credit_subtract[$user_data[$i]->user_id] = round(receive_credit::where('from_account_id', $auth_user_id)
+            ->where('to_account_id', $user_data[$i]->user_id)
+            ->sum('amount'), 2);
+
+            $default_credit_sub[$user_data[$i]->user_id] = isset($credit_subtract[$user_data[$i]->user_id]) ? $credit_subtract[$user_data[$i]->user_id] : 0; 
+            $credit_sum[$user_data[$i]->user_id] = $credit_sum[$user_data[$i]->user_id] - $default_credit_sub[$user_data[$i]->user_id];
+        
         }
 
         return view('account_list', ['user_data' => $user_data, 'role_id' => $role_id, 'auth_balance' => $auth_balance,
@@ -144,5 +153,15 @@ class AccountListController extends Controller
         else {
             return view('getdata', ['stock_data' => $ledgers_data])->render();
         }
+    }
+
+    public function receiveCredit(Request $request) {
+        
+            $transfer_credit = new receive_credit();
+            $transfer_credit->from_account_id = $request->from_id;
+            $transfer_credit->to_account_id = $request->to_id;
+            $transfer_credit->amount = $request->credit_amount;
+            $transfer_credit->remarks = $request->remarks;
+            $transfer_credit->save();
     }
 }
