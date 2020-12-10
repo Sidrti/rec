@@ -29,3 +29,12 @@ input[type=checkbox] {
 .row .dataTables_length, .row .dataTables_filter {
     display: none;
 }
+
+.checkbox_button_style {
+    background: teal;
+}
+
+.capped_status {
+    position: absolute;
+    opacity: 0;
+}

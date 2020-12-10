@@ -60,13 +60,14 @@ Route::get('MoveAccount', 'App\Http\Controllers\move_account@index');
 Route::get('APIUpdateRecords/{id}/{minutes}/{priority}', 'App\Http\Controllers\api_trail_list@updateRecords');
 
 Route::post('/getdata', 'App\Http\Controllers\AccountListController@getIndividualStatements')->name('stock_getdata');
+Route::post('/getdata_credit', 'App\Http\Controllers\AccountListController@getIndividualStatements')->name('credit_getdata');
+
+Route::get('AccountCapping', 'App\Http\Controllers\AccountCappingController@index')->name('AccountCapping');
+Route::get('AccountCapped/Status/{user_id}/{status}', 'App\Http\Controllers\AccountCappingController@updateCappedStatus');
 
 Route::get('recharge',function(){
     return view('recharge2');
 });
-
-Route::post('/getdata_credit', 'App\Http\Controllers\AccountListController@getIndividualStatements')->name('credit_getdata');
-
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

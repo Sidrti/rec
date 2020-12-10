@@ -112,7 +112,7 @@
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Accounts </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item dropdown-item-color" href="{{url('AccountList')}}"> Accounts </a></li>
-                            <li><a class="dropdown-item dropdown-item-color" href="#"> Accounts Capping </a></li>
+                            <li><a class="dropdown-item dropdown-item-color" href="{{url('AccountCapping')}}"> Accounts Capping </a></li>
                             <li><a class="dropdown-item dropdown-item-color" href="{{url('MoveAccount')}}"> Promote/Demote </a></li>
                         </ul>
                     </li>
