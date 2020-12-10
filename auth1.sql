@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2020 at 09:01 AM
+-- Generation Time: Dec 10, 2020 at 07:36 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -41,8 +41,8 @@ CREATE TABLE `balances` (
 --
 
 INSERT INTO `balances` (`id`, `user_id`, `balance`, `created_at`, `updated_at`) VALUES
-(1, 4, 99.78, '2020-12-08 07:50:29', '2020-12-08 02:20:29'),
-(2, 1, 110.6, '2020-12-08 07:50:29', '2020-12-08 02:20:29');
+(1, 4, 94.68, '2020-12-10 05:52:12', '2020-12-10 00:22:12'),
+(2, 1, 115.7, '2020-12-10 05:52:12', '2020-12-10 00:22:12');
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,9 @@ CREATE TABLE `ledgers` (
 INSERT INTO `ledgers` (`id`, `amount`, `percentage`, `final_amount`, `remarks`, `mode`, `from_account_id`, `to_account_id`, `created_at`, `updated_at`) VALUES
 (1, 100, 5, 105, 'Hello Siddharth Rastogi', 'payment', 4, 1, '2020-12-08 06:36:40', '2020-12-08 06:36:40'),
 (8, 45, 6, 48, 'Hello everyone', 'credit', 4, 1, '2020-12-08 01:10:50', '2020-12-08 01:10:50'),
-(19, 45, 4, 46.8, 'hello sid', 'credit', 4, 1, '2020-12-08 02:20:29', '2020-12-08 02:20:29');
+(19, 45, 4, 46.8, 'hello sid', 'credit', 4, 1, '2020-12-08 02:20:29', '2020-12-08 02:20:29'),
+(20, 45, 8, 46.67, 'hello sid', 'credit', 4, 11, '2020-12-09 08:58:18', '2020-12-09 08:58:18'),
+(21, 5, 2, 5.1, 'hello sid', 'payment', 4, 1, '2020-12-10 00:22:12', '2020-12-10 00:22:12');
 
 -- --------------------------------------------------------
 
@@ -230,6 +232,31 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `receive_credits`
+--
+
+CREATE TABLE `receive_credits` (
+  `id` int(10) NOT NULL,
+  `from_account_id` int(10) NOT NULL,
+  `to_account_id` int(10) NOT NULL,
+  `amount` float NOT NULL,
+  `remarks` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `receive_credits`
+--
+
+INSERT INTO `receive_credits` (`id`, `from_account_id`, `to_account_id`, `amount`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 4, 1, 45, 'feeee', '2020-12-10 06:16:56', '2020-12-10 06:16:56'),
+(4, 4, 1, 5.2, 'heeloo everyone', '2020-12-10 01:04:09', '2020-12-10 01:04:09'),
+(5, 4, 11, 6.07, 'hfgfhgh', '2020-12-10 01:06:11', '2020-12-10 01:06:11');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `roles`
 --
 
@@ -296,7 +323,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('jDG2QL4TGwHY1KFpvVY1u1PCA8y249uCikWzGLpY', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoia0l0RWxJVDJydVdJRURvOW1uWFpWMEpLWjJyY2hrWjhodW1qNEUwciI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJFF5Wmk2anFwRkEuUWJPWTFXbkdwd3Vxbmxud0I3c2lrckk1c080WjdKaS9YTm1DeEZ0SmcyIjtzOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRReVppNmpxcEZBLlFiT1kxV25HcHd1cW5sbndCN3Npa3JJNXNPNFo3SmkvWE5tQ3hGdEpnMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BY2NvdW50TGlzdCI7fX0=', 1607413833);
+('QIt8jmoGPOGooe0w4RIZhgOoMuPWaxaGGKoVqP4I', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiQXdDUjZjNXRVNjAzV2sxdW5xMlA4MThzS2V2Z1kxdk5vVDhZOUxSbiI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJFF5Wmk2anFwRkEuUWJPWTFXbkdwd3Vxbmxud0I3c2lrckk1c080WjdKaS9YTm1DeEZ0SmcyIjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czozMzoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL0FjY291bnRMaXN0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkUXlaaTZqcXBGQS5RYk9ZMVduR3B3dXFubG53QjdzaWtySTVzTzRaN0ppL1hObUN4RnRKZzIiO30=', 1607582189);
 
 -- --------------------------------------------------------
 
@@ -499,9 +526,9 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `parent_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
 (1, 'Siddhant Singh', 'siddhant.singh326@gmail.com', NULL, '$2y$10$uKHYuM1FJZdHnIERbTeTeeSO015/AQgJRSTAilVVdHGq5NtevhNi6', 'eyJpdiI6ImdIMlpzZi9wTFdpZ2ZhR0tZNXpoVGc9PSIsInZhbHVlIjoiTEpRVUUrY05mT0U3dncvTlJOYVN3ZE9JNitKcjFRWnFrVWJzNncxOEtKdz0iLCJtYWMiOiIzMzIyOGQwZmQwM2VkNDM1OTE0ZDM2MTM2NDNkZTc0MjI3YzljNDc0ZTlmNGRkNjBmZDczNTQxODRkNTE3NTFhIn0=', 'eyJpdiI6IkNZQzA3SzU1T3RGTXZJU3ppbXBNYmc9PSIsInZhbHVlIjoiZGdhdVVhWjQzRkVZMVR2ZHN3SjB5bVZxdUlNUDBsUEwzbmNTQTRuelZLbFAzL1R5cnVqcXRIQkE5a25aSUlyMGo2L04xRnJVZzFzd04vOERXMTVJdmFsMFdSNTU4NDRuWm5DWTNsTlNhai96OGI0Z1dVMkQza0xjckpDbmZqR1RDVHpLVUdicTgyTXhtVmkveE9semVGV1Y0eVdrMjU2NU5HOVlONm92VklvTWdFbzJ3bDdVNVJleDBuZHBkTWhNS0FvU2JYRWNiYXY3N1liYk1FS0tJMDJrdzg1T2ZNaVRsS2k0WHVyY3NseHpuRE03SS8zdEZKUWlUOFFUSWJHRm16YnN6cVRsaGRCTUsxcDhlUkdhaFE9PSIsIm1hYyI6IjFlMzlkZTY4OTExNWRkMzE1ZDI4NDNlYjQ2NmMxN2ExMTZhMzhkNmUyY2M1ZGQ5M2E4NWQ4MGYxNjUyNTEzMGIifQ==', NULL, 4, NULL, '2020-11-26 22:43:13', '2020-11-30 09:57:21'),
 (2, 'SIddhant Testtt', 'pallavbansal2@gmail.com', NULL, '$2y$10$spVGo6tRJG.vkd8Gi8RVhuypfhOuLzDcXLpAtUqxInVHmzdU99xkG', NULL, NULL, NULL, NULL, NULL, '2020-12-01 03:48:23', '2020-12-05 02:27:38'),
-(3, 'Chirag', 'cdeol48@gmail.com', NULL, '$2y$10$SHSDi.SMq6f.pldsnHdHn.u0Jhp2LZTkGP9luW2MwPM29vwmyrpCy', NULL, NULL, NULL, 2, NULL, '2020-12-01 08:14:23', '2020-12-01 08:14:23'),
+(3, 'Chirag', 'cdeol48@gmail.com', NULL, '$2y$10$SHSDi.SMq6f.pldsnHdHn.u0Jhp2LZTkGP9luW2MwPM29vwmyrpCy', NULL, NULL, NULL, 4, NULL, '2020-12-01 08:14:23', '2020-12-01 08:14:23'),
 (4, 'Siddharth Rastogi', 'sidd15597@gmail.com', NULL, '$2y$10$QyZi6jqpFA.QbOY1WnGpwuqnlnwB7sikrI5sO4Z7Ji/XNmCxFtJg2', NULL, NULL, 'LwBUTP4eEBCLTSJIRmU6XzMkFFW04fgHtOimuNL3dRkE5mrTVl45AOHrv66e', 4, NULL, '2020-12-03 23:36:19', '2020-12-04 16:59:56'),
-(11, 'Sumith', 'bia@gmail.com', NULL, '$2y$10$.zakfyq.ONQHqFqCr96mV.31ch7/Rlsm9DiqUTKj3jzQKls9uOPIS', NULL, NULL, NULL, 2, NULL, '2020-12-05 05:34:17', '2020-12-05 05:34:17'),
+(11, 'Sumith', 'bia@gmail.com', NULL, '$2y$10$.zakfyq.ONQHqFqCr96mV.31ch7/Rlsm9DiqUTKj3jzQKls9uOPIS', NULL, NULL, NULL, 4, NULL, '2020-12-05 05:34:17', '2020-12-05 05:34:17'),
 (12, 'Gully', 'boxinall@gmail.com', NULL, '$2y$10$VVuVzr8H4lPQLrw3s5oEGeSj4nJZMwSiyATo95inHEkleXa.Ew9Ra', NULL, NULL, NULL, 2, NULL, '2020-12-05 05:36:53', '2020-12-05 05:36:53');
 
 -- --------------------------------------------------------
@@ -602,6 +629,12 @@ ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `receive_credits`
+--
+ALTER TABLE `receive_credits`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `roles`
@@ -710,7 +743,7 @@ ALTER TABLE `fail_switch_masters`
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -735,6 +768,12 @@ ALTER TABLE `package_masters`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `receive_credits`
+--
+ALTER TABLE `receive_credits`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `roles`
