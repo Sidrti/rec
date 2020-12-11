@@ -9,14 +9,16 @@
 <link rel="stylesheet" href="/css/account_list.css">
 
 <body>
-  <div class="alert alert-success" style="display:none">
-    {{ Session::get('success') }}
-  </div>
+    @if ( Session::has('flash_message') )
+      <div class="alert {{ Session::get('flash_type') }}">
+          <strong>{{ Session::get('flash_message') }}</strong>
+      </div>
+    @endif
 
   <div class="container-fluid">
     <div class="row mt-3">
       <div class="col-lg-12">
-        <button class="btn btn-danger float-right ml-3" data-toggle="modal" data-target="#NewModal">+ Add New Account</button>
+        <button class="btn btn-danger float-right ml-3">+ Add New Account</button>
       </div>
     </div>
     <h3>Accounts Capping</h3>
@@ -61,7 +63,7 @@
           <td>
             @php
               if ($capped_value[$data->user_id] == 1) {
-                echo '<button class="btn btn-success">Capping</button>';
+                echo "<button class='btn btn-success capped_button' capping_id='{$capped_id[$data->user_id]}' data-toggle='modal' data-target='#CappingModal' user_id='{$data->user_id}' name='{$data->name}' stock='{$stock_sum[$data->user_id]}'>Capping</button>";
               }
               else {
                 echo '--';
@@ -99,71 +101,77 @@
     <!-- Capping Modal -->
 
     <div class="modal fade" id="CappingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog size_modal" role="document">
+      <div class="modal-dialog capping_size_modal" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">ACCOUNT DETAILS</h5>
+            <h5 class="modal-title" id="exampleModalLabel">SET CAPPING</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <div class="col-md-10 d-flex">
                 <div class='d-flex'>
-                  <label for="Account">Account No:&nbsp;&nbsp;</label>
-                  <label for="AccountValue" class="font-weight-bold" id='account_value'></label> <!-- account value -->
+                  <label for="AccountName" class="text-success">Name:&nbsp;&nbsp;</label>
+                  <label for="AccountName" capping_id="" class="font-weight-bold text-success" id='capping_name'></label> <!-- account name -->
                 </div>
                 <div class='d-flex'>
-                  <label for="usertype">User Type:&nbsp;&nbsp;</label>
-                  <label for="usertype_value" class="font-weight-bold" id='usertype_value'></label>
+                  <label for="Account" class="text-success">&nbsp;&nbsp;&nbsp;Account No:&nbsp;&nbsp;</label>
+                  <label for="AccountValue" class="font-weight-bold text-success" id='capping_account_no'></label> <!-- account value -->
                 </div>
               </div>
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-10 d-flex">
                 <div class='d-flex'>
-                  <label for="password">Current Password:&nbsp;&nbsp;</label>
-                  <label for="passwordValue"></label> <!-- password value -->
-                </div>
-                <div class='d-flex'>
-                  <a href='#' id="newpassword">Regenerate New Password</a>
+                  <label for="balance" class="text-danger">Current Balance:&nbsp;&nbsp;</label>
+                    <label for="balance" class="font-weight-bold text-danger" id='current_balance_capping'></label> <!-- current balance -->
                 </div>
               </div>
             </div>
-            <form>
-              <div class="form-group">
-                <input type="text" class="form-control" id="account_name" placeholder="Account Name">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="mobile_no" placeholder="Mobile Number">
-              </div>
-              <div class="form-group">
-                <input type="email" class="form-control" id="email_id" placeholder="Email">
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <input type="number" class="form-control" min='0' id="gst_no" placeholder="GST No.">
-                </div>
-                <div class="form-group col-md-6">
-                  <input type="number" class="form-control" min='0' id="pan_no" placeholder="PAN No.">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputAddress">Address</label>
-                <input type="text" class="form-control" id="address" placeholder="Address Line">
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" id="city" placeholder="City">
-                </div>
-                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" id="pincode" placeholder="PinCode">
-                </div>
-              </div>
-            </form>
+            <div id="parent_capping_table">
+              <table id="capping_modal_table" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                  <tr>
+                    <th class="th-sty">#</th>
+                    <th class="th-sty">Operator Group</th>
+                    <th class=th-sty>Current Capping</th>
+                    <th class="th-sty">+/- Capping</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  @php
+                    $count = 0;
+                  @endphp
+                  @foreach($operator_data as $data)
+                  @php
+                    $count++;
+                  @endphp
+                  <tr>
+                    <td>{{ $count }}</td>
+                    <td class="operator_id" id="{{$data->id}}">{{ $data->operator }}</td>
+                    <td>0.0000
+                      <!-- @php
+                        if (1) {
+                          echo '';
+                        }
+                        else {
+                          echo '0.0000';
+                        }
+                      @endphp -->
+                    </td>
+                    <td>
+                      <input id="value_capping" id='{{ $data->id }}' type="number" />
+                    </td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id='create_package' onclick='UpdateAccount()' class="btn btn-danger">Update Account</button>
+            <button id='update_capping' class="btn btn-danger">Update capping</button>
           </div>
         </div>
       </div>
@@ -213,67 +221,65 @@
           }
           window.location = 'AccountCapped/Status/' + user_id + '/' + status;
         });
-        $('#account_capping').DataTable();
-      });
 
-      function UserCreditDetail(id, name, mob, credit_sum, mode) {
-        document.getElementById('credit_account_no').innerHTML = id;
-        document.getElementById('credit_to_name').innerHTML = name;
-        document.getElementById('credit_mobile_no').innerHTML = mob;
-        document.getElementById('current_credit').innerHTML = '₹ ' + parseFloat(credit_sum).toFixed(2);
+        $('#update_capping').click(function () {
 
-        $.ajax({
-            url : '{{ route("credit_getdata") }}',
-            type: 'POST',
-            data:{
-              "_token": "{{ csrf_token() }}",
-              'to_id': id,
-              'mode_name': mode,
-            },
-            success:function(data){
-              document.getElementById('parent_credit_table').innerHTML= data;
-            },
-          });
+          var operator_ids = [];
+          var capping_values = [];
+          var capping_id = $('#capping_name').attr('capping_id');
 
-      }
+          $('#capping_modal_table > tbody  > tr').each(function() {
 
-      function SetCapping_Update() {
+            var id = $(this).find('.operator_id').attr('id');
+            var capping_value = $(this).find('#value_capping').val();
+            
+            if(capping_value.trim() == '') {
+              capping_value = 0;
+              capping_values.push(capping_value);
+            }
 
-        var user_id = document.getElementById('account_value').innerHTML;
-        var acc_name = document.getElementById('account_name').value;
-        var mob_no = document.getElementById('mobile_no').value;
-        var email = document.getElementById('email_id').value;
-        var gst = document.getElementById('gst_no').value;
-        var pan = document.getElementById('pan_no').value;
-        var city = document.getElementById('city').value;
-        var pincode = document.getElementById('pincode').value;
-        var address = document.getElementById('address').value;
+            if (id) {
+              operator_ids.push(id);
+            }
 
-        if (user_id && acc_name && mob_no && email && gst && pan && city && pincode && address) {
-          
-          $.ajax({
-            type: 'POST',
-            url: '/AccountUpdate/data',
-            data: {
-              "_token": "{{ csrf_token() }}",
-              'user_id': user_id,
-              'acc_name': acc_name,
-              'mob_no': mob_no,
-              'email': email,
-              'gst': gst,
-              'pan': pan,
-              'city': city,
-              'pincode': pincode,
-              'address': address,
-            },
-
-            success: function(data) {
-              window.location = "AccountList";
-              $(".alert-success").css("display", "block");
-              $(".alert-success").append("<p>Updated Successfully<p>");
+            if (capping_value) {
+              capping_values.push(capping_value);
             }
           });
-        }
-      }
+          window.location = 'CappingUpdateRecords/' + operator_ids + '/' + capping_values + '/' + capping_id;
+          });
+
+          $('.capped_button').click(function () {
+
+            var capping_user_id = $(this).attr('user_id');
+            $('#capping_name').html($(this).attr('name'));
+            $('#capping_name').attr('capping_id', $(this).attr('capping_id'));
+            $('#capping_account_no').html(capping_user_id);
+            $('#current_balance_capping').html('₹ ' + $(this).attr('stock'));
+
+
+            var current_capping =  $.parseJSON('<?php echo json_encode($capping_operator_id); ?>');
+            var dataTable = $('#capping_modal_table');
+            var arr = [];
+
+            for(key in current_capping[capping_user_id]) {
+              arr.push(key);
+            }
+
+            var len = arr.length;
+
+            console.log(len);
+            for(var i = 1 ; i <= len ; i++){
+              if(current_capping[capping_user_id][i]){
+                dataTable[0].rows[i].cells[2].innerHTML = parseFloat(current_capping[capping_user_id][i]).toFixed(4);
+              }
+              else {
+                dataTable[0].rows[i].cells[2].innerHTML = '0.0000';
+              }
+            }
+
+          });
+        $('#account_capping').DataTable();
+      });
     </script>
 </body>

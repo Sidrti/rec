@@ -64,6 +64,7 @@ Route::post('/getdata_credit', 'App\Http\Controllers\AccountListController@getIn
 
 Route::get('AccountCapping', 'App\Http\Controllers\AccountCappingController@index')->name('AccountCapping');
 Route::get('AccountCapped/Status/{user_id}/{status}', 'App\Http\Controllers\AccountCappingController@updateCappedStatus');
+Route::get('CappingUpdateRecords/{id}/{capping_value}/{capping_id}', 'App\Http\Controllers\AccountCappingController@updateCappingRecords');
 
 Route::get('recharge',function(){
     return view('recharge2');
