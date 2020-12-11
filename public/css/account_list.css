@@ -19,6 +19,10 @@ input[type=checkbox] {
     .trans_size_modal {
         max-width: 1100px;
     }
+
+    .capping_size_modal {
+        max-width: 810px;
+    }
 }
 
 .transfer {
@@ -28,4 +32,18 @@ input[type=checkbox] {
 
 .row .dataTables_length, .row .dataTables_filter {
     display: none;
+}
+
+.checkbox_button_style {
+    background: teal;
+}
+
+.capped_status {
+    position: absolute;
+    opacity: 0;
+}
+
+#value_capping {
+    border-color: #ebe8e8;
+    border-width: thin;
 }
