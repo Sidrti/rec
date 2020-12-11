@@ -150,16 +150,7 @@
                   <tr>
                     <td>{{ $count }}</td>
                     <td class="operator_id" id="{{$data->id}}">{{ $data->operator }}</td>
-                    <td>0.0000
-                      <!-- @php
-                        if (1) {
-                          echo '';
-                        }
-                        else {
-                          echo '0.0000';
-                        }
-                      @endphp -->
-                    </td>
+                    <td>0.0000</td>
                     <td>
                       <input id="value_capping" id='{{ $data->id }}' type="number" />
                     </td>
