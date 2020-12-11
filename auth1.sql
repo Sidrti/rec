@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2020 at 07:36 AM
+-- Generation Time: Dec 11, 2020 at 11:35 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -323,7 +323,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('QIt8jmoGPOGooe0w4RIZhgOoMuPWaxaGGKoVqP4I', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiQXdDUjZjNXRVNjAzV2sxdW5xMlA4MThzS2V2Z1kxdk5vVDhZOUxSbiI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJFF5Wmk2anFwRkEuUWJPWTFXbkdwd3Vxbmxud0I3c2lrckk1c080WjdKaS9YTm1DeEZ0SmcyIjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czozMzoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL0FjY291bnRMaXN0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkUXlaaTZqcXBGQS5RYk9ZMVduR3B3dXFubG53QjdzaWtySTVzTzRaN0ppL1hObUN4RnRKZzIiO30=', 1607582189);
+('DanT6BluCoZLhNXGv3Xb4ZmFCAsaSF8qt3JC30Hk', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiOFJLbWFCYnMwbGFPU3Mxa3EzYzlkNUdzS1ZTcDhncmQ2RThua0FMYiI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJFF5Wmk2anFwRkEuUWJPWTFXbkdwd3Vxbmxud0I3c2lrckk1c080WjdKaS9YTm1DeEZ0SmcyIjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czozNjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL0FjY291bnRDYXBwaW5nIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1607725401);
 
 -- --------------------------------------------------------
 
@@ -396,6 +396,64 @@ INSERT INTO `tbl_api_masters` (`id`, `created_at`, `updated_at`, `api_name`, `ur
 (7, '2020-11-28 07:53:51', '2020-12-03 05:31:34', 'API NAM', 'APiname.commm'),
 (8, '2020-12-01 15:09:52', '2020-12-01 15:09:52', 'Another API', 'http://test.com/web-services/httpapi/recharge-request?acc_no=ACC12501&api_key=1d4f8a72-83e8-4bfc-b869-f2e3da9bc5d8&opr_code={code}&rech_num'),
 (9, '2020-12-02 03:59:55', '2020-12-03 05:27:50', 'API NAM', 'www.backlsh.in');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_cappings`
+--
+
+CREATE TABLE `tbl_cappings` (
+  `id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `capped` int(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_cappings`
+--
+
+INSERT INTO `tbl_cappings` (`id`, `user_id`, `capped`, `created_at`, `updated_at`) VALUES
+(1, 4, 1, '2020-12-10 19:19:08', '2020-12-10 19:19:08'),
+(2, 2, 0, '2020-12-10 19:19:08', '2020-12-10 19:19:08'),
+(4, 4, 1, '2020-12-10 19:19:08', '2020-12-10 19:19:08'),
+(6, 2, 1, '2020-12-10 15:47:17', '2020-12-10 15:47:17'),
+(16, 1, 1, '2020-12-11 09:34:22', '2020-12-11 09:34:22'),
+(17, 11, 1, '2020-12-11 16:43:16', '2020-12-11 16:43:16'),
+(18, 11, 0, '2020-12-11 16:43:51', '2020-12-11 16:43:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_capping_details`
+--
+
+CREATE TABLE `tbl_capping_details` (
+  `id` int(10) NOT NULL,
+  `capping_id` int(10) NOT NULL,
+  `operator_id` int(10) NOT NULL,
+  `current_capping` float NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_capping_details`
+--
+
+INSERT INTO `tbl_capping_details` (`id`, `capping_id`, `operator_id`, `current_capping`, `created_at`, `updated_at`) VALUES
+(1, 6, 1, 5, '2020-12-11 09:42:55', '2020-12-11 09:42:55'),
+(2, 6, 1, 5, '2020-12-11 09:43:36', '2020-12-11 09:43:36'),
+(3, 6, 2, 6, '2020-12-11 09:43:36', '2020-12-11 09:43:36'),
+(5, 16, 1, -10, '2020-12-11 09:44:53', '2020-12-11 09:44:53'),
+(6, 16, 2, 23, '2020-12-11 09:44:53', '2020-12-11 09:44:53'),
+(7, 16, 3, -26, '2020-12-11 09:44:53', '2020-12-11 09:44:53'),
+(9, 17, 2, 23, '2020-12-11 16:43:34', '2020-12-11 16:43:34'),
+(16, 6, 3, 0, '2020-12-11 16:47:44', '2020-12-11 16:47:44'),
+(20, 6, 1, -25, '2020-12-11 16:50:28', '2020-12-11 16:50:28'),
+(28, 16, 3, 0, '2020-12-11 16:53:20', '2020-12-11 16:53:20');
 
 -- --------------------------------------------------------
 
@@ -675,6 +733,18 @@ ALTER TABLE `tbl_api_masters`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_cappings`
+--
+ALTER TABLE `tbl_cappings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_capping_details`
+--
+ALTER TABLE `tbl_capping_details`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_my_operators`
 --
 ALTER TABLE `tbl_my_operators`
@@ -804,6 +874,18 @@ ALTER TABLE `tbl_api_codes`
 --
 ALTER TABLE `tbl_api_masters`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tbl_cappings`
+--
+ALTER TABLE `tbl_cappings`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `tbl_capping_details`
+--
+ALTER TABLE `tbl_capping_details`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tbl_my_operators`
