@@ -129,7 +129,7 @@
                     <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Payment Req </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item dropdown-item-color" href="#"> Payment Request </a></li>
-                            <li><a class="dropdown-item dropdown-item-color" href="#"> My Bank Acc </a></li>
+                            <li><a class="dropdown-item dropdown-item-color" href="{{url('MyBankAccount')}}"> My Bank Acc </a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Reports </a>
