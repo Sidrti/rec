@@ -66,6 +66,9 @@ Route::get('AccountCapping', 'App\Http\Controllers\AccountCappingController@inde
 Route::get('AccountCapped/Status/{user_id}/{status}', 'App\Http\Controllers\AccountCappingController@updateCappedStatus');
 Route::get('CappingUpdateRecords/{id}/{capping_value}/{capping_id}', 'App\Http\Controllers\AccountCappingController@updateCappingRecords');
 
+Route::get('MyBankAccount', 'App\Http\Controllers\MyBankAccountController@index')->name('MyBankAccount');
+Route::get('AddBankAccount/{bank_name}/{account_no}/{ifsc_code}/{branch_name}', 'App\Http\Controllers\AddBankAccountController@addNewAccount');
+
 Route::get('recharge',function(){
     return view('recharge2');
 });

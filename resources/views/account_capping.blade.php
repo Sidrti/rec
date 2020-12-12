@@ -139,7 +139,6 @@
                   </tr>
                 </thead>
                 <tbody>
-
                   @php
                     $count = 0;
                   @endphp
