@@ -1,10 +1,9 @@
 @include('header')
 
-<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
-<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
-
 <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
 <script src="/js/jquery.table-filterable.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
 
 <link rel="stylesheet" href="/css/account_list.css">
 

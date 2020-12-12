@@ -1,5 +1,7 @@
 @include('header')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
 <link rel="stylesheet" href="/css/operator_list.css">
 
 <body>
@@ -18,22 +20,25 @@
             </div>
         </div>
 
-        <div class=" table-responsive">
-            <table class="table table-striped table-bordered">
-                <tr class="bg-white">
-                    <th>#</th>
-                    <th>Category</th>
-                    <th>Operator</th>
-                    <th>Code</th>
-                    <th>Status</th>
-                    <th>Curr Api</th>
-                    <th>API 2</th>
-                    <th>Api 3</th>
-                </tr>
+        <div>
+            <table id="operator_list" class="table table-striped table-bordered">
+                <thead class="bg-white">
+                    <tr>
+                        <th>#</th>
+                        <th>Category</th>
+                        <th>Operator</th>
+                        <th>Code</th>
+                        <th>Status</th>
+                        <th>Curr Api</th>
+                        <th>API 2</th>
+                        <th>Api 3</th>
+                    </tr>
+                </thead>
 
                 <tbody id="myTable">
-
-                    @for($i=0;$i<count($array);$i++) <tr>
+                    
+                    @for($i=0;$i<count($array);$i++) 
+                    <tr>
                         <td>{{$i+1}}</td>
                         <td>{{$array[$i]['category_name'] }}</td>
                         <td>{{$array[$i]['operator'] }}</td>
@@ -106,8 +111,8 @@
                                 </div>
                             </div>
                         </td>
-                        </tr>
-                        @endfor
+                    </tr>
+                    @endfor
                 </tbody>
             </table>
         </div>
@@ -147,6 +152,10 @@
 
 
     <script>
+
+        $(document).ready(function() {
+            $('#operator_list').DataTable();
+        });
         var operator_id = 0;
 
         function OpenModal(id, modal) {
