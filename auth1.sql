@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2020 at 11:35 PM
+-- Generation Time: Dec 12, 2020 at 10:36 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -323,7 +323,31 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('DanT6BluCoZLhNXGv3Xb4ZmFCAsaSF8qt3JC30Hk', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiOFJLbWFCYnMwbGFPU3Mxa3EzYzlkNUdzS1ZTcDhncmQ2RThua0FMYiI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJFF5Wmk2anFwRkEuUWJPWTFXbkdwd3Vxbmxud0I3c2lrckk1c080WjdKaS9YTm1DeEZ0SmcyIjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czozNjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL0FjY291bnRDYXBwaW5nIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1607725401);
+('LPm5tjcI4GCIoMvqNAoleiicFNlmSuDtsL6hoa12', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiREhwMzlDeFg0UmQxUTJWQU1sclF6VWdJRk1jV2I4MWdkMDJnU3d4YiI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJFF5Wmk2anFwRkEuUWJPWTFXbkdwd3Vxbmxud0I3c2lrckk1c080WjdKaS9YTm1DeEZ0SmcyIjtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czozNToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL015QmFua0FjY291bnQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRReVppNmpxcEZBLlFiT1kxV25HcHd1cW5sbndCN3Npa3JJNXNPNFo3SmkvWE5tQ3hGdEpnMiI7fQ==', 1607765299);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_add_bank_accounts`
+--
+
+CREATE TABLE `tbl_add_bank_accounts` (
+  `id` int(10) NOT NULL,
+  `bank_name` varchar(100) NOT NULL,
+  `account_no` bigint(15) NOT NULL,
+  `ifsc_code` varchar(15) NOT NULL,
+  `branch_name` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_add_bank_accounts`
+--
+
+INSERT INTO `tbl_add_bank_accounts` (`id`, `bank_name`, `account_no`, `ifsc_code`, `branch_name`, `created_at`, `updated_at`) VALUES
+(1, 'SBI', 567657567567, 'SBIIN002581', 'bartan bazar', '2020-12-12 03:57:31', '2020-12-12 03:57:31'),
+(2, 'dsfsfsdf', 646464, 'SBIIN0025jh', 'bartan bazar', '2020-12-12 03:58:17', '2020-12-12 03:58:17');
 
 -- --------------------------------------------------------
 
@@ -715,6 +739,12 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indexes for table `tbl_add_bank_accounts`
+--
+ALTER TABLE `tbl_add_bank_accounts`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_amount_filters`
 --
 ALTER TABLE `tbl_amount_filters`
@@ -856,6 +886,12 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `role_masters`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tbl_add_bank_accounts`
+--
+ALTER TABLE `tbl_add_bank_accounts`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_amount_filters`
