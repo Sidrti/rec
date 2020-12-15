@@ -49,54 +49,55 @@
 
         @php
           $count = 0;
+        if (count($user_data) != 0) {
 
-        if (count($user_data) == 0) {
-          exit();
-        }
         @endphp
-        @foreach($user_data as $data)
-        @php
-          $count++;
-        @endphp
-        <tr>
-          <td>{{ $count }}</td>
-          <td id="account{{$data->user_id}}">
-            <button id="{{$data->user_id}}" class="btn btn-secondary">{{ $data->user_id}}</button>
-          </td>
-          <td>
+          @foreach($user_data as $data)
+          @php
+            $count++;
+          @endphp
+          <tr>
+            <td>{{ $count }}</td>
+            <td id="account{{$data->user_id}}">
+              <button id="{{$data->user_id}}" class="btn btn-secondary">{{ $data->user_id}}</button>
+            </td>
+            <td>
+              @php
+                if ($capped_value[$data->user_id] == 1) {
+                  echo "<button class='btn btn-success capped_button' capping_id='{$capped_id[$data->user_id]}' data-toggle='modal' data-target='#CappingModal' user_id='{$data->user_id}' name='{$data->name}' stock='{$stock_sum[$data->user_id]}'>Capping</button>";
+                }
+                else {
+                  echo '--';
+                }
+              @endphp
+            </td>
+            <td>{{ $data->name }}</td>
+            <td>{{ $data->role_name }}</td>
+            <td>{{ $data->mobile_number }}</td>
+            <td class="font-weight-bold" style="color: teal;">{{ $stock_sum[$data->user_id] }}</td> <!-- Stock value -->
+            <td id="state_capping">
             @php
               if ($capped_value[$data->user_id] == 1) {
-                echo "<button class='btn btn-success capped_button' capping_id='{$capped_id[$data->user_id]}' data-toggle='modal' data-target='#CappingModal' user_id='{$data->user_id}' name='{$data->name}' stock='{$stock_sum[$data->user_id]}'>Capping</button>";
+                $checked = 'checked';
+                $state = 'Click to Disable';
+                $color = 'danger';
               }
               else {
-                echo '--';
+                $checked = '';
+                $state = 'Click to Enable';
+                $color = 'success checkbox_button_style';
               }
             @endphp
-          </td>
-          <td>{{ $data->name }}</td>
-          <td>{{ $data->role_name }}</td>
-          <td>{{ $data->mobile_number }}</td>
-          <td class="font-weight-bold" style="color: teal;">{{ $stock_sum[$data->user_id] }}</td> <!-- Stock value -->
-          <td id="state_capping">
-          @php
-            if ($capped_value[$data->user_id] == 1) {
-              $checked = 'checked';
-              $state = 'Click to Disable';
-              $color = 'danger';
-            }
-            else {
-              $checked = '';
-              $state = 'Click to Enable';
-              $color = 'success checkbox_button_style';
-            }
-          @endphp
-            <div >
-              <input id='{{ $data->user_id }}' class='capped_status' type="checkbox"  {{ $checked }}/>
-              <button id="checkbox_button" user_id='{{ $data->user_id }}' class="btn btn-{{ $color }}">{{ $state }}</button>
-            </div>
-          </td>
-        </tr>
-        @endforeach
+              <div >
+                <input id='{{ $data->user_id }}' class='capped_status' type="checkbox"  {{ $checked }}/>
+                <button id="checkbox_button" user_id='{{ $data->user_id }}' class="btn btn-{{ $color }}">{{ $state }}</button>
+              </div>
+            </td>
+          </tr>
+          @endforeach
+        @php
+        }
+        @endphp
       </tbody>
     </table>
 
