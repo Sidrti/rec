@@ -15,7 +15,7 @@
   <div class="container-fluid">
     <div class="row mt-3">
       <div class="col-lg-12">
-        <button class="btn btn-danger float-right ml-3" data-toggle="modal" data-target="#NewModal">+ Add New Account</button>
+        <button class="btn btn-danger float-right ml-3" data-toggle="modal" data-target="#NewAccountModal">+ Add New Account</button>
         <button class="btn btn-success float-right">My Stock</button>
       </div>
     </div>
@@ -38,6 +38,7 @@
         </select>
       </div>
     </div>
+
     <table id="account_list" class="table table-striped table-bordered" style="width:100%">
       <thead>
         <tr>
@@ -59,50 +60,116 @@
 
         @php
           $count = 0;
-        @endphp
-        @foreach($user_data as $data)
-        @php
-          $count++;
-        @endphp
-        <tr>
-          <td>{{ $count }}</td>
-          <td id="account{{$data->user_id}}">
-            <button id="{{$data->user_id}}" data={{ $data }} class="btn btn-secondary" data-toggle="modal" data-target="#AccountModal" onclick='Userdetails(this.id, "<?php echo $data->name; ?>", "<?php echo $data->role_name; ?>", "<?php echo $data->email; ?>", 
-             "<?php echo $data->mobile_number; ?>", "<?php echo $data->gst_number; ?>", "<?php echo $data->pan_number; ?>", 
-             "<?php echo $data->city; ?>", "<?php echo $data->pincode; ?>", "<?php echo $data->address; ?>")'>{{ $data->user_id}}</button>
-          </td>
-          <td>
-            <button id='{{$data->user_id}}' data={{ $data }} class="btn btn-danger" data-toggle="modal" data-target="#TransferStockModal" onclick='UserTransferDetail(this.id,
-             "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>", "stock")'>Trans Stock</button>
-          </td>
-          <td>{{ $data->name }}</td>
-          <td>{{ $data->role_name }}</td>
-          <td>{{ $data->mobile_number }}</td>
-          <td>{{ $stock_sum[$data->user_id] }}</td> <!-- Stock value -->
-          <td id='{{$data->user_id}}' data-toggle="modal" data-target="#CreditModal" id="{{ $data->user_id }}" onclick='UserCreditDetail(this.id,
-             "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>", "<?php echo $credit_sum[$data->user_id]; ?>", "credit")'>
-            <a href="#" onclick="return false;">{{ $credit_sum[$data->user_id] }}</td> <!-- Credit value -->
-          <td>
-            <button class="btn btn-danger">₹ Set Referral</button>
-          </td>
-          <td>-----</td> <!-- D icon -->
-          <td>-----</td> <!-- Lock icon -->
-          <td>
-          @php
-            if ($data->isEnabled == 1) {
-              $checked = 'checked';
-            }
-            else {
-              $checked = '';
-            }
+
+        if (count($user_data) != 0) {
+
           @endphp
-            <input id='{{ $data->user_id }}' class='user_status' type="checkbox" onchange='UpdateStatus(this.id)' {{ $checked }}/>
-          </td>
-        </tr>
-        @endforeach
+          @foreach($user_data as $data)
+          @php
+            $count++;
+          @endphp
+          <tr>
+            <td>{{ $count }}</td>
+            <td id="account{{$data->user_id}}">
+              <button id="{{$data->user_id}}" data={{ $data }} class="btn btn-secondary" data-toggle="modal" data-target="#AccountModal" onclick='Userdetails(this.id, "<?php echo $data->name; ?>", "<?php echo $data->role_name; ?>", "<?php echo $data->email; ?>", 
+              "<?php echo $data->mobile_number; ?>", "<?php echo $data->gst_number; ?>", "<?php echo $data->pan_number; ?>", 
+              "<?php echo $data->city; ?>", "<?php echo $data->pincode; ?>", "<?php echo $data->address; ?>")'>{{ $data->user_id}}</button>
+            </td>
+            <td>
+              <button id='{{$data->user_id}}' data={{ $data }} class="btn btn-danger" data-toggle="modal" data-target="#TransferStockModal" onclick='UserTransferDetail(this.id,
+              "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>", "stock")'>Trans Stock</button>
+            </td>
+            <td>{{ $data->name }}</td>
+            <td>{{ $data->role_name }}</td>
+            <td>{{ $data->mobile_number }}</td>
+            <td>{{ $stock_sum[$data->user_id] }}</td> <!-- Stock value -->
+            <td id='{{$data->user_id}}' data-toggle="modal" data-target="#CreditModal" id="{{ $data->user_id }}" onclick='UserCreditDetail(this.id,
+              "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>", "<?php echo $credit_sum[$data->user_id]; ?>", "credit")'>
+              <a href="#" onclick="return false;">{{ $credit_sum[$data->user_id] }}</td> <!-- Credit value -->
+            <td>
+              <button class="btn btn-danger">₹ Set Referral</button>
+            </td>
+            <td>-----</td> <!-- D icon -->
+            <td>-----</td> <!-- Lock icon -->
+            <td>
+            @php
+              if ($data->isEnabled == 1) {
+                $checked = 'checked';
+              }
+              else {
+                $checked = '';
+              }
+            @endphp
+              <input id='{{ $data->user_id }}' class='user_status' type="checkbox" onchange='UpdateStatus(this.id)' {{ $checked }}/>
+            </td>
+          </tr>
+          @endforeach
+        @php
+        }
+        @endphp
       </tbody>
     </table>
 
+
+    <!-- New Account Modal -->
+
+    <div class="modal fade" id="NewAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog size_modal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">CREATE NEW ACCOUNT</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="account_label">Account Type</label>
+                <select class="form-control" required id="account_type2">
+                  <option value='none'>--Select User Type--</option>
+                  @for($i=0;$i<count($role_id);$i++) <option value={{$role_id[$i]['id']}}>{{$role_id[$i]['role_name']}}</option>
+                    @endfor
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="account_name2" placeholder="Account Name" required>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="mobile_no2" placeholder="Mobile Number" required>
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" id="email_id2" placeholder="Email" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <input type="number" class="form-control" min='0' id="gst_no2" placeholder="GST No.">
+                </div>
+                <div class="form-group col-md-6">
+                  <input type="number" class="form-control" min='0' id="pan_no2" placeholder="PAN No.">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="address2" placeholder="Address Line" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <input type="text" class="form-control" id="city2" placeholder="City" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <input type="text" class="form-control" id="pincode2" placeholder="PinCode" required>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button id='create_account' onclick='CreateAccount()' class="btn btn-danger">Create Account</button>
+            <button class="btn btn-secondary" onclick="Reset()">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Update Account Modal -->
 
@@ -178,67 +245,6 @@
     </div>
 
 
-    <!-- New Account Modal -->
-
-    <div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog size_modal" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">CREATE NEW ACCOUNT</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label for="account_label">Account Type</label>
-                <select class="form-control" required id="account_type2">
-                  <option value='none'>--Select User Type--</option>
-                  @for($i=0;$i<count($role_id);$i++) <option value={{$role_id[$i]['role_id']}}>{{$role_id[$i]['role_name']}}</option>
-                    @endfor
-                </select>
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="account_name2" placeholder="Account Name" required>
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="mobile_no2" placeholder="Mobile Number" required>
-              </div>
-              <div class="form-group">
-                <input type="email" class="form-control" id="email_id2" placeholder="Email" required>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <input type="number" class="form-control" min='0' id="gst_no2" placeholder="GST No.">
-                </div>
-                <div class="form-group col-md-6">
-                  <input type="number" class="form-control" min='0' id="pan_no2" placeholder="PAN No.">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputAddress">Address</label>
-                <input type="text" class="form-control" id="address2" placeholder="Address Line" required>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" id="city2" placeholder="City" required>
-                </div>
-                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" id="pincode2" placeholder="PinCode" required>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button id='create_account' onclick='CreateAccount()' class="btn btn-danger">Create Account</button>
-            <button class="btn btn-secondary" onclick="Reset()">Reset</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
      <!-- Transfer Stock Modal -->
 
      <div class="modal fade" id="TransferStockModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -269,7 +275,15 @@
               <div class="form-group col-md-10 d-flex">
                 <div class='d-flex'>
                   <label for="balance" class="text-warning">Current Balance:&nbsp;&nbsp;</label>
-                    <label for="balance" class="font-weight-bold text-warning" id='remaining_bal'>₹ {{$auth_balance[0]['balance']}}</label> <!-- current balance -->
+                  @php
+                    if(!empty($auth_balance)) {
+                      $balance = '₹ ' . $auth_balance[0]['balance'];
+                    }
+                    else {
+                      $balance = '0';
+                    }
+                  @endphp
+                    <label for="balance" class="font-weight-bold text-warning" id='remaining_bal'>{{ $balance }}</label> <!-- current balance -->
                 </div>
               </div>
             </div>
@@ -302,7 +316,15 @@
                 </div>
                 <div class="form-group col-md-1 ml-2 mt-2 transfer">
                   <label for="tansfer_button"></label>
-                  <button class="btn btn-danger form-control" id="transfer_stock" onclick='TransferStock("<?php echo $auth_balance[0]["user_id"]; ?>", "<?php echo $auth_balance[0]["balance"]; ?>")'>Transfer Stock</button>
+                  @php
+                    if(!empty($auth_balance)) {
+                      $user = $auth_balance[0]['user_id'];
+                    }
+                    else {
+                      $user = '';
+                    }
+                  @endphp
+                  <button class="btn btn-danger form-control" id="transfer_stock" onclick='TransferStock("<?php echo $user ?>", "<?php echo $balance ?>")'>Transfer Stock</button>
                 </div>
               </div>
               <div id="parent_stock_table">
@@ -359,7 +381,15 @@
                 </div>
                 <div class="form-group col-md-2 ml-2 mt-2">
                   <label for="receive_button"></label>
-                  <button class="btn btn-danger form-control" id="receive_credit" onclick='ReceiveCredit("<?php echo $auth_balance[0]["user_id"]; ?>")'>Receive Credit</button>
+                  @php
+                    if(!empty($auth_balance)) {
+                      $user = $auth_balance[0]['user_id'];
+                    }
+                    else {
+                      $user = '';
+                    }
+                  @endphp
+                  <button class="btn btn-danger form-control" id="receive_credit" onclick='ReceiveCredit("<?php echo $user; ?>")'>Receive Credit</button>
                 </div>
               </div>
               <div id="parent_credit_table">
@@ -419,35 +449,6 @@
         $('#account_list').DataTable();
       });
 
-      function Reset() {
-        document.getElementById('account_type').value = 'none';
-        document.getElementById('account_name').value = '';
-        document.getElementById('mobile_no').value = '';
-        document.getElementById('email_id').value = '';
-        document.getElementById('gst_no').value = '';
-        document.getElementById('pan_no').value = '';
-        document.getElementById('city').value = '';
-        document.getElementById('pincode').value = '';
-        document.getElementById('address').value = '';
-      }
-
-      function UpdateStatus(user_id) {
-        window.location = 'AccountList/Status/' + user_id + '/' + '0';
-      }
-
-      function AmountCalculation() {
-        var amount = document.getElementById('amount_calc');
-        var percent = document.getElementById('percent_calc');
-        var final_amount = document.getElementById('final_amount');
-        
-        if(amount.value.length > 0 && percent.value.length > 0) {
-          final_amount.value = Number(amount.value) + Number((amount.value * (percent.value/100)).toFixed(2));
-        }
-        else {
-          final_amount.value = '0.00';
-        }
-      }
-
       function CreateAccount() {
 
         var role_id = document.getElementById('account_type2').value;
@@ -482,6 +483,35 @@
             $(".alert-success").append("<p>Created Successfully<p>");
           }
         });
+      }
+
+      function Reset() {
+        document.getElementById('account_type').value = 'none';
+        document.getElementById('account_name').value = '';
+        document.getElementById('mobile_no').value = '';
+        document.getElementById('email_id').value = '';
+        document.getElementById('gst_no').value = '';
+        document.getElementById('pan_no').value = '';
+        document.getElementById('city').value = '';
+        document.getElementById('pincode').value = '';
+        document.getElementById('address').value = '';
+      }
+
+      function UpdateStatus(user_id) {
+        window.location = 'AccountList/Status/' + user_id + '/' + '0';
+      }
+
+      function AmountCalculation() {
+        var amount = document.getElementById('amount_calc');
+        var percent = document.getElementById('percent_calc');
+        var final_amount = document.getElementById('final_amount');
+        
+        if(amount.value.length > 0 && percent.value.length > 0) {
+          final_amount.value = Number(amount.value) + Number((amount.value * (percent.value/100)).toFixed(2));
+        }
+        else {
+          final_amount.value = '0.00';
+        }
       }
 
       function Userdetails(id, name, role_name, email, mob, gst, pan, city, pincode, address) {

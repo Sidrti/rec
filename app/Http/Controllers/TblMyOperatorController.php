@@ -59,6 +59,7 @@ class TblMyOperatorController extends Controller
             array_push($array, $new_array);
             $i++;
         }
+
         return view('operatorlist', ['array' => $array, 'api_array' => $api_array, 'tbl_api_master' => $tbl_api_master]);
     }
 
@@ -85,6 +86,7 @@ class TblMyOperatorController extends Controller
         } else {
             $operator_status_value = 1;
         }
+        
         $update_status_id = tbl_my_operator::where('id', $request->operator_id)
             ->update(['status' => $operator_status_value]);
 

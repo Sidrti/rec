@@ -49,6 +49,10 @@
 
         @php
           $count = 0;
+
+        if (count($user_data) == 0) {
+          exit();
+        }
         @endphp
         @foreach($user_data as $data)
         @php
@@ -140,6 +144,9 @@
                 <tbody>
                   @php
                     $count = 0;
+                    if ($operator_data == '') {
+                      exit();
+                    }
                   @endphp
                   @foreach($operator_data as $data)
                   @php
@@ -256,11 +263,11 @@
             }
 
             var len = arr.length;
+            console.log(current_capping[capping_user_id]);
 
-            console.log(len);
             for(var i = 1 ; i <= len ; i++){
-              if(current_capping[capping_user_id][i]){
-                dataTable[0].rows[i].cells[2].innerHTML = parseFloat(current_capping[capping_user_id][i]).toFixed(4);
+              if(current_capping[capping_user_id][arr[i-1]]){
+                dataTable[0].rows[i].cells[2].innerHTML = parseFloat(current_capping[capping_user_id][arr[i-1]]).toFixed(4);
               }
               else {
                 dataTable[0].rows[i].cells[2].innerHTML = '0.0000';
