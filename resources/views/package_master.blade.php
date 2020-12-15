@@ -12,6 +12,7 @@
           <button class="btn btn-danger float-right" data-toggle="modal" data-target="#exampleModal">+ Add Package</button>
       </div>
     </div>
+    
     <table id="packagetable" class="table table-striped table-bordered" style="width:100%">
       <thead>
         <tr>
@@ -24,25 +25,29 @@
       <tbody>
         @php
         $count = 0;
+        if (count($data) != 0) {
         @endphp
-        @foreach($data as $i)
+
+          @foreach($data as $i)
+          @php
+          $count++;
+          @endphp
+          <tr>
+            <td>{{ $count }}</td>
+            <td contenteditable="false" id="package_title{{$i->id}}">{{ $i->package_title}}</td>
+            <td contenteditable="false" id='edit'>
+              <a href="#" onclick="return false;">Edit</a>
+            </td>
+            <td contenteditable="false" id='edit'>
+              <a href="#" onclick="return false;">Referral Details</a>
+            </td>
+          </tr>
+          @endforeach
         @php
-        $count++;
+        }
         @endphp
-        <tr>
-          <td>{{ $count }}</td>
-          <td contenteditable="false" id="package_title{{$i->id}}">{{ $i->package_title}}</td>
-          <td contenteditable="false" id='edit'>
-            <a href="#" onclick="return false;">Edit</a>
-          </td>
-          <td contenteditable="false" id='edit'>
-            <a href="#" onclick="return false;">Referral Details</a>
-          </td>
-        </tr>
-        @endforeach
       </tbody>
     </table>
-
 
     <!-- Add Package -->
 

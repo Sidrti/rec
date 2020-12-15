@@ -5,6 +5,7 @@ use App\Models\balance;
 use App\Models\ledger;
 use App\Models\receive_credit;
 use App\Models\role;
+use App\Models\role_master;
 use App\Models\user_detail;
 use App\Models\user;
 use Illuminate\Http\Request;
@@ -16,6 +17,9 @@ class AccountListController extends Controller
 {
     public function index(Request $request)
     {
+        //$role_id = [];
+        $stock_sum = [];
+        $credit_sum = [];
         $user_data = user::select('*')
             ->where('parent_id', User::find(Auth::user()->id)->id)
             ->join('user_details', 'users.id', '=', 'user_details.user_id')
@@ -23,20 +27,29 @@ class AccountListController extends Controller
             ->join('role_masters', 'role_masters.id', '=', 'roles.role_id')
             ->get();
 
+        if(!isset($user_data[0]) && empty($user_data[0])) {
+            $user_data = [];
+        }
+
         $auth_user_id = User::find(Auth::user()->id)->id;
 
         $current_role_id = role::select('role_id')
             ->where('user_id', $auth_user_id)
             ->get();
 
-        $role_id = role::select('*')
-            ->where('role_id', '>', $current_role_id[0]['role_id'])
-            ->join('role_masters', 'role_masters.id', '=', 'roles.role_id')
-            ->get();
+        if(!empty($current_role_id[0]['role_id'])) {
+            $role_id = role_master::select('*')
+                ->where('id', '>', $current_role_id[0]['role_id'])
+                ->get();
+        }
 
         $auth_balance = balance::select('user_id', 'balance')
             ->where('user_id', $auth_user_id)
             ->get();
+
+        if(!isset($auth_balance[0]) && empty($auth_balance[0])) {
+            $auth_balance = [];
+        }
 
         for ($i = 0 ; $i < count($user_data) ; $i++) {
             $stock_sum[$user_data[$i]->user_id] = round(ledger::where('from_account_id', $auth_user_id)
@@ -52,13 +65,17 @@ class AccountListController extends Controller
             ->where('to_account_id', $user_data[$i]->user_id)
             ->sum('amount'), 2);
 
+            $stock_sum[$user_data[$i]->user_id] = isset($stock_sum[$user_data[$i]->user_id]) && !empty($stock_sum[$user_data[$i]->user_id]) ?
+            $stock_sum[$user_data[$i]->user_id] : 0;
+
             $default_credit_sub[$user_data[$i]->user_id] = isset($credit_subtract[$user_data[$i]->user_id]) ? $credit_subtract[$user_data[$i]->user_id] : 0; 
-            $credit_sum[$user_data[$i]->user_id] = $credit_sum[$user_data[$i]->user_id] - $default_credit_sub[$user_data[$i]->user_id];
+            $credit_sum[$user_data[$i]->user_id] = isset($credit_sum[$user_data[$i]->user_id]) && !empty($credit_sum[$user_data[$i]->user_id]) ?
+             ($credit_sum[$user_data[$i]->user_id] - $default_credit_sub[$user_data[$i]->user_id]) : 0;
         
         }
-
+        
         return view('account_list', ['user_data' => $user_data, 'role_id' => $role_id, 'auth_balance' => $auth_balance,
-                'stock_sum' => $stock_sum, 'credit_sum' => $credit_sum]);
+            'stock_sum' => $stock_sum, 'credit_sum' => $credit_sum]);
     }
 
     public function updateStatus(Request $request)

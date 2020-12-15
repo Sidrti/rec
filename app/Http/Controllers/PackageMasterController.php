@@ -13,6 +13,9 @@ class PackageMasterController extends Controller
     public function index()
     {
         $data=  package_master::all();
+        if(!isset($data[0]) && empty($data[0])) {
+            $data = [];
+        }
         return view('package_master', ['data'=>$data]);
     }
 

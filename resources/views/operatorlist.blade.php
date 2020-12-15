@@ -43,7 +43,7 @@
                         <td>{{$array[$i]['category_name'] }}</td>
                         <td>{{$array[$i]['operator'] }}</td>
                         <td>{{$array[$i]['code'] }}</td>
-                        <td><a id="{{ $array[$i]['status_value'] }}" href="OperatorStatus/Update/Status/{{ $array[$i]['status_value'] }}/{{ $i+1 }}">{{ $array[$i]['status'] }}</a></td>
+                        <td><a id="{{ $array[$i]['status_value'] }}" href="OperatorStatus/Update/Status/{{ $array[$i]['status_value'] }}/{{ $array[$i]['id'] }}">{{ $array[$i]['status'] }}</a></td>
                         <td data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,1)">
                             <div class="divide_equally">
                                 <div>

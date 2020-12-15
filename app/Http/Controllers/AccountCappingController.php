@@ -15,11 +15,20 @@ class AccountCappingController extends Controller
 {
     public function index(Request $request) {
 
+        $stock_sum = [];
+        $capped_id = [];
+        $capped_value = [];
+        $capping_operator_id = [];
+
         $user_data = user::select('*')
         ->join('user_details', 'users.id', '=', 'user_details.user_id')
         ->join('roles', 'roles.user_id', '=', 'user_details.user_id')
         ->join('role_masters', 'role_masters.id', '=', 'roles.role_id')
         ->get();
+
+        if(!isset($user_data[0]) && empty($user_data[0])) {
+            $user_data = [];
+        }
 
         $operator_data = tbl_my_operator::select('id', 'operator')->get();
         $operator_data = isset($operator_data) && !empty($operator_data) ? $operator_data : '';
@@ -51,7 +60,7 @@ class AccountCappingController extends Controller
             $capping_operator_id[$user_data[$i]->user_id] = (isset($capping_operator_id[$user_data[$i]->user_id]) && !empty($capping_operator_id[$user_data[$i]->user_id])) ? 
             $capping_operator_id[$user_data[$i]->user_id] : '';
         }
-
+        
         return view('account_capping', ['user_data' => $user_data, 'stock_sum' => $stock_sum, 'capped_id' => $capped_id, 'capped_value' => $capped_value,
          'operator_data' => $operator_data, 'capping_operator_id' => $capping_operator_id]);
     }
