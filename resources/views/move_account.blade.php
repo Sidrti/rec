@@ -9,7 +9,18 @@
       <h3 class="mt-4 mb-4">Promote/Demote User</h3>
       <hr>
       <div>
+
         <div class="form-group mt-3">
+          <label for="select_account_type">Select Account to Change</label>
+          <select class="form-control" id="select_account">
+            <option value="0">--Select Account to Move--</option>
+
+            @for($i=0;$i<count($child_users);$i++) <option value={{$child_users[$i]->id}}>{{$child_users[$i]->name}}</option>
+              @endfor
+          </select>
+        </div>
+
+        <div class="form-group">
           <label for="select_account">New account type</label>
           <select class="form-control" id="select_account_type">
             <option value="0">--Select Account Type to Change--</option>
@@ -19,15 +30,7 @@
           </select>
 
         </div>
-        <div class="form-group">
-          <label for="select_account_type">Select Account to Change</label>
-          <select class="form-control" id="select_account">
-            <option value="0">--Select Account to Move--</option>
-
-            @for($i=0;$i<count($child_users);$i++) <option value={{$child_users[$i]->id}}>{{$child_users[$i]->name}}</option>
-              @endfor
-          </select>
-        </div>
+      
 
         <button onclick="UpdateDb() " class="btn btn-danger mb-5 mt-2">Update Account</button>
       </div>

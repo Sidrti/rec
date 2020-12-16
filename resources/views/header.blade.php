@@ -59,7 +59,7 @@
 </head>
 
 <body class="bg-light">
-
+    <marquee id="marqNews"></marquee>
     <!-- ========================= SECTION CONTENT ========================= -->
 
     <div class="container-fluid" style="padding-right:0px !important;padding-left:0px !important">
@@ -346,5 +346,35 @@
     </div><!-- container //  -->
 
 </body>
+<script>
+    FetchNewsinMarq();
+    function FetchNewsinMarq() {
+
+
+  
+
+        $.ajax({
+          type: 'POST',
+          url: 'header',
+          data: {
+            "_token": "{{ csrf_token() }}",
+           
+          },
+
+          success: function(data) 
+          {
+            
+            var tempData='';
+              for(var i=0;i<data.length;i++){
+                tempData = tempData+'****'+data[i];
+              
+              }
+              
+            document.getElementById('marqNews').innerHTML = tempData;
+          }
+        });
+    }
+    
+  </script>
 
 </html>
