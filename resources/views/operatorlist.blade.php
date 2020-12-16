@@ -48,9 +48,9 @@
                         @php
                         $modal1 = '#exampleModal';
                         $modal2 = '#exampleModal';
-                            if ($api_array[$i][0]['api_name1'] == null) {
+                        if ($api_array[$i][0]['api_name1'] == null && $api_array[$i][1]['api_name2'] == null && $api_array[$i][2]['api_name3'] == null) {
                                 $modal1 = '';
-                                $model2 = '';
+                                $modal2 = '';
                             }
                         @endphp
                         <td data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,1)">
