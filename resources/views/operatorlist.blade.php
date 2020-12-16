@@ -44,6 +44,15 @@
                         <td>{{$array[$i]['operator'] }}</td>
                         <td>{{$array[$i]['code'] }}</td>
                         <td><a id="{{ $array[$i]['status_value'] }}" href="OperatorStatus/Update/Status/{{ $array[$i]['status_value'] }}/{{ $array[$i]['id'] }}">{{ $array[$i]['status'] }}</a></td>
+                        
+                        @php
+                        $modal1 = '#exampleModal';
+                        $modal2 = '#exampleModal';
+                            if ($api_array[$i][0]['api_name1'] == null) {
+                                $modal1 = '';
+                                $model2 = '';
+                            }
+                        @endphp
                         <td data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,1)">
                             <div class="divide_equally">
                                 <div>
@@ -66,8 +75,13 @@
                                 </div>
                             </div>
                         </td>
-
-                        <td data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,2)">
+                        
+                        @php
+                            if ($api_array[$i][0]['api_name1'] != null && $api_array[$i][1]['api_name2'] == null && $api_array[$i][2]['api_name3'] == null) {
+                                $modal2 = '';
+                            }
+                        @endphp
+                        <td data-toggle="modal" data-target="{{ $modal1 }}" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,2)">
                             <div class="divide_equally">
                                 <div>
                                     @php
@@ -90,8 +104,8 @@
                                 </div>
                             </div>
                         </td>
-
-                        <td data-toggle="modal" data-target="#exampleModal" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,3)">
+                        
+                        <td data-toggle="modal" data-target="{{ $modal2 }}" id="{{ $array[$i]['id'] }}" onclick="OpenModal(this.id,3)">
                             <div class="divide_equally">
                                 <div>
                                     @php
