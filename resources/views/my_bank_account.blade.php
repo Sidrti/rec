@@ -29,7 +29,30 @@
           <th class="th-sty"></th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+      @php
+          $count = 0;
+        if (count($bank_data) != 0) {
+
+        @endphp
+          @foreach($bank_data as $data)
+          @php
+            $count++;
+          @endphp
+          <tr>
+            <td>{{ $count }}</td>
+            <td class="font-weight-bold">{{ $data->bank_name }}</td>
+            <td class="font-weight-bold">{{ $data->account_no }}</td>
+            <td>{{ $data->ifsc_code }}</td>
+            <td>{{ $data->branch_name }}</td>
+            <td></td>
+            <td></td>
+          </tr>
+          @endforeach
+        @php
+        }
+        @endphp
+      </tbody>
     </table>
 
 
