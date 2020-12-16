@@ -348,10 +348,8 @@
 </body>
 <script>
     FetchNewsinMarq();
+
     function FetchNewsinMarq() {
-
-
-  
 
         $.ajax({
           type: 'POST',
@@ -363,11 +361,10 @@
 
           success: function(data) 
           {
-            
             var tempData='';
+
               for(var i=0;i<data.length;i++){
                 tempData = tempData+'****'+data[i];
-              
               }
               
             document.getElementById('marqNews').innerHTML = tempData;
