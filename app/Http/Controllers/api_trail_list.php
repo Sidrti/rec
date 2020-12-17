@@ -9,9 +9,13 @@ use App\Models\tbl_api_master;
 
 class api_trail_list extends Controller
 {
-    function index()
+    function index(Request $request)
     {
-        $operatorId = 1;
+        $operatorId = 0;
+        if ($request->operator_id){
+            $operatorId = $request->operator_id;
+        }
+
         $all_api_master = tbl_api_master::all();
 
         $fail_switch_master = tbl_my_operator::select('*')
@@ -23,15 +27,14 @@ class api_trail_list extends Controller
             ->join('fail_switch_masters','fail_switch_masters.id','=','fail_switch_details.fail_switch_master_id')
             ->where('fail_switch_masters.OperatorId','=',$operatorId)
             ->get();
-           
 
         return view('API_Trail', ['data' => $data, 'fail_switch_master' => $fail_switch_master, 'all_api_master' => $all_api_master]);
     }
 
-    public function destroy(Request $request, fail_switch_detail $fail_switch_detail)
+    public function destroy(Request $request)
     {
-        fail_switch_detail::destroy(array('id', $request->id));
-        //return redirect('APITrailSettings');
+        $deleted_id  = fail_switch_detail::where('fail_switch_master_id', $request->id)
+                       ->delete();
     }
 
     function add(Request $request)
@@ -44,7 +47,6 @@ class api_trail_list extends Controller
         $fail_switch_detail->save();
 
         //return redirect()->route('ApiSettings');
-
     }
 
     //update the records
@@ -61,6 +63,7 @@ class api_trail_list extends Controller
                     ['priority' => $priority_d[$i]],
             );
         }
+
         return redirect()->route('APITrailSettings');
     }
 }

@@ -10,9 +10,9 @@
     <div class="col-md-7 style=" padding: 0px;">
       <div class="row form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
         <div class="col-5">
-        <select class="form-control" id="select">
-
-          @for($i=0;$i<count($fail_switch_master);$i++) <option value={{$fail_switch_master[$i]->id}}>{{$fail_switch_master[$i]->operator}}</option>
+        <select class="form-control" id="select_op">
+          <option value="0">--Select Operator--</option>
+          @for($i=0;$i<count($fail_switch_master);$i++) <option value={{$fail_switch_master[$i]->OperatorId}}>{{$fail_switch_master[$i]->operator}}</option>
             @endfor
         </select>
       </div>
@@ -45,7 +45,7 @@
         @php
         $count++;
         @endphp
-        <tr>
+        <tr id='{{ $i->id }}'>
           <td class="row_id">{{ $count }}</td>
           <td contenteditable="false" id='a{{ $i->id }}'>{{ $i->api_name }}</td>
           <td contenteditable="false" >
@@ -88,7 +88,7 @@
 
           <td>
             <div class="dropdown">
-              <button type="button" class="btn btn-primary" id="{{ $i->id}}" onclick="AddNewData(api_name.value, minutes.value, priority.value,select.value)">
+              <button type="button" class="btn btn-primary" id="{{ $i->id}}" onclick="AddNewData(api_name.value, minutes.value, priority.value,select_op.value)">
                 Add New Api
               </button>
             </div>
@@ -138,15 +138,21 @@
         </div>
       </div>
     </div>
-
+    @php
+      if (!empty($data[0]->OperatorId)) {
+        $operator_id = $data[0]->OperatorId;
+      }
+      else {
+        $operator_id = 0;
+      }
+    @endphp
     <script>
       function ApiTrailClick() {
-        window.location = "ApiTrail";
+        window.location = "/ApiTrail";
       }
 
       function DeleteClick(id) {
         if (confirm('Are you sure you want to Delete this entry ?')) {
-
           DeleteClickMain(id);
         } 
         else {
@@ -156,6 +162,7 @@
 
       $(document).ready(function() {
         $('#apitable').DataTable();
+        $('#select_op').val('<?php echo $operator_id; ?>');
 
         $('#update_records').click(function () {
 
@@ -198,18 +205,16 @@
       }
  
       function DeleteClickMain(id) {
-
         $.ajax({
           type: 'POST',
-          url: 'APITrailSettingsDelete',
+          url: '/APITrailSettingsDelete',
           data: {
             "_token": "{{ csrf_token() }}",
             'id': id,
           },
 
           success: function(data) {
-            alert('Success');
-            window.location = '/APITrailSettings'
+            $('#apitable tr[id= '+ id + ']').remove();
           }
         });
       }
@@ -229,14 +234,14 @@
 
           success: function(data) {
             alert('Success');
-            window.location = '/APITrailSettings'
+            window.location = '/APITrailSettings';
           }
         });
       }
       function OperatorClick() {
-            var select = document.getElementById("select");
-            if (select.value != '0') {
-             
+            var select = document.getElementById("select_op").value;
+            if (select != '0') {
+              window.location = '/APITrailSettings/' + select;
             }
         }
     </script>
