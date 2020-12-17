@@ -240,7 +240,9 @@
       }
       function OperatorClick() {
             var select = document.getElementById("select_op").value;
-            window.location = '/APITrailSettings/' + select;
+            if (select != '0') {
+              window.location = '/APITrailSettings/' + select;
+            }
         }
     </script>
 
