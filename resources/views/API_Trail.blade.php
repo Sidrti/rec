@@ -44,10 +44,10 @@
           <td class="row_id">{{ $count }}</td>
           <td contenteditable="false" id='a{{ $i->id }}'>{{ $i->api_name }}</td>
           <td contenteditable="false" >
-            <input type='text' class="form-control minutes" id='{{ $i->id }}' value='{{ $i->minutes }}' disabled>
+            <input type='text' class="form-control minutes" id='{{ $i->id }}' value='{{ $i->minutes }}'>
           </td>
           <td contenteditable="false" >
-            <input type='text' class="form-control priority" id='{{ $i->id }}' value='{{ $i->priority }}' disabled>
+            <input type='text' class="form-control priority" id='{{ $i->id }}' value='{{ $i->priority }}'>
           </td>
           <td>
             <div class="dropdown">
@@ -89,21 +89,14 @@
             </div>
           </td>
         </tr>
-        <tr colspan="2">
-        <td>
-          <div>
-            <button type="button" class="btn btn-danger" id="edit_records">
-              Edit Record
-            </button>
-          </div>
-        </td>
-        <td colspan="1">
-          <div>
-            <button type="button" class="btn btn-primary" id="update_records">
-              Update Record
-            </button>
-          </div>
-        </td>
+        <tr rowspan="5">
+          <td colspan="5">
+            <div>
+              <button type="button" class="btn btn-primary" id="update_records">
+                Update Record
+              </button>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -158,16 +151,6 @@
 
       $(document).ready(function() {
         $('#apitable').DataTable();
-
-        $('#edit_records').click(function () {
-          $('#apitable > tbody  > tr').each(function() {
-            
-            if ($(this).find('.minutes').attr('disabled')) {
-              $(this).find('.minutes').removeAttr('disabled');
-              $(this).find('.priority').removeAttr('disabled');
-            }
-          });
-        });
 
         $('#update_records').click(function () {
 
