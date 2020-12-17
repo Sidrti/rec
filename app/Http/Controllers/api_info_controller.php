@@ -43,8 +43,6 @@ class api_info_controller extends Controller
         $res = tbl_api_code::where('id', $request->id)
         ->update(['operator_code' => $request->code, 'api_status' => $request->status]);
 
-       // print_r($request->id.'<br>'.$request->code);
-
         return redirect()->route('ApiInfo');
     }
 }

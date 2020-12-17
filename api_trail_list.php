@@ -11,7 +11,6 @@ class api_trail_list extends Controller
 {
     function index()
     {
-        $operatorId = 1;
         $all_api_master = tbl_api_master::all();
 
         $fail_switch_master = tbl_my_operator::select('*')
@@ -20,10 +19,7 @@ class api_trail_list extends Controller
 
         $data = tbl_api_master::select('*')
             ->join('fail_switch_details', 'fail_switch_details.api_id', '=', 'tbl_api_masters.id')
-            ->join('fail_switch_masters','fail_switch_masters.id','=','fail_switch_details.fail_switch_master_id')
-            ->where('fail_switch_masters.OperatorId','=',$operatorId)
             ->get();
-           
 
         return view('API_Trail', ['data' => $data, 'fail_switch_master' => $fail_switch_master, 'all_api_master' => $all_api_master]);
     }

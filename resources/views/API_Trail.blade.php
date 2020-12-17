@@ -5,15 +5,20 @@
 <link rel="stylesheet" href="/css/api_trail.css">
 
 <div class="container-fluid">
-
+  <h3 class="mt-3 mb-3">API Trail Listing</h3>
   <div class="row mt-3">
     <div class="col-md-7 style=" padding: 0px;">
-      <div class="form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
+      <div class="row form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
+        <div class="col-5">
         <select class="form-control" id="select">
 
           @for($i=0;$i<count($fail_switch_master);$i++) <option value={{$fail_switch_master[$i]->id}}>{{$fail_switch_master[$i]->operator}}</option>
             @endfor
         </select>
+      </div>
+        <div class="col-3">
+          <button type="button" class="btn btn-secondary button" onclick="OperatorClick()">Select Operator</button>
+      </div>
       </div>
     </div>
     <div class="col-5">
@@ -21,7 +26,7 @@
     </div>
 
   </div>
-  <h3>API Trail Listing</h2>
+ 
     <table id="apitable" class="table table-striped table-bordered" style="width:100%">
       <thead>
         <tr>
@@ -228,6 +233,12 @@
           }
         });
       }
+      function OperatorClick() {
+            var select = document.getElementById("select");
+            if (select.value != '0') {
+             
+            }
+        }
     </script>
 
 </div>
