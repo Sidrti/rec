@@ -69,7 +69,7 @@
           </td>
         </tr>
         @endforeach
-        
+
       </tbody>
 
       <tbody>
@@ -179,8 +179,18 @@
       }
 
       $(document).ready(function() {
-        $('#apitable').DataTable();
         $('#select_op').val('<?php echo $operator_id; ?>');
+
+        if ($('#select_op').val() == 0) {
+            $('#apitable tbody tr').remove();
+          }
+
+        $('#select_op').on('change', function() {
+          var value = $('#select_op').val();
+          if (value == 0) {
+            $('#apitable tbody tr').remove();
+          }
+        });
 
         $('#update_records').click(function () {
 
@@ -209,6 +219,7 @@
           });
           window.location = '/APIUpdateRecords/' + row_id + '/' + minutes_value + '/' + priority_value;
         });
+        $('#apitable').DataTable();
       });
 
       function form_submit_fn() {
