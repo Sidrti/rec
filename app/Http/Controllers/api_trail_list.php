@@ -28,12 +28,14 @@ class api_trail_list extends Controller
             ->where('fail_switch_masters.OperatorId','=',$operatorId)
             ->get();
 
+         
+
         return view('API_Trail', ['data' => $data, 'fail_switch_master' => $fail_switch_master, 'all_api_master' => $all_api_master]);
     }
 
     public function destroy(Request $request)
     {
-        $deleted_id  = fail_switch_detail::where('fail_switch_master_id', $request->id)
+        $deleted_id  = fail_switch_detail::where('fail_switch_details_id', $request->id)
                        ->delete();
     }
 
@@ -57,7 +59,7 @@ class api_trail_list extends Controller
         $minutes_d = explode(',', $request->minutes);
 
         for ($i = 0 ; $i < count($ids) ; $i++ ) {
-            $update_status = fail_switch_detail::where('id', $ids[$i])
+            $update_status = fail_switch_detail::where('fail_switch_details_id', $ids[$i])
                 ->update(
                     ['minutes' => $minutes_d[$i]],
                     ['priority' => $priority_d[$i]],
