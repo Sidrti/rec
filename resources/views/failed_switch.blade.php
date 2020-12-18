@@ -67,7 +67,8 @@
       var checkboxes = document.getElementsByName('checkbox');
       var vals = "";
       for (var i = 0, n = checkboxes.length; i < n; i++) {
-        if (checkboxes[i].checked) {
+        if (checkboxes[i].checked) 
+        {
           array.push(checkboxes[i].value);
         }
       }
@@ -82,7 +83,7 @@
 
       var minutes = document.getElementById("minutes" + value).value;
       var priority = document.getElementById("priority" + value).value;
-      var api_id = document.getElementById("priority" + value).value;
+      var api_id = value;
       var operator_id = document.getElementById("select").value;
 
       InsertIntoDb(minutes, priority, operator_id, api_id, GlobalIndex);

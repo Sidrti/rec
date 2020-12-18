@@ -1,4 +1,6 @@
 @include('header')
+@php $master_id = 0;
+@endphp
 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
@@ -7,7 +9,7 @@
 <div class="container-fluid">
   <h3 class="mt-3 mb-3">API Trail Listing</h3>
   <div class="row mt-3">
-    <div class="col-md-7 style=" padding: 0px;">
+    <div class="col-md-7" style=" padding: 0px;">
       <div class="row form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
         <div class="col-5">
         <select class="form-control" id="select_op">
@@ -43,9 +45,13 @@
         @endphp
         @foreach($data as $i)
         @php
+        
+        $master_id = $i->fail_switch_master_id;
+       
         $count++;
         @endphp
-        <tr id='{{ $i->id }}'>
+         
+        <tr id='{{ $count }}'>
           <td class="row_id">{{ $count }}</td>
           <td contenteditable="false" id='a{{ $i->id }}'>{{ $i->api_name }}</td>
           <td contenteditable="false" >
@@ -56,7 +62,7 @@
           </td>
           <td>
             <div class="dropdown">
-              <button type="button" class="btn btn-danger" id="{{ $i->id }}" onclick="DeleteClick(this.id)">
+              <button type="button" class="btn btn-danger" id="{{ $i->fail_switch_details_id }}" onclick="DeleteClick(this.id)">
                 Delete
               </button>
             </div>
@@ -64,18 +70,26 @@
         </tr>
         @endforeach
 
+      </tbody>
 
-        <tr id="add_api_row">
+      <tbody>
+        <tr>
+          @php 
+          if($count != 0)
+          {
+          @endphp
           <td></td>
           <td contenteditable="false">
             <select id="api_name">
 
               @foreach($all_api_master as $i)
+             
 
               <option value="{{ $i->id}}">{{ $i->api_name}}</option>
 
               @endforeach
             </select>
+         
           </td>
           <td contenteditable="false" id="url{{$i->id}}">
             <input type="text" name="sample_url" class="form-control" id="minutes">
@@ -83,15 +97,20 @@
 
           <td contenteditable="false" id="url{{$i->id}}">
             <input type="text" name="sample_url" class="form-control" id="priority">
+            <input type="hidden"  id="master_id" value="{{$master_id}}">
+           
           </td>
 
           <td>
             <div class="dropdown">
-              <button type="button" class="btn btn-primary" id="{{ $i->id}}" onclick="AddNewData(api_name.value, minutes.value, priority.value,select_op.value)">
+              <button type="button" class="btn btn-primary" id="{{ $i->id}}" onclick="AddNewData(api_name.value, minutes.value, priority.value)">
                 Add New Api
               </button>
             </div>
           </td>
+          @php
+        }
+        @endphp
         </tr>
         <tr rowspan="5">
           <td colspan="5">
@@ -229,11 +248,12 @@
         });
       }
 
-      function AddNewData(Api, minutes, priority, master_id) {
+      function AddNewData(Api, minutes, priority) {
+      var master_id = document.getElementById('master_id').value;
 
         $.ajax({
           type: 'POST',
-          url: 'APITrailSettings/Add',
+          url: '/APITrailSettings/Add',
           data: {
             "_token": "{{ csrf_token() }}",
             'api_id': Api,
