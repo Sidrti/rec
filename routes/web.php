@@ -20,7 +20,7 @@ Route::get('/', function () {
 Route::get('test', 'App\Http\Controllers\TestController@index');
 Route::get('ApiInfo/{id}', 'App\Http\Controllers\api_info_controller@index');
 Route::get('ApiInfo', 'App\Http\Controllers\api_info_controller@index')->name('ApiInfo');
-Route::get('ApiInfo/Update/{id}/{code}/{status}', 'App\Http\Controllers\api_info_controller@update');
+Route::get('ApiInfo/Update/{id}/{code}/{status}/{api_id}/{operator_id}/{category_id}', 'App\Http\Controllers\api_info_controller@update');
 Route::get('ApiSettings', 'App\Http\Controllers\view_api_controller@index');
 Route::get('ApiSettings', 'App\Http\Controllers\view_api_controller@index')->name('ApiSettings');
 Route::get('ApiSettings/Delete/{id}', 'App\Http\Controllers\add_api_controller@destroy');
