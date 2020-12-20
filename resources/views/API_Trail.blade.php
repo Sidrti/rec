@@ -62,7 +62,7 @@
           </td>
           <td>
             <div class="dropdown">
-              <button type="button" class="btn btn-danger" id="{{ $i->fail_switch_details_id }}" onclick="DeleteClick(this.id)">
+              <button type="button" class="btn btn-danger" count="{{ $count }}" id="{{ $i->fail_switch_details_id }}" onclick="DeleteClick(this.id, this.count)">
                 Delete
               </button>
             </div>
@@ -169,9 +169,9 @@
         window.location = "/ApiTrail";
       }
 
-      function DeleteClick(id) {
+      function DeleteClick(id, count) {
         if (confirm('Are you sure you want to Delete this entry ?')) {
-          DeleteClickMain(id);
+          DeleteClickMain(id, count);
         } 
         else {
           console.log('Thing was not saved to the database.');
@@ -233,7 +233,7 @@
         document.getElementById('name').value = document.getElementById("api_name" + id).innerText;
       }
  
-      function DeleteClickMain(id) {
+      function DeleteClickMain(id, count) {
         $.ajax({
           type: 'POST',
           url: '/APITrailSettingsDelete',
@@ -243,7 +243,7 @@
           },
 
           success: function(data) {
-            $('#apitable tr[id= '+ id + ']').remove();
+            $('#apitable tr[id= '+ count + ']').remove();
           }
         });
       }

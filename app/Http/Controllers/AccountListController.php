@@ -80,8 +80,15 @@ class AccountListController extends Controller
 
     public function updateStatus(Request $request)
     {
+        $check = 0;
+        if($request->status_id == 0) {
+            $check = 1;
+        }
+        else {
+            $check = 0;
+        }
         $update_status = user_detail::where('user_id', $request->user_id)
-            ->update(['isEnabled' => $request->status_id]);
+            ->update(['isEnabled' => $check]);
 
         return redirect()->route('AccountList');
     }
@@ -145,13 +152,32 @@ class AccountListController extends Controller
         $balance_to = balance::select('balance')
         ->where('user_id', $request->to_id)->get();
 
-        $balance_total = (float)$balance_to[0]['balance'] + $request->final_amount;
-        $balance_to = balance::where('user_id', $request->to_id)
-            ->update(['balance' => $balance_total]);
+        if (!empty($balance_to[0]['balance'])){
+            $balance_total = (float)$balance_to[0]['balance'] + $request->final_amount;
+            $balance_to = balance::where('user_id', $request->to_id)
+                ->update(['balance' => $balance_total]);
+        }
+        else {
+            $this->createBalance($request->to_id, $request->final_amount);
+        }
 
-        $balance_from = balance::where('user_id', $request->from_id)
-            ->update(['balance' => $request->remaining_balance]);
+        $balance_from = balance::select('balance')
+        ->where('user_id', $request->from_id)->get();
 
+        if (!empty($balance_from[0]['balance'])){
+            $balance_from = balance::where('user_id', $request->from_id)
+                ->update(['balance' => $request->remaining_balance]);
+        }
+        else {
+            $this->createBalance($request->from_id, $request->remaining_balance);
+        }
+    }
+
+    public function createBalance($id, $balance) {
+        $balance_total = new balance();
+        $balance_total->user_id = $id;
+        $balance_total->balance = $balance;
+        $balance_total->save();
     }
 
     public function getIndividualStatements(Request $request) {
@@ -160,6 +186,7 @@ class AccountListController extends Controller
         $ledgers_data = ledger::select('*')
             ->where('from_account_id', $auth_user_id)
             ->where('to_account_id', $request->to_id)
+            ->orderBy('final_amount', 'DESC')
             ->get();
 
         if($request->mode_name == 'credit') {
