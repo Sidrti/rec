@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5deb2
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Dec 15, 2020 at 12:03 PM
--- Server version: 8.0.22-0ubuntu0.20.04.3
+-- Host: 127.0.0.1
+-- Generation Time: Dec 20, 2020 at 10:58 PM
+-- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -29,20 +29,20 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `balances` (
-  `id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `balance` float NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `balances`
 --
 
-INSERT INTO `balances` (`id`, `user_id`, `balance`) VALUES
-(1, 14, 94.68),
-(2, 1, 115.7);
+INSERT INTO `balances` (`id`, `user_id`, `balance`, `created_at`, `updated_at`) VALUES
+(1, 14, 94.68, '2020-12-20 13:45:30', '2020-12-20 13:45:30'),
+(2, 1, 115.7, '2020-12-20 13:45:30', '2020-12-20 13:45:30');
 
 -- --------------------------------------------------------
 
@@ -51,13 +51,13 @@ INSERT INTO `balances` (`id`, `user_id`, `balance`) VALUES
 --
 
 CREATE TABLE `failed_jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -67,14 +67,23 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `fail_switch_details` (
-  `id` int NOT NULL,
-  `fail_switch_master_id` int NOT NULL,
-  `api_id` int NOT NULL,
+  `fail_switch_detail_id` int(11) NOT NULL,
+  `fail_switch_master_id` int(11) NOT NULL,
+  `api_id` int(11) NOT NULL,
   `minutes` varchar(200) NOT NULL,
   `priority` varchar(100) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `fail_switch_details`
+--
+
+INSERT INTO `fail_switch_details` (`fail_switch_detail_id`, `fail_switch_master_id`, `api_id`, `minutes`, `priority`, `created_at`, `updated_at`) VALUES
+(14, 12, 11, '1', '2', '2020-12-18 07:37:33', '2020-12-18 07:37:33'),
+(15, 0, 11, '2', '4', '2020-12-18 16:50:46', '2020-12-18 16:50:46'),
+(16, 13, 10, '1', '1', '2020-12-19 08:22:06', '2020-12-19 08:22:06');
 
 -- --------------------------------------------------------
 
@@ -83,11 +92,19 @@ CREATE TABLE `fail_switch_details` (
 --
 
 CREATE TABLE `fail_switch_masters` (
-  `id` int NOT NULL,
-  `OperatorId` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `OperatorId` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `fail_switch_masters`
+--
+
+INSERT INTO `fail_switch_masters` (`id`, `OperatorId`, `created_at`, `updated_at`) VALUES
+(12, 4, '2020-12-18 07:37:33', '2020-12-18 07:37:33'),
+(13, 5, '2020-12-19 08:22:06', '2020-12-19 08:22:06');
 
 -- --------------------------------------------------------
 
@@ -96,17 +113,17 @@ CREATE TABLE `fail_switch_masters` (
 --
 
 CREATE TABLE `ledgers` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `amount` float NOT NULL,
   `percentage` float NOT NULL,
   `final_amount` float NOT NULL,
   `remarks` varchar(200) NOT NULL,
   `mode` varchar(100) NOT NULL,
-  `from_account_id` int NOT NULL,
-  `to_account_id` int NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `from_account_id` int(11) NOT NULL,
+  `to_account_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -115,9 +132,9 @@ CREATE TABLE `ledgers` (
 --
 
 CREATE TABLE `migrations` (
-  `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int NOT NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -147,15 +164,15 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `package_lists` (
-  `id` int NOT NULL,
-  `package_id` int NOT NULL,
-  `operator_id` int NOT NULL,
-  `max` int NOT NULL,
-  `ded` int NOT NULL,
-  `ref` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `package_id` int(11) NOT NULL,
+  `operator_id` int(11) NOT NULL,
+  `max` int(11) NOT NULL,
+  `ded` int(11) NOT NULL,
+  `ref` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -164,19 +181,20 @@ CREATE TABLE `package_lists` (
 --
 
 CREATE TABLE `package_masters` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `package_title` varchar(200) NOT NULL,
-  `package_created_by` int NOT NULL,
+  `package_created_by` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `package_masters`
 --
 
 INSERT INTO `package_masters` (`id`, `package_title`, `package_created_by`, `created_at`, `updated_at`) VALUES
-(4, 'Pack Referral', 14, '2020-12-15 11:25:46', '2020-12-15 11:25:46');
+(4, 'Pack Referral', 14, '2020-12-15 11:25:46', '2020-12-15 11:25:46'),
+(5, 'R', 14, '2020-12-15 16:04:30', '2020-12-15 16:04:30');
 
 -- --------------------------------------------------------
 
@@ -185,8 +203,8 @@ INSERT INTO `package_masters` (`id`, `package_title`, `package_created_by`, `cre
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -197,12 +215,12 @@ CREATE TABLE `password_resets` (
 --
 
 CREATE TABLE `personal_access_tokens` (
-  `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -215,14 +233,21 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `receive_credits` (
-  `id` int NOT NULL,
-  `from_account_id` int NOT NULL,
-  `to_account_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `from_account_id` int(11) NOT NULL,
+  `to_account_id` int(11) NOT NULL,
   `amount` float NOT NULL,
   `remarks` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `receive_credits`
+--
+
+INSERT INTO `receive_credits` (`id`, `from_account_id`, `to_account_id`, `amount`, `remarks`, `created_at`, `updated_at`) VALUES
+(6, 14, 16, 500, 'received', '2020-12-18 20:28:59', '2020-12-18 20:28:59');
 
 -- --------------------------------------------------------
 
@@ -231,11 +256,11 @@ CREATE TABLE `receive_credits` (
 --
 
 CREATE TABLE `roles` (
-  `id` bigint UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `role_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp(),
+  `role_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -243,7 +268,12 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `role_id`, `user_id`) VALUES
-(14, NULL, NULL, '1', '14');
+(14, NULL, NULL, '1', '14'),
+(15, NULL, NULL, '1', '15'),
+(16, '2020-12-16 06:53:14', '2020-12-16 06:53:14', '2', '13'),
+(17, '2020-12-18 13:47:15', '2020-12-18 13:47:15', '3', '16'),
+(18, '2020-12-19 08:23:28', '2020-12-19 08:23:28', '2', '18'),
+(19, '2020-12-19 08:23:28', '2020-12-19 08:23:28', '1', '19');
 
 -- --------------------------------------------------------
 
@@ -252,11 +282,11 @@ INSERT INTO `roles` (`id`, `created_at`, `updated_at`, `role_id`, `user_id`) VAL
 --
 
 CREATE TABLE `role_masters` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `role_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `role_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -275,12 +305,12 @@ INSERT INTO `role_masters` (`id`, `created_at`, `updated_at`, `role_name`, `desc
 --
 
 CREATE TABLE `sessions` (
-  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` bigint UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `payload` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_activity` int NOT NULL
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payload` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -288,11 +318,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('0vtvrjqEVHqc1dAMorUNJlZXgRonFn36XMo4sNGu', NULL, '156.96.150.119', 'libwww-perl/6.49', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVTFzSk5BYUxtTXJjN0tDeWZhTEpJTHQ2N05IVnZha3dZcVNxN2I0TCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjI6Imh0dHA6Ly8xNDMuMTEwLjE4MC4xNjAiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1608032069),
-('AtTirh0XtnnYzD8MMtjYOawfm7QyTvjKvTN7fYq6', NULL, '49.36.241.93', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMEdxUnd3QlhEUlhsSGhJVTFoVVZmSnJ4Q29FUlpGMUZod2lOb0s0VCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly9tdWx0aXJlYy5ha2FzaHRvZGFya2EuY29tL09wZXJhdG9yTGlzdCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1608032191),
-('GqFIqs4aMwZdgaJJKczHTiX1Rx1OCugs92qeAzX4', 14, '49.36.241.93', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoibHhRZ2hoTzlBNHlTTFpHbVZ5R3JTdWRYclRvek00OVhhME9TUHVzSyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly9tdWx0aXJlYy5ha2FzaHRvZGFya2EuY29tL2Rhc2hib2FyZCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE0O3M6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjYwOiIkMnkkMTAkMHRWUUYvQm9ncjhjN0xrV1BWN3llLmNUN1ZOVVQ1a2xSa3hkcVhaRGJvZ3B5c0lJbzFucVMiO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJDB0VlFGL0JvZ3I4YzdMa1dQVjd5ZS5jVDdWTlVUNWtsUmt4ZHFYWkRib2dweXNJSW8xbnFTIjt9', 1608032175),
-('jKOe9aoL8FhGUObQ2ZEdxhQQcomDT1LpfkW7vjSm', 15, '223.181.54.160', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiWVhmdjQyNnYxOU1xamxxTG16N09EVUhSUzIxVlo3QnJSRGdIQTlxSSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHA6Ly9tdWx0aXJlYy5ha2FzaHRvZGFya2EuY29tL0FjY291bnRDYXBwaW5nIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTU7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCQvekpXaDBxell5S05MaHNEM1RxUVZ1QTF4YkVudWZPSEpJTHBFTGNIdy82Ry54cnRONEUyZSI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkL3pKV2gwcXpZeUtOTGhzRDNUcVFWdUExeGJFbnVmT0hKSUxwRUxjSHcvNkcueHJ0TjRFMmUiO30=', 1608033162),
-('mrb7GIKYMEjLag1vOmGgupglOT7RQ4BNQuNOAGHS', NULL, '45.95.169.202', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoia0pKem1iaTdEVGx1VkhUbnNjRWNTUTdBam1VeHN0cHRjZno5UlFYayI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjI6Imh0dHA6Ly8xNDMuMTEwLjE4MC4xNjAiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1608027374);
+('DH7aSjs0IgbYkLEqfiKkcZ9XPDAPOFkPGND0Cdop', 19, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiVUR4UkZLZzhkQWxwbXVsRVpndWhYdUxpWDdzUnJCZm9vRXNacUtNNCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BcGlJbmZvLzEwIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTk7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCQ1MXROcU0uNHRzRjlWZG9tOXpVWnRlcDdXRkZINnFrTi4veWExQXFGdU5ONmp4dnB6SXFwdSI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkNTF0TnFNLjR0c0Y5VmRvbTl6VVp0ZXA3V0ZGSDZxa04uL3lhMUFxRnVOTjZqeHZweklxcHUiO30=', 1608500741);
 
 -- --------------------------------------------------------
 
@@ -301,14 +327,25 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 --
 
 CREATE TABLE `tbl_add_bank_accounts` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `bank_name` varchar(100) NOT NULL,
-  `account_no` bigint NOT NULL,
+  `account_no` bigint(20) NOT NULL,
   `ifsc_code` varchar(15) NOT NULL,
   `branch_name` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_add_bank_accounts`
+--
+
+INSERT INTO `tbl_add_bank_accounts` (`id`, `bank_name`, `account_no`, `ifsc_code`, `branch_name`, `created_at`, `updated_at`) VALUES
+(3, 'BOB', 234567890, '234567', 'BIa', '2020-12-16 07:19:09', '2020-12-16 07:19:09'),
+(4, 'SBI', 468465426541, 'SBIIN002581', 'bartan bazar', '2020-12-16 12:06:20', '2020-12-16 12:06:20'),
+(5, 'Test', 213, 'fsdf', 'dsfsd', '2020-12-16 14:22:15', '2020-12-16 14:22:15'),
+(6, 'Test', 22434, 'retert', 'etret', '2020-12-16 16:14:22', '2020-12-16 16:14:22'),
+(7, 'BOB', 5456465657, '454', 'BIA', '2020-12-16 16:15:15', '2020-12-16 16:15:15');
 
 -- --------------------------------------------------------
 
@@ -317,12 +354,12 @@ CREATE TABLE `tbl_add_bank_accounts` (
 --
 
 CREATE TABLE `tbl_amount_filters` (
-  `Id` int NOT NULL,
-  `api_id` int NOT NULL,
-  `operator_id` int NOT NULL,
+  `Id` int(11) NOT NULL,
+  `api_id` int(11) NOT NULL,
+  `operator_id` int(11) NOT NULL,
   `Amount` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -332,14 +369,14 @@ CREATE TABLE `tbl_amount_filters` (
 --
 
 CREATE TABLE `tbl_api_codes` (
-  `id` int NOT NULL,
-  `category_id` int NOT NULL,
-  `api_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `api_id` int(11) NOT NULL,
   `operator_code` varchar(100) DEFAULT NULL,
-  `operator_id` int NOT NULL,
-  `api_status` tinyint(1) NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `operator_id` int(11) NOT NULL,
+  `api_status` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -349,11 +386,11 @@ CREATE TABLE `tbl_api_codes` (
 --
 
 CREATE TABLE `tbl_api_masters` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `api_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `api_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -361,7 +398,8 @@ CREATE TABLE `tbl_api_masters` (
 --
 
 INSERT INTO `tbl_api_masters` (`id`, `created_at`, `updated_at`, `api_name`, `url`) VALUES
-(10, '2020-12-15 11:17:07', '2020-12-15 11:17:07', 'Test API', 'http://www.google.com');
+(10, '2020-12-15 11:17:07', '2020-12-15 11:17:07', 'Test API', 'http://www.google.com'),
+(11, '2020-12-15 18:13:34', '2020-12-15 18:13:34', 'Test Api 2', 'http://');
 
 -- --------------------------------------------------------
 
@@ -370,12 +408,33 @@ INSERT INTO `tbl_api_masters` (`id`, `created_at`, `updated_at`, `api_name`, `ur
 --
 
 CREATE TABLE `tbl_cappings` (
-  `id` int NOT NULL,
-  `user_id` int NOT NULL,
-  `capped` int NOT NULL DEFAULT '0',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `capped` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_cappings`
+--
+
+INSERT INTO `tbl_cappings` (`id`, `user_id`, `capped`, `created_at`, `updated_at`) VALUES
+(19, 14, 1, '2020-12-15 12:07:24', '2020-12-15 12:07:24'),
+(20, 14, 0, '2020-12-15 15:48:51', '2020-12-15 15:48:51'),
+(21, 14, 1, '2020-12-15 15:48:55', '2020-12-15 15:48:55'),
+(22, 14, 0, '2020-12-15 16:03:41', '2020-12-15 16:03:41'),
+(23, 14, 1, '2020-12-15 16:03:43', '2020-12-15 16:03:43'),
+(24, 14, 0, '2020-12-15 16:03:55', '2020-12-15 16:03:55'),
+(25, 14, 1, '2020-12-15 18:15:18', '2020-12-15 18:15:18'),
+(26, 14, 0, '2020-12-15 21:06:33', '2020-12-15 21:06:33'),
+(27, 14, 1, '2020-12-15 21:06:35', '2020-12-15 21:06:35'),
+(28, 14, 0, '2020-12-16 14:21:30', '2020-12-16 14:21:30'),
+(29, 14, 1, '2020-12-16 14:21:34', '2020-12-16 14:21:34'),
+(30, 14, 0, '2020-12-17 08:08:58', '2020-12-17 08:08:58'),
+(31, 14, 1, '2020-12-18 13:45:09', '2020-12-18 13:45:09'),
+(32, 14, 0, '2020-12-18 13:45:23', '2020-12-18 13:45:23'),
+(33, 14, 1, '2020-12-18 15:27:09', '2020-12-18 15:27:09');
 
 -- --------------------------------------------------------
 
@@ -384,13 +443,24 @@ CREATE TABLE `tbl_cappings` (
 --
 
 CREATE TABLE `tbl_capping_details` (
-  `id` int NOT NULL,
-  `capping_id` int NOT NULL,
-  `operator_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `capping_id` int(11) NOT NULL,
+  `operator_id` int(11) NOT NULL,
   `current_capping` float NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_capping_details`
+--
+
+INSERT INTO `tbl_capping_details` (`id`, `capping_id`, `operator_id`, `current_capping`, `created_at`, `updated_at`) VALUES
+(29, 21, 4, 500, '2020-12-15 15:49:07', '2020-12-15 15:49:07'),
+(30, 21, 5, 0, '2020-12-15 15:49:07', '2020-12-15 15:49:07'),
+(31, 23, 4, 0, '2020-12-15 16:03:50', '2020-12-15 16:03:50'),
+(32, 23, 5, 0, '2020-12-15 16:03:50', '2020-12-15 16:03:50'),
+(33, 25, 4, 100, '2020-12-15 18:15:26', '2020-12-15 18:15:26');
 
 -- --------------------------------------------------------
 
@@ -399,16 +469,16 @@ CREATE TABLE `tbl_capping_details` (
 --
 
 CREATE TABLE `tbl_my_operators` (
-  `id` int NOT NULL,
-  `category_id` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
   `operator` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
-  `status` tinyint NOT NULL DEFAULT '1',
-  `api_1` int DEFAULT NULL,
-  `api_2` int DEFAULT NULL,
-  `api_3` int DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `status` tinyint(4) NOT NULL DEFAULT 1,
+  `api_1` int(11) DEFAULT NULL,
+  `api_2` int(11) DEFAULT NULL,
+  `api_3` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -416,8 +486,9 @@ CREATE TABLE `tbl_my_operators` (
 --
 
 INSERT INTO `tbl_my_operators` (`id`, `category_id`, `operator`, `code`, `status`, `api_1`, `api_2`, `api_3`, `created_at`, `updated_at`) VALUES
-(4, 1, 'Airtel', 'AT', 1, NULL, NULL, NULL, '2020-12-15 11:21:24', '2020-12-15 11:21:24'),
-(5, 1, 'Idea', 'ID', 1, NULL, NULL, NULL, '2020-12-15 11:21:24', '2020-12-15 11:21:24');
+(4, 1, 'Airtel', 'AT', 0, NULL, NULL, NULL, '2020-12-15 11:21:24', '2020-12-19 16:17:48'),
+(5, 2, 'Idea', 'ID', 0, NULL, NULL, NULL, '2020-12-15 11:21:24', '2020-12-18 20:27:27'),
+(6, 1, 'Vodafone', 'VD', 0, NULL, NULL, NULL, '2020-12-15 11:21:24', '2020-12-19 16:17:48');
 
 -- --------------------------------------------------------
 
@@ -426,13 +497,20 @@ INSERT INTO `tbl_my_operators` (`id`, `category_id`, `operator`, `code`, `status
 --
 
 CREATE TABLE `tbl_news` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `title` text NOT NULL,
-  `from_date` datetime NOT NULL,
-  `to_date` datetime NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `from_date` date NOT NULL,
+  `to_date` date NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_news`
+--
+
+INSERT INTO `tbl_news` (`id`, `title`, `from_date`, `to_date`, `created_at`, `updated_at`) VALUES
+(9, 'hello', '2020-12-18', '2020-12-31', '2020-12-18 13:57:04', '2020-12-18 13:57:04');
 
 -- --------------------------------------------------------
 
@@ -441,10 +519,10 @@ CREATE TABLE `tbl_news` (
 --
 
 CREATE TABLE `tbl_recharge_categories` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -464,12 +542,12 @@ INSERT INTO `tbl_recharge_categories` (`id`, `name`, `created_at`, `updated_at`)
 --
 
 CREATE TABLE `tbl_sms_apis` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `title` varchar(1000) NOT NULL,
   `sms_url` varchar(10000) NOT NULL,
-  `created_at` timestamp(5) NOT NULL DEFAULT CURRENT_TIMESTAMP(5),
-  `updated_at` timestamp(5) NULL DEFAULT CURRENT_TIMESTAMP(5)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `created_at` timestamp(5) NOT NULL DEFAULT current_timestamp(5),
+  `updated_at` timestamp(5) NULL DEFAULT current_timestamp(5)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tbl_sms_apis`
@@ -485,16 +563,16 @@ INSERT INTO `tbl_sms_apis` (`id`, `title`, `sms_url`, `created_at`, `updated_at`
 --
 
 CREATE TABLE `users` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `two_factor_secret` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `two_factor_recovery_codes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `parent_id` bigint UNSIGNED DEFAULT NULL,
-  `profile_photo_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `two_factor_secret` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `two_factor_recovery_codes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `parent_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `profile_photo_path` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -504,9 +582,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `parent_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
-(13, 'Siddhant', 'siddhant.singh326@gmail.com', NULL, '$2y$10$mUSBlx1VX/lFjKSI9svlyO03rIDaKTqgOYpJAInLtkuxqhZOhrxrG', NULL, NULL, NULL, NULL, NULL, '2020-12-15 09:18:44', '2020-12-15 09:18:44'),
-(14, 'Akash', 'akash@gmail.com', NULL, '$2y$10$0tVQF/Bogr8c7LkWPV7ye.cT7VNUT5klRkxdqXZDbogpysIIo1nqS', NULL, NULL, NULL, NULL, NULL, '2020-12-15 11:15:31', '2020-12-15 11:15:31'),
-(15, 'Siddharth Rastogi', 'sidd15597@gmail.com', NULL, '$2y$10$/zJWh0qzYyKNLhsD3TqQVuA1xbEnufOHJILpELcHw/6G.xrtN4E2e', NULL, NULL, NULL, NULL, NULL, '2020-12-15 11:52:27', '2020-12-15 11:52:27');
+(14, 'Akash', 'akash@gmail.com', NULL, '$2y$10$lLYPO9QY9al9dOu8ADBSmed4.iX/OHiv1/ijWcmqht10cb./K0RL6', NULL, NULL, NULL, 19, NULL, '2020-12-15 11:15:31', '2020-12-19 20:05:06'),
+(16, 'test', 'jhbjhbhj', NULL, '$2y$10$bpPzDmZLxDNLUI0AhM09YORP3N6dWWWwMyPO3Fq17bRgiGqDavn/G', NULL, NULL, NULL, 14, NULL, '2020-12-18 13:47:15', '2020-12-18 13:47:15'),
+(18, 'siddhant kumar', 'siddhant.singh326@gmail.com', NULL, '$2y$10$anb6T29Lvw8FWQL2FfPoq.9RuVxf.avPi8S2wcUKVuqhcM.Y42tki', NULL, NULL, NULL, 19, NULL, '2020-12-18 16:00:38', '2020-12-18 16:00:38'),
+(19, 'Siddharth Rastogi', 'sidd15597@gmail.com', NULL, '$2y$10$51tNqM.4tsF9Vdom9zUZtep7WFFH6qkN./ya1AqFuNN6jxvpzIqpu', NULL, NULL, NULL, NULL, NULL, '2020-12-20 08:20:29', '2020-12-20 08:20:29');
 
 -- --------------------------------------------------------
 
@@ -515,17 +594,17 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `tw
 --
 
 CREATE TABLE `user_details` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `pan_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gst_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mobile_number` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pincode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_id` int NOT NULL,
-  `isEnabled` tinyint(1) DEFAULT '1'
+  `pan_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gst_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mobile_number` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pincode` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `isEnabled` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -533,9 +612,12 @@ CREATE TABLE `user_details` (
 --
 
 INSERT INTO `user_details` (`id`, `created_at`, `updated_at`, `pan_number`, `gst_number`, `mobile_number`, `address`, `city`, `pincode`, `user_id`, `isEnabled`) VALUES
-(9, '2020-12-15 09:18:44', '2020-12-15 09:18:44', '897876867', '676668686', NULL, 'Noida', 'Noida', '201009', 13, 1),
+(9, '2020-12-15 09:18:44', '2020-12-15 09:18:44', '8978', '67', NULL, 'Noida', 'Noida', '201009', 13, 1),
 (10, '2020-12-15 11:15:31', '2020-12-15 11:15:31', NULL, NULL, NULL, NULL, NULL, NULL, 14, 1),
-(11, '2020-12-15 11:52:27', '2020-12-15 11:52:27', NULL, NULL, NULL, 'Hno 93 Ballabh street, Mandi chowk near Dr. Pushpendra', 'Moradabad', '244001', 15, 1);
+(11, '2020-12-15 11:52:27', '2020-12-15 11:52:27', NULL, NULL, NULL, 'Hno ', 'Moradabad', '244001', 15, 1),
+(12, '2020-12-18 13:47:15', '2020-12-19 16:16:57', NULL, '2', '1234567890', '5445654', '65464', '123456', 16, 0),
+(13, '2020-12-18 16:00:38', '2020-12-18 16:00:38', '788989686', '67868767867', NULL, '128/325 h block , kidwai nagar , kanpur', 'Moradabad', 'siddhant.singh326@gmail.com', 18, 1),
+(14, '2020-12-20 08:20:29', '2020-12-20 08:20:29', NULL, NULL, NULL, 'Hno 93 Ballabh street, Mandi chowk', 'Moradabad', '244001', 19, 1);
 
 --
 -- Indexes for dumped tables
@@ -558,7 +640,7 @@ ALTER TABLE `failed_jobs`
 -- Indexes for table `fail_switch_details`
 --
 ALTER TABLE `fail_switch_details`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`fail_switch_detail_id`);
 
 --
 -- Indexes for table `fail_switch_masters`
@@ -711,145 +793,145 @@ ALTER TABLE `user_details`
 -- AUTO_INCREMENT for table `balances`
 --
 ALTER TABLE `balances`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `fail_switch_details`
 --
 ALTER TABLE `fail_switch_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `fail_switch_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `fail_switch_masters`
 --
 ALTER TABLE `fail_switch_masters`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `ledgers`
 --
 ALTER TABLE `ledgers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `package_lists`
 --
 ALTER TABLE `package_lists`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `package_masters`
 --
 ALTER TABLE `package_masters`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `receive_credits`
 --
 ALTER TABLE `receive_credits`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `role_masters`
 --
 ALTER TABLE `role_masters`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_add_bank_accounts`
 --
 ALTER TABLE `tbl_add_bank_accounts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_amount_filters`
 --
 ALTER TABLE `tbl_amount_filters`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_api_codes`
 --
 ALTER TABLE `tbl_api_codes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tbl_api_masters`
 --
 ALTER TABLE `tbl_api_masters`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_cappings`
 --
 ALTER TABLE `tbl_cappings`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `tbl_capping_details`
 --
 ALTER TABLE `tbl_capping_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `tbl_my_operators`
 --
 ALTER TABLE `tbl_my_operators`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_news`
 --
 ALTER TABLE `tbl_news`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_recharge_categories`
 --
 ALTER TABLE `tbl_recharge_categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_sms_apis`
 --
 ALTER TABLE `tbl_sms_apis`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `user_details`
 --
 ALTER TABLE `user_details`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
