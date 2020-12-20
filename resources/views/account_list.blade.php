@@ -95,12 +95,14 @@
             @php
               if ($data->isEnabled == 1) {
                 $checked = 'checked';
+                $check_value = '1';
               }
               else {
                 $checked = '';
+                $check_value = '0';
               }
             @endphp
-              <input id='{{ $data->user_id }}' class='user_status' type="checkbox" onchange='UpdateStatus(this.id)' {{ $checked }}/>
+              <input id='{{ $data->user_id }}' class='user_status' check='{{ $check_value }}' type="checkbox" onchange='UpdateStatus(this.id, "<?php echo $check_value; ?>")' {{ $checked }}/>
             </td>
           </tr>
           @endforeach
@@ -277,13 +279,13 @@
                   <label for="balance" class="text-warning">Current Balance:&nbsp;&nbsp;</label>
                   @php
                     if(!empty($auth_balance)) {
-                      $balance = '₹ ' . $auth_balance[0]['balance'];
+                      $balance = $auth_balance[0]['balance'];
                     }
                     else {
                       $balance = '0';
                     }
                   @endphp
-                    <label for="balance" class="font-weight-bold text-warning" id='remaining_bal'>{{ $balance }}</label> <!-- current balance -->
+                    <label for="balance" class="font-weight-bold text-warning" id='remaining_bal'>₹ {{ $balance }}</label> <!-- current balance -->
                 </div>
               </div>
             </div>
@@ -497,17 +499,20 @@
         document.getElementById('address').value = '';
       }
 
-      function UpdateStatus(user_id) {
-        window.location = 'AccountList/Status/' + user_id + '/' + '0';
+      function UpdateStatus(user_id, check) {
+        window.location = 'AccountList/Status/' + user_id + '/' + check;
       }
 
       function AmountCalculation() {
         var amount = document.getElementById('amount_calc');
-        var percent = document.getElementById('percent_calc');
+        var percent = document.getElementById('percent_calc').value;
         var final_amount = document.getElementById('final_amount');
-        
-        if(amount.value.length > 0 && percent.value.length > 0) {
-          final_amount.value = Number(amount.value) + Number((amount.value * (percent.value/100)).toFixed(2));
+        var percent_value = percent;
+        if(percent == '') {
+          percent_value = 0;
+        }
+        if(amount.value.length > 0) {
+          final_amount.value = Number(amount.value) + Number((amount.value * (percent_value/100)).toFixed(2));
         }
         else {
           final_amount.value = '0.00';
@@ -615,9 +620,12 @@
         var final_amount = document.getElementById('final_amount').value;
         var remarks = document.getElementById('remarks').value;
         var mode_type = document.getElementById('mode_type').value;
-        var remaining_balance = Number(current_bal) - Number(final_amount);
-       
-       if (from_id && to_id && amount && percent && final_amount && remarks && mode_type) {
+        if (current_bal == '') {
+          current_bal = 0;
+        }
+        var remaining_balance = parseFloat(current_bal).toFixed(2) - parseFloat(final_amount).toFixed(2);
+
+        if (from_id && to_id && amount && percent && final_amount && remarks && mode_type) {
         
         $.ajax({
           type: 'POST',
@@ -631,7 +639,7 @@
             'final_amount': final_amount,
             'remarks': remarks,
             'mode_type': mode_type,
-            'remaining_balance': remaining_balance,
+            'remaining_balance': parseFloat(remaining_balance).toFixed(2),
           },
 
           success: function(data) {
@@ -640,10 +648,10 @@
             $(".alert-success").append("<p>Updated Successfully<p>");
           }
         });
-       }
-       else {
+        }
+        else {
           alert('All fields required');
-       }
+        }
       }
 
 
@@ -651,7 +659,7 @@
         var to_id = document.getElementById('credit_account_no').innerHTML;
         var credit_amount = document.getElementById('credit_amount').value;
         var remarks = document.getElementById('credit_remarks').value;
-       if (from_id && to_id && credit_amount && remarks) {
+       if (from_id && to_id && remarks) {
         
         $.ajax({
           type: 'POST',

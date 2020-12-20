@@ -1,6 +1,3 @@
-<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
-<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
-
 <div>
   <table id="user_account" class="table table-striped table-bordered" style="width:100%">
     <thead>
@@ -13,6 +10,7 @@
         <th class="th-sty">Stock (₹)</th>
       </tr>
     </thead>
+
     <tbody>
 
       @php
@@ -53,6 +51,6 @@
 
 <script>
   $(document).ready(function() {
-    $('#user_account').DataTable();
+
   });
 </script>

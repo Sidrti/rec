@@ -268,10 +268,10 @@
 
             for(var i = 1 ; i <= len ; i++){
               if(current_capping[capping_user_id][arr[i-1]]){
-                dataTable[0].rows[i].cells[2].innerHTML = parseFloat(current_capping[capping_user_id][arr[i-1]]).toFixed(4);
+                dataTable[0].rows[i].cells[2].innerHTML = parseFloat(current_capping[capping_user_id][arr[i-1]]).toFixed(2);
               }
               else {
-                dataTable[0].rows[i].cells[2].innerHTML = '0.0000';
+                dataTable[0].rows[i].cells[2].innerHTML = '0.00';
               }
             }
 
