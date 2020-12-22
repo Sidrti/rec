@@ -72,6 +72,9 @@ Route::get('AddBankAccount/{bank_name}/{account_no}/{ifsc_code}/{branch_name}', 
 Route::POST('header', 'App\Http\Controllers\header@Show');
 Route::get('PackageDetails', 'App\Http\Controllers\packagedetailsController@index');
 
+Route::get('DefaultPackage', 'App\Http\Controllers\DefaultPackageController@index')->name('DefaultPackage');
+Route::get('DefaultPackage/Add/{role_id}/{package_id}', 'App\Http\Controllers\DefaultPackageController@updatePackage');
+
 Route::get('recharge',function(){
     return view('recharge2');
 });

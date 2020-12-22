@@ -78,7 +78,7 @@
 
     <script>
       $(document).ready(function() {
-        $('#account_list').DataTable();
+        $('#packagetable').DataTable();
       });
 
       function form_submit(username) {
