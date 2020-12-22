@@ -39,7 +39,7 @@
               <a href="#" onclick="return false;">Edit</a>
             </td>
             <td contenteditable="false" id='edit'>
-              <a href="/PackageDetails">Referral Details</a>
+              <a id="{{$i->id}}" href="/PackageDetails/{{$i->id}}">Referral Details</a>
             </td>
           </tr>
           @endforeach

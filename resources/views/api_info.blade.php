@@ -6,9 +6,9 @@
 
 <body>
     @if ( Session::has('flash_message') )
-      <div class="alert {{ Session::get('flash_type') }}">
-          <strong>{{ Session::get('flash_message') }}</strong>
-      </div>
+        <div class="alert {{ Session::get('flash_type') }}">
+            <strong>{{ Session::get('flash_message') }}</strong>
+        </div>
     @endif
     <div class="container-fluid">
         <div class="row mt-5">
@@ -17,20 +17,18 @@
                     <select class="form-control" id="select">
                         <option value="0">---------Select API----------</option>
 
-                        @for($i=0;$i<count($all_api_master);$i++)
-                        @php 
-                        if($all_api_master[$i]->id == $id)
-                        {
-                        @endphp 
-                        <option value={{$all_api_master[$i]->id}} selected>{{$all_api_master[$i]->api_name}}</option>
-                        @php
-                        }
-                        else {
-                            @endphp
-                            <option value={{$all_api_master[$i]->id}}>{{$all_api_master[$i]->api_name}}</option>
+                        @for($i=0;$i<count($all_api_master);$i++) @php if($all_api_master[$i]->id == $id)
+                            {
+                                @endphp
+                                <option value={{$all_api_master[$i]->id}} selected>{{$all_api_master[$i]->api_name}}</option>
                             @php
-                        }
-                        @endphp
+                            }
+                            else {
+                                @endphp
+                                <option value={{$all_api_master[$i]->id}}>{{$all_api_master[$i]->api_name}}</option>
+                            @php
+                            }
+                            @endphp
                         @endfor
                     </select>
                 </div>
@@ -52,12 +50,12 @@
                             <th class="th-sty">Api Margin</th>
                             <th class="th-sty"></th>
                         </tr>
-                    </thead>    
+                    </thead>
 
                     <tbody id="myTable">
                         @php
                         if($id != 0)
-                        {   
+                        {
                         @endphp
                         @for($i=0;$i<count($array);$i++) <tr>
                             @php
@@ -81,8 +79,7 @@
                             <td><button class="btn btn-danger" onClick="UpdateClick(this.id)" id="{{$i}}">Update</button></td>
                             </tr>
                             @endfor
-                            @for($j=0;$j<count($remaining_operator);$j++) 
-                            <tr>
+                            @for($j=0;$j<count($remaining_operator);$j++) <tr>
                                 <td>{{$i + 1}}</td>
                                 <input type="hidden" value="{{$remaining_operator[$j]->operator_id}}" id="operator_id{{$i}}">
                                 <input type="hidden" value="{{$remaining_operator[$j]->category_id}}" id="category_id{{$i}}">
@@ -91,14 +88,14 @@
                                 <td><input class="form-control form-control-sm text-danger" type="text" value="" id="api_code{{$i}}"></td>
                                 <td><input class="form-control form-control-sm text-danger" type="text" value="" id="status{{$i}}"></td>
                                 <td><button class="btn btn-danger" onClick="UpdateClick(this.id)" id="{{$i}}">Update</button></td>
-                            @php
-                                $i = $i + 1;
-                            @endphp
-                            </tr>
+                                @php
+                                    $i = $i + 1;
+                                @endphp
+                                </tr>
                             @endfor
-                            @php
+                        @php
                         }
-                            @endphp
+                        @endphp
                     </tbody>
                 </table>
             </div>
@@ -116,18 +113,17 @@
             }
         }
 
-        function UpdateClick(id) 
-        {
+        function UpdateClick(id) {
             var operator_id = document.getElementById("operator_id" + id).value;
             var category_id = document.getElementById("category_id" + id).value;
             var api_id = document.getElementById("select").value;
-           
+
             var api_code_value = document.getElementById("api_code" + id).value;
             var status_value = document.getElementById("status" + id).value;
 
             if (api_code_value && status_value) {
-                window.location = '/ApiInfo/Update/' + id + '/' + api_code_value + '/' + status_value+'/'+api_id+"/"+operator_id+"/"+category_id;
-            }
+                window.location = '/ApiInfo/Update/' + id + '/' + api_code_value + '/' + status_value + '/' + api_id + "/" + operator_id + "/" + category_id;
+            } 
             else {
                 alert('Fields cannot be empty');
             }

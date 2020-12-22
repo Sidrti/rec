@@ -1,24 +1,30 @@
 @include('header')
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
+<link rel="stylesheet" href="/css/account_list.css">
 
-<style>
-  .th-sty {
-    color: black;
-    max-width: auto;
-  }
-</style>
-<div class="container-fluid">
-  
-  <h3>Package Details</h3>
-    <table id="apitable" class="table table-striped table-bordered" style="width:100%">
+<body>
+  @if ( Session::has('flash_message') )
+  <div class="alert {{ Session::get('flash_type') }}">
+    <strong>{{ Session::get('flash_message') }}</strong>
+  </div>
+  @endif
+
+  <div class="container-fluid">
+    <div class="form-group mt-4">
+      <h3>Package Details</h3>
+      <input type="hidden" value="{{ $package_id }}" id="package_id">
+    </div>
+    <table id="package_details" class="table table-striped table-bordered" style="width:100%">
       <thead>
         <tr>
           <th class="th-sty">#</th>
-          <th class=th-sty>Operator</th>
+          <th class=th-sty>Category</th>
+          <th class=th-sty style="width: 25%;">Operator</th>
           <th class="th-sty">Max %</th>
           <th class="th-sty">Ded. %</th>
           <th class="th-sty">Ref. %</th>
+          <th class="th-sty"></th>
         </tr>
       </thead>
       <tbody>
@@ -29,148 +35,71 @@
         @php
         $count++;
         @endphp
+
         <tr>
           <td>{{ $count }}</td>
-          <td contenteditable="false" id="a{{$i->id}}">{{ $i->operator}}</td>
-          <td contenteditable="false" id="a{{$i->id}}">{{ $i->max}}</td>
-          <td contenteditable="false">
-
-            <input type="text" name="sample_url" class="form-control" id="{{ $i->ded}}" value="{{ $i->ded}}" readonly>
-
+          <input type="hidden" value="{{$i->operator_id}}" id="operator_id{{$count}}">
+          <input type="hidden" value="{{$i->category_id}}" id="category_id{{$count}}">
+          <td>{{ $i->name}}</td>
+          <td>{{ $i->operator}}</td>
+          <td>{{ $i->max }}.0000</td>
+          <td>
+            <input type="number" onchange="setTwoNumberDecimal(this)" name="sample_url" class="form-control" step="0.01" id="ded{{$count}}" value="{{ $i->ded }}">
           </td>
-
-          <td contenteditable="false">
-
-            <input type="text" name="sample_url" class="form-control" id="{{ $i->ref}}" value="{{ $i->ref}}" readonly>
-
+          <td>
+            <input type="number" onchange="setTwoNumberDecimal(this)" name="sample_url" class="form-control" step="0.01" id="ref{{$count}}" value="{{ $i->ref }}">
           </td>
-
+          <td><button class="btn btn-danger" onClick="UpdateClick(this.id)" id="{{$count}}">Update</button></td>
         </tr>
         @endforeach
+        @for($j=0;$j<count($remaining_operator);$j++) <tr>
+          <td>{{$count + 1}}</td>
+          <input type="hidden" value="{{$remaining_operator[$j]->operator_id}}" id="operator_id{{$count + 1}}">
+          <input type="hidden" value="{{$remaining_operator[$j]->category_id}}" id="category_id{{$count + 1}}">
+          <td>{{$remaining_operator[$j]->name }}</td>
+          <td>{{$remaining_operator[$j]->operator }}</td>
+          <td>25.0000</td>
+          <td><input onchange="setTwoNumberDecimal(this)" class="form-control form-control-sm text-info" type="number" step="0.01" value="0.00" id="ded{{$count + 1}}"></td>
+          <td><input onchange="setTwoNumberDecimal(this)" class="form-control form-control-sm text-info" type="number" step="0.01" value="0.00" id="ref{{$count + 1}}"></td>
+          <td><button class="btn btn-danger" onClick="UpdateClick(this.id)" id="{{$count + 1}}">Update</button></td>
+          @php
+          $count = $count + 1;
+          @endphp
+          </tr>
+          @endfor
       </tbody>
 
     </table>
 
     <script>
-      function ApiTrailClick() {
-        window.location = "ApiTrail";
+      $(document).ready(function() {
+        $('#package_details').DataTable();
+      });
+
+      function setTwoNumberDecimal(event) {
+        event.value = parseFloat(event.value).toFixed(2);
       }
 
-      function DeleteClick(id) {
+      function UpdateClick(id) {
+        var operator_id = document.getElementById("operator_id" + id).value;
+        var deduction = document.getElementById("ded" + id).value;
+        var referral = document.getElementById("ref" + id).value;
+        var package_id = document.getElementById("package_id").value;
 
-        if (confirm('Are you sure you want to Delete this entry ?')) {
-
-          DeleteClickMain(id);
-
-
-        } else {
-          // Do nothing!
-          console.log('Thing was not saved to the database.');
+        if (deduction == 0 && referral != 0) {
+          window.location = '/PackageDetails/Update/' + package_id + '/' + operator_id + '/' + deduction + '/' + referral;
+        } 
+        else if (deduction != 0 && referral == 0) {
+          window.location = '/PackageDetails/Update/' + package_id + '/' + operator_id + '/' + deduction + '/' + referral;
+        }
+        else if (deduction != 0 && referral != 0) {
+          window.location = '/PackageDetails/Update/' + package_id + '/' + operator_id + '/' + deduction + '/' + referral;
+        }
+        else {
+          alert('Atleast one field contains some value');
         }
       }
     </script>
-    <script>
-      $(document).ready(function() {
-        $('#apitable').DataTable();
-      });
-    </script>
-    <script type="text/javascript">
-      function form_submit_fn() {
-        document.getElementById("form").submit();
-      }
 
-      function EditClick(id) {
-        id = id.substring(4, id.length);
-        document.getElementById('hiddenId2').value = id;
-        document.getElementById('url').value = document.getElementById("url" + id).innerText;
-        document.getElementById('name').value = document.getElementById("api_name" + id).innerText;
-        /*
-    
-      event.preventDefault();
- 
-      
-      var res = id.substring(4, id.length);
-      if(document.getElementById(id).innerHTML=='Edit')
-      {
-      document.getElementById('url'+res).setAttribute('contenteditable',true)
-      document.getElementById('api_name'+res).setAttribute('contenteditable',true)
-      document.getElementById(id).innerHTML='Save'
-      }
-      else
-      {
-        var editurl = document.getElementById('url'+res).innerText;
-        var editname = document.getElementById('api_name'+res).innerText;
-        
-        SaveEditDB(editurl,editname,res);
-
-        document.getElementById('url'+res).setAttribute('contenteditable',false)
-        document.getElementById('api_name'+res).setAttribute('contenteditable',false)
-        document.getElementById(id).innerHTML='Edit'
-
-        
-      }  */
-      }
-    </script>
-
-    <script type="text/javascript">
-    
-      function DeleteClickMain(id) {
-
-        $.ajax({
-          type: 'POST',
-          url: 'APITrailSettingsDelete',
-          data: {
-            "_token": "{{ csrf_token() }}",
-            'id': id,
-          },
-
-          success: function(data) {
-            alert('Success');
-            window.location = '/APITrailSettings'
-          }
-        });
-      }
-
-      function UpdateRecords() {
-
-
-        var data = <?php echo json_encode($data) ?>;
-        console.log("0-----"+data.length);
-        document.getElementById(data[1].minutes).readOnly = false;
-        document.getElementById(data[1].priority).readOnly = false;
-
-
-        /*for(int i=0; i<data.length; i++) {
-
-          
-     
-
-        }*/
-
-      }
-    </script>
-
-    <script>
-      function AddNewData(Api, minutes, priority, master_id) {
-
-
-        $.ajax({
-          type: 'POST',
-          url: 'APITrailSettings/Add',
-          data: {
-            "_token": "{{ csrf_token() }}",
-            'api_id': Api,
-            'minutes': minutes,
-            'priority': priority,
-            'master_id': master_id,
-          },
-
-          success: function(data) {
-            alert('Success');
-            window.location = '/APITrailSettings'
-          }
-        });
-      }
-    </script>
-
-</div>
+  </div>
+</body>

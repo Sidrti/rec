@@ -12,3 +12,7 @@
     -webkit-appearance: none;
     margin: 0;
 }
+
+.table td, .table th {
+    text-align: center;
+}
