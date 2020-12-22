@@ -91,7 +91,7 @@
                                 <a class="dropdown-item dropdown-item-color dropdown-toggle" href="#"> Package </a>
                                 <ul class="submenu dropdown-menu">
                                     <li><a class="dropdown-item dropdown-item-color" href="{{url('ManagePackage')}}">Manage Package</a></li>
-                                    <li><a class="dropdown-item dropdown-item-color" href="">Set Default Package</a></li>
+                                    <li><a class="dropdown-item dropdown-item-color" href="{{ url('DefaultPackage') }}">Set Default Package</a></li>
                                 </ul>
                             </li>
                             <li><a class="dropdown-item dropdown-item-color" href="{{url('AmountFilter')}}"> Filter - Amount Wise </a></li>
