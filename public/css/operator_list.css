@@ -6,3 +6,7 @@ th {
     display: flex;
     justify-content: space-between;
 }
+
+.table td, .table th {
+    text-align: center;
+}

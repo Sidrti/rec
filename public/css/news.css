@@ -6,3 +6,7 @@
 .dataTables_filter {
     float: right;
 }
+
+.table td, .table th {
+    text-align: center;
+}
