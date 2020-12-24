@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2020 at 10:58 PM
+-- Generation Time: Dec 24, 2020 at 09:01 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -43,6 +43,27 @@ CREATE TABLE `balances` (
 INSERT INTO `balances` (`id`, `user_id`, `balance`, `created_at`, `updated_at`) VALUES
 (1, 14, 94.68, '2020-12-20 13:45:30', '2020-12-20 13:45:30'),
 (2, 1, 115.7, '2020-12-20 13:45:30', '2020-12-20 13:45:30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `default_packages`
+--
+
+CREATE TABLE `default_packages` (
+  `id` int(10) NOT NULL,
+  `role_id` int(10) NOT NULL,
+  `package_master_id` int(10) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `default_packages`
+--
+
+INSERT INTO `default_packages` (`id`, `role_id`, `package_master_id`, `created_at`, `updated_at`) VALUES
+(5, 2, 4, '2020-12-22 11:05:18', '2020-12-22 11:05:18');
 
 -- --------------------------------------------------------
 
@@ -170,9 +191,18 @@ CREATE TABLE `package_lists` (
   `max` int(11) NOT NULL,
   `ded` int(11) NOT NULL,
   `ref` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `package_lists`
+--
+
+INSERT INTO `package_lists` (`id`, `package_id`, `operator_id`, `max`, `ded`, `ref`, `created_at`, `updated_at`) VALUES
+(8, 4, 6, 25, 4, 0, '2020-12-22 15:22:54', '2020-12-22 15:22:54'),
+(9, 5, 5, 25, 1, 4, '2020-12-22 15:23:28', '2020-12-22 15:23:28'),
+(10, 5, 5, 25, 1, 5, '2020-12-22 15:23:43', '2020-12-22 15:23:43');
 
 -- --------------------------------------------------------
 
@@ -318,7 +348,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('DH7aSjs0IgbYkLEqfiKkcZ9XPDAPOFkPGND0Cdop', 19, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiVUR4UkZLZzhkQWxwbXVsRVpndWhYdUxpWDdzUnJCZm9vRXNacUtNNCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BcGlJbmZvLzEwIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTk7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCQ1MXROcU0uNHRzRjlWZG9tOXpVWnRlcDdXRkZINnFrTi4veWExQXFGdU5ONmp4dnB6SXFwdSI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkNTF0TnFNLjR0c0Y5VmRvbTl6VVp0ZXA3V0ZGSDZxa04uL3lhMUFxRnVOTjZqeHZweklxcHUiO30=', 1608500741);
+('3gIIKjlbew3C4mXGgK4qT6jyiSEvFFjAwTZMJlNB', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36 OPR/72.0.3815.400', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoid3ZocjRkemh6R3FGd3ZSZXhKck9QYVoxZnRDTktaS2wwaHJlcXR1ZiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9BY2NvdW50TGlzdCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1608665273),
+('A70SyOPcXqH4gRqwhgh8U0DvXuGCeJrJfSPIz5jc', 19, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiVUhBUlNnM3NUbDVKbG5KbHRjZ1lwU2FzbWpDTnJGYTRWQUFkUTdWUyI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTk7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCQ1MXROcU0uNHRzRjlWZG9tOXpVWnRlcDdXRkZINnFrTi4veWExQXFGdU5ONmp4dnB6SXFwdSI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkNTF0TnFNLjR0c0Y5VmRvbTl6VVp0ZXA3V0ZGSDZxa04uL3lhMUFxRnVOTjZqeHZweklxcHUiO3M6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM4OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvUGFja2FnZURldGFpbHMvNCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1608670478);
 
 -- --------------------------------------------------------
 
@@ -585,7 +616,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `tw
 (14, 'Akash', 'akash@gmail.com', NULL, '$2y$10$lLYPO9QY9al9dOu8ADBSmed4.iX/OHiv1/ijWcmqht10cb./K0RL6', NULL, NULL, NULL, 19, NULL, '2020-12-15 11:15:31', '2020-12-19 20:05:06'),
 (16, 'test', 'jhbjhbhj', NULL, '$2y$10$bpPzDmZLxDNLUI0AhM09YORP3N6dWWWwMyPO3Fq17bRgiGqDavn/G', NULL, NULL, NULL, 14, NULL, '2020-12-18 13:47:15', '2020-12-18 13:47:15'),
 (18, 'siddhant kumar', 'siddhant.singh326@gmail.com', NULL, '$2y$10$anb6T29Lvw8FWQL2FfPoq.9RuVxf.avPi8S2wcUKVuqhcM.Y42tki', NULL, NULL, NULL, 19, NULL, '2020-12-18 16:00:38', '2020-12-18 16:00:38'),
-(19, 'Siddharth Rastogi', 'sidd15597@gmail.com', NULL, '$2y$10$51tNqM.4tsF9Vdom9zUZtep7WFFH6qkN./ya1AqFuNN6jxvpzIqpu', NULL, NULL, NULL, NULL, NULL, '2020-12-20 08:20:29', '2020-12-20 08:20:29');
+(19, 'Siddharth Rastogi', 'sidd15597@gmail.com', NULL, '$2y$10$51tNqM.4tsF9Vdom9zUZtep7WFFH6qkN./ya1AqFuNN6jxvpzIqpu', NULL, NULL, '0FqY3NWYtIOWIih5JzDt7NKaXIJd6jiS4PO25ouzTA5qwYMkVmPuF2xxaij5', NULL, NULL, '2020-12-20 08:20:29', '2020-12-20 08:20:29');
 
 -- --------------------------------------------------------
 
@@ -627,6 +658,12 @@ INSERT INTO `user_details` (`id`, `created_at`, `updated_at`, `pan_number`, `gst
 -- Indexes for table `balances`
 --
 ALTER TABLE `balances`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `default_packages`
+--
+ALTER TABLE `default_packages`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -796,6 +833,12 @@ ALTER TABLE `balances`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `default_packages`
+--
+ALTER TABLE `default_packages`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -829,7 +872,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `package_lists`
 --
 ALTER TABLE `package_lists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `package_masters`
