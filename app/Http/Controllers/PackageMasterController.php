@@ -31,4 +31,11 @@ class PackageMasterController extends Controller
        
        return redirect()->route('ManagePackage');
     }
+    public function edit(Request $request)
+    {
+        $update_status = package_master::where('id', $request->id)
+        ->update(
+            ['package_title' => $request->text]
+    );
+    }
 }

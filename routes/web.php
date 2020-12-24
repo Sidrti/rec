@@ -40,6 +40,7 @@ Route::post('MapApi', 'App\Http\Controllers\FailSwitchDetailController@store');
 Route::post('AddNews', 'App\Http\Controllers\news@News_Data');
 Route::post('NewsDelete', 'App\Http\Controllers\news@destroy')->name('News.delete');
 Route::post('AmountFilter/Update', 'App\Http\Controllers\TblAmountFilterController@update')->name('AmountFilter.update');
+Route::post('AmountFilter/Insert', 'App\Http\Controllers\TblAmountFilterController@insert')->name('AmountFilter.insert');
 Route::get('SmsSettings', 'App\Http\Controllers\sms_api_controller@index')->name('SmsSettings');
 Route::post('AddApiSms', 'App\Http\Controllers\add_sms_api@index');
 Route::post('SmsSettings/Delete', 'App\Http\Controllers\sms_api_controller@destroy')->name('SmsSettings.delete');
@@ -49,6 +50,7 @@ Route::post('APITrailSettingsDelete', 'App\Http\Controllers\api_trail_list@destr
 Route::post('APITrailSettings/Add', 'App\Http\Controllers\api_trail_list@add')->name('APITrailSettings.add');
 Route::get('ManagePackage', 'App\Http\Controllers\PackageMasterController@index')->name('ManagePackage');
 Route::get('ManagePackage/Add/{title}/{username}', 'App\Http\Controllers\PackageMasterController@store');
+Route::post('PackageEdit', 'App\Http\Controllers\PackageMasterController@edit')->name('PackageEdit');
 
 Route::get('AccountList', 'App\Http\Controllers\AccountListController@index')->name('AccountList');
 Route::get('AccountList/Status/{user_id}/{status_id}', 'App\Http\Controllers\AccountListController@updateStatus');

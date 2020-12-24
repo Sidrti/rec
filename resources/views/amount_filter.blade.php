@@ -40,11 +40,19 @@
         <tbody id="myTable">
 
           @for($i=0;$i<count($array);$i++) <tr>
+            @php
+               if($array[$i]['id'] == null){
+                $amount_filter_id = 0;
+               } 
+               else{
+                 $amount_filter_id = $array[$i]['id'];
+               }
+            @endphp
             <td>{{$i+1}}</td>
             <td>{{$array[$i]['category'] }}</td>
             <td>{{$array[$i]['operator'] }}</td>
             <td><input class="form-control form-control-sm" type="text" id="amount{{$array[$i]['id']}}" value="{{$array[$i]['amount'] }}" contenteditable="true"></td>
-            <td><button class="btn text-primary" id={{$array[$i]['id']}} onclick="UpdateClick(this.id)">Update</button></td>
+            <td><button class="btn text-primary" id={{$amount_filter_id}} name="{{$array[$i]['operator']}}" onclick="UpdateClick(this.id,this.name)">Update</button></td>
             </tr>
             @endfor
         </tbody>
@@ -80,29 +88,26 @@
   </form>
 
   <script>
-    function UpdateClick(id) {
+    function UpdateClick(id,operator) {
       var amount = document.getElementById('amount' + id).innerText;
+      alert(operator);
+      if(id != 0){
       SaveEditDB(amount, id);
-
+      }
+      else{
+        InsertDB(amount,operator_id,api_id);
+      }
     }
-
     function OperatorClick() {
       var select = document.getElementById("select");
-
       window.location = '/AmountFilter/' + select.value;
     }
-
     function UpdateClick1(id) {
       var amount_input_value = document.getElementById("amount_input" + id).value;
       var array = [id, amount_input_value];
       window.location = '/AmountFilter/Update/' + array;
-
-
-
     }
-
     function SaveEditDB(amount_input_value, id) {
-
       $.ajax({
         type: 'POST',
         url: '/AmountFilter/Update',
@@ -111,11 +116,26 @@
           'amount': amount_input_value,
           'id': id,
         },
-
         success: function(data) {
           alert('Success');
           window.location = "AmountFilter";
         }
+      });
+    }
+    function InsertDB(amount_input_value, operator_id,api_id) {
+    $.ajax({
+      type: 'POST',
+      url: '/AmountFilter/Insert',
+      data: {
+        "_token": "{{ csrf_token() }}",
+        'amount': amount_input_value,
+        'operator_id': operator_id,
+        'api_id':api_id
+      },
+      success: function(data) {
+        alert('Success');
+        window.location = "AmountFilter";
+      }
       });
     }
   </script>

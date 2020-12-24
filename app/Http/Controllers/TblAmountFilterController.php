@@ -49,4 +49,12 @@ class TblAmountFilterController extends Controller
         $res = tbl_amount_filter::where('id', $request->id)
             ->update(['amount' => $request->amount]);
     }
+    public function insert(Request $request)
+    {
+        $tbl_amount_filter = new tbl_amount_filter();
+        $tbl_amount_filter->api_id = $request->api_id;
+        $tbl_amount_filter->operator_id = $request->operator_id;
+        $tbl_amount_filter->amount = $request->amount;
+        $addBank->save();
+    }
 }
