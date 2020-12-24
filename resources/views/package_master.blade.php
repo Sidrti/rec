@@ -5,6 +5,9 @@
 <link rel="stylesheet" href="/css/operator_list.css">
 
 <body>
+  <div class="alert alert-success" style="display:none">
+    {{ Session::get('success') }}
+  </div>
   <div class="container-fluid">
     <div class="row py-3">
       <div class="col-lg-12">
@@ -36,7 +39,7 @@
             <td>{{ $count }}</td>
             <td contenteditable="false" id="package_title{{$i->id}}">{{ $i->package_title}}</td>
             <td contenteditable="false" id='edit'>
-              <a href="#" onclick="return false;">Edit</a>
+              <a href="#" id="edit{{$i->id}}" onclick="editClick(this.id)">Edit</a>
             </td>
             <td contenteditable="false" id='edit'>
               <a id="{{$i->id}}" href="/PackageDetails/{{$i->id}}">Referral Details</a>
@@ -86,5 +89,39 @@
         var username = document.getElementById('create_package').getAttribute("username");
         window.location = 'ManagePackage/Add/' + title + '/' + username;
       }
+      function editClick(id){
+        id = id.substring(4,id.length);
+        var idText = document.getElementById('edit'+id).innerHTML;
+        
+        if(idText == 'Edit'){
+          document.getElementById('package_title'+id).contentEditable = true;
+          document.getElementById('edit'+id).innerHTML = 'Update';
+        }
+        else{
+          document.getElementById('package_title'+id).contentEditable = false;
+          var editedText = document.getElementById('package_title'+id).innerHTML;
+          document.getElementById('edit'+id).innerHTML = 'Edit';
+          EditAjax(id,editedText);
+        }
+       
+
+      }
+      function EditAjax(id,editedText) {
+        $.ajax({
+          type: 'POST',
+          url: '/PackageEdit',
+          data: {
+            "_token": "{{ csrf_token() }}",
+            "id": id,
+            "text":editedText
+          },
+
+          success: function(data) {
+            $(".alert-success").css("display", "block");
+            $(".alert-success").append("<p>Updated Successfully<p>");
+           
+          }
+        });
+}
     </script>
 </body>
