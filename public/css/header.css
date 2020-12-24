@@ -7,6 +7,10 @@ th {
     border-bottom-right-radius: 25px;
 }
 
+.dropdown-menu .dropdown-toggle:after {
+    vertical-align: 0;
+}
+
 @media (min-width: 992px) {
     .dropdown-menu .dropdown-toggle:after {
         border-top: 0.3em solid transparent;

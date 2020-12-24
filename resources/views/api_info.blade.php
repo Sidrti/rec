@@ -74,8 +74,8 @@
                             <input type="hidden" value="{{$array[$i]['tbl_api_code']->category_id}}" id="category_id{{$i}}">
                             <td>{{$array[$i]['tbl_api_code']->name }}</td>
                             <td>{{$array[$i]['tbl_api_code']->operator }}</td>
-                            <td><input class="form-control form-control-sm text-danger" type="text" value="{{$operator_code}}" id="api_code{{$i}}"></td>
-                            <td><input class="form-control form-control-sm text-danger" type="text" value="{{$api_status }}" id="status{{$i }}"></td>
+                            <td><input class="form-control form-control-sm text-danger" type="text" placeholder="--" value="{{$operator_code}}" id="api_code{{$i}}"></td>
+                            <td><input class="form-control form-control-sm text-danger" type="text" placeholder="0" value="{{$api_status }}" id="status{{$i }}"></td>
                             <td><button class="btn btn-danger" onClick="UpdateClick(this.id)" id="{{$i}}">Update</button></td>
                             </tr>
                             @endfor
@@ -85,8 +85,8 @@
                                 <input type="hidden" value="{{$remaining_operator[$j]->category_id}}" id="category_id{{$i}}">
                                 <td>{{$remaining_operator[$j]->name }}</td>
                                 <td>{{$remaining_operator[$j]->operator }}</td>
-                                <td><input class="form-control form-control-sm text-danger" type="text" value="" id="api_code{{$i}}"></td>
-                                <td><input class="form-control form-control-sm text-danger" type="text" value="" id="status{{$i}}"></td>
+                                <td><input class="form-control form-control-sm text-danger" type="text" placeholder="--" id="api_code{{$i}}"></td>
+                                <td><input class="form-control form-control-sm text-danger" type="text" placeholder="0" value="" id="status{{$i}}"></td>
                                 <td><button class="btn btn-danger" onClick="UpdateClick(this.id)" id="{{$i}}">Update</button></td>
                                 @php
                                     $i = $i + 1;

@@ -4,7 +4,7 @@
 <script src="/js/jquery.table-filterable.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" type="text/javascript"> </script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/account_list.css">
 
 <body>
@@ -20,7 +20,13 @@
       </div>
     </div>
     <h3>Accounts List</h3>
-    <div class="form-row">
+    <div class="form-row mt-4">
+      <div class="form-group col-md-2">
+        <select class="form-control" required="true" id="registered">
+          <option value='none'>--Select Registered by--</option>
+          <option value='by_me'>Registered by Me</option>
+        </select>
+      </div>
       <div class="form-group col-md-2">
         <input type="number" class="form-control" min='0' id="account-no" placeholder="Account No.">
       </div>
@@ -51,9 +57,9 @@
           <th class="th-sty">Stock</th>
           <th class="th-sty">Credit</th>
           <th class="th-sty">₹</th>
-          <th class="th-sty"></th>
-          <th class="th-sty"></th>
-          <th class="th-sty"></th>
+          <th class="th-sty"><i class="fa fa-random"></th>
+          <th class="th-sty"><i class="fa fa-lock"></i></th>
+          <th class="th-sty"><i class="fa fa-random"></th>
         </tr>
       </thead>
       <tbody>
@@ -89,8 +95,8 @@
             <td>
               <button class="btn btn-danger">₹ Set Referral</button>
             </td>
-            <td>-----</td> <!-- D icon -->
-            <td>-----</td> <!-- Lock icon -->
+            <td><button class="btn btn-secondary d_icon">D</button></td> <!-- D icon -->
+            <td><i class="fa fa-unlock-alt text-info"></i></td> <!-- Lock icon -->
             <td>
             @php
               if ($data->isEnabled == 1) {
