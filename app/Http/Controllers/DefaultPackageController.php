@@ -6,15 +6,18 @@ use App\Models\default_package;
 use App\Models\role_master;
 use App\Models\package_master;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DefaultPackageController extends Controller
 {
     public function index() {
 
-        $package_data = default_package::select('*')
-            ->join('package_masters', 'package_masters.id', '=', 'default_packages.package_master_id')
-            ->join('role_masters', 'role_masters.id', '=', 'default_packages.role_id')
-            ->get();
+        $package_data = DB::select('SELECT d1.*, p.package_title, r.role_name
+        FROM default_packages d1 LEFT JOIN default_packages d2 
+        ON (d1.role_id = d2.role_id AND d1.id < d2.id) 
+        JOIN package_masters p ON p.id = d1.package_master_id 
+        JOIN role_masters r ON r.id = d1.role_id 
+        WHERE d2.id IS NULL;');
 
         $roles = role_master::all();
         $package_master = package_master::all();

@@ -62,3 +62,20 @@ input[type=checkbox] {
 .table td, .table th {
     text-align: center;
 }
+
+.d_icon {
+    border-radius: 25px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+}
+
+.fa-unlock-alt {
+    width: 20px;
+    font-size: 20px;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.user_status {
+    vertical-align: -webkit-baseline-middle;
+}
