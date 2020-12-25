@@ -76,6 +76,16 @@ input[type=checkbox] {
     vertical-align: -webkit-baseline-middle;
 }
 
+.fa-lock {
+    width: 20px;
+    font-size: 20px;
+    vertical-align: -webkit-baseline-middle;
+}
+
 .user_status {
     vertical-align: -webkit-baseline-middle;
+}
+
+.lock_icon {
+    cursor: pointer;
 }

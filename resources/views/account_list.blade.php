@@ -28,6 +28,14 @@
         </select>
       </div>
       <div class="form-group col-md-2">
+        <select class="form-control" required="true" id="all_accounts">
+          <option value='none'>All Accounts</option>
+          @for($i=0;$i<count($role_master);$i++) 
+            <option value="{{$role_master[$i]['role_name']}}" role_id="{{$role_master[$i]['role_id']}}">{{$role_master[$i]['role_name']}}</option>
+          @endfor
+        </select>
+      </div>
+      <div class="form-group col-md-2">
         <input type="number" class="form-control" min='0' id="account-no" placeholder="Account No.">
       </div>
       <div class="form-group col-md-2">
@@ -96,7 +104,17 @@
               <button class="btn btn-danger">₹ Set Referral</button>
             </td>
             <td><button class="btn btn-secondary d_icon">D</button></td> <!-- D icon -->
-            <td><i class="fa fa-unlock-alt text-info"></i></td> <!-- Lock icon -->
+            @php
+              if ($data->isStatus == 1) {
+                $lock_class = 'fa-unlock-alt text-info';
+                $check_value = '1';
+              }
+              else {
+                $lock_class = 'fa-lock text-danger';
+                $check_value = '0';
+              }
+            @endphp
+            <td><i id='{{ $data->user_id }}' class="fa {{ $lock_class }} lock_icon" onclick='lockStatus(this.id, "<?php echo $check_value; ?>")'></i></td> <!-- Lock icon -->
             <td>
             @php
               if ($data->isEnabled == 1) {
@@ -414,6 +432,17 @@
         $('#account_list').tableFilterable({
           filters: [
             {
+              filterSelector: '#all_accounts',
+              event: 'change',
+              filterCallback: function($tr, filterValue) {
+                if (filterValue != 'none') {
+                  return  $tr.children().eq(4).text().indexOf(filterValue) != -1;
+                }
+                return true;
+              },
+              delay: 100
+            },
+            {
               filterSelector: '#customer-name',
               event: 'keyup',
               filterCallback: function($tr, filterValue) {
@@ -507,6 +536,10 @@
 
       function UpdateStatus(user_id, check) {
         window.location = 'AccountList/Status/' + user_id + '/' + check;
+      }
+
+      function lockStatus(user_id, check) {
+        window.location = 'AccountList/lockStatus/' + user_id + '/' + check;
       }
 
       function AmountCalculation() {

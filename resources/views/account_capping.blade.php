@@ -23,6 +23,12 @@
     <h3>Accounts Capping</h3>
     <div class="form-row">
       <div class="form-group col-md-2">
+        <select class="form-control" required="true" id="registered">
+          <option value='none'>--Select Registered by--</option>
+          <option value='by_me'>Registered by Me</option>
+        </select>
+      </div>
+      <div class="form-group col-md-2">
         <input type="number" class="form-control" min='0' id="account-no" placeholder="Account No.">
       </div>
       <div class="form-group col-md-2">

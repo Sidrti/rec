@@ -42,6 +42,11 @@ class AccountListController extends Controller
                 ->where('id', '>', $current_role_id[0]['role_id'])
                 ->get();
         }
+        $role_master = role_master::all();
+
+        if(empty($role_master[0])) {
+            $role_master = [];
+        }
 
         $auth_balance = balance::select('user_id', 'balance')
             ->where('user_id', $auth_user_id)
@@ -74,7 +79,7 @@ class AccountListController extends Controller
         
         }
         
-        return view('account_list', ['user_data' => $user_data, 'role_id' => $role_id, 'auth_balance' => $auth_balance,
+        return view('account_list', ['user_data' => $user_data, 'role_master' => $role_master , 'role_id' => $role_id, 'auth_balance' => $auth_balance,
             'stock_sum' => $stock_sum, 'credit_sum' => $credit_sum]);
     }
 
@@ -89,6 +94,21 @@ class AccountListController extends Controller
         }
         $update_status = user_detail::where('user_id', $request->user_id)
             ->update(['isEnabled' => $check]);
+
+        return redirect()->route('AccountList');
+    }
+
+    public function updateLockStatus(Request $request)
+    {
+        $check = 0;
+        if($request->status_id == 0) {
+            $check = 1;
+        }
+        else {
+            $check = 0;
+        }
+        $update_status = user_detail::where('user_id', $request->user_id)
+            ->update(['isStatus' => $check]);
 
         return redirect()->route('AccountList');
     }
