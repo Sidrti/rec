@@ -119,7 +119,7 @@
                     <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Recharges </a>
                         <ul class="dropdown-menu">
                         <li><a class="dropdown-item dropdown-item-color" href="{{url('recharge')}}"> Recharges </a></li>
-                            <li><a class="dropdown-item dropdown-item-color" href="#"> Recharge Search </a></li>
+                            <li><a class="dropdown-item dropdown-item-color" href="{{url('RechargeList')}}"> Recharge Search </a></li>
                             <li><a class="dropdown-item dropdown-item-color" href="#"> Recharge Report </a></li>
                             <li><a class="dropdown-item dropdown-item-color" href="#"> Tickets Report </a></li>
                             <li><a class="dropdown-item dropdown-item-color" href="#"> Bulk Re-Try </a></li>

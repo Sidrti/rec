@@ -79,6 +79,8 @@ Route::get('DefaultPackage', 'App\Http\Controllers\DefaultPackageController@inde
 Route::get('DefaultPackage/Add/{role_id}/{package_id}', 'App\Http\Controllers\DefaultPackageController@updatePackage');
 Route::get('PackageDetails/Update/{package_id}/{operator_id}/{deduction}/{referral}', 'App\Http\Controllers\packagedetailsController@updatePackage');
 
+Route::get('RechargeList', 'App\Http\Controllers\RechargeListController@index')->name('RechargeList');
+
 Route::get('recharge',function(){
     return view('recharge2');
 });
