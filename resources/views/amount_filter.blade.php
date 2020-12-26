@@ -48,11 +48,13 @@
                  $amount_filter_id = $array[$i]['id'];
                }
             @endphp
+            <input type="hidden" value="">
+            <input type="hidden" value="">
             <td>{{$i+1}}</td>
             <td>{{$array[$i]['category'] }}</td>
             <td>{{$array[$i]['operator'] }}</td>
-            <td><input class="form-control form-control-sm" type="text" id="amount{{$array[$i]['id']}}" value="{{$array[$i]['amount'] }}" contenteditable="true"></td>
-            <td><button class="btn text-primary" id={{$amount_filter_id}} name="{{$array[$i]['operator']}}" onclick="UpdateClick(this.id,this.name)">Update</button></td>
+            <td><input class="form-control form-control-sm" type="text" id="amount{{$i}}" value="{{$array[$i]['amount'] }}" contenteditable="true"></td>
+            <td><button class="btn text-primary" id={{$i}} name="{{$array[$i]['operator']}}" onclick="UpdateClick(this.id,this.name)">Update</button></td>
             </tr>
             @endfor
         </tbody>
