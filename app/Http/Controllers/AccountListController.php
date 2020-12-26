@@ -11,13 +11,11 @@ use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Stmt\TryCatch;
 
 class AccountListController extends Controller
 {
     public function index(Request $request)
     {
-        //$role_id = [];
         $stock_sum = [];
         $credit_sum = [];
         $user_data = user::select('*')
@@ -42,6 +40,10 @@ class AccountListController extends Controller
                 ->where('id', '>', $current_role_id[0]['role_id'])
                 ->get();
         }
+        else {
+            $role_id = [];
+        }
+
         $role_master = role_master::all();
 
         if(empty($role_master[0])) {

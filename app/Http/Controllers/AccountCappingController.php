@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\ledger;
 use Illuminate\Http\Request;
 use App\Models\role;
+use App\Models\role_master;
 use App\Models\tbl_capping;
 use App\Models\tbl_capping_detail;
 use App\Models\tbl_my_operator;
@@ -35,6 +36,19 @@ class AccountCappingController extends Controller
 
         $auth_user_id = User::find(Auth::user()->id)->id;
 
+        $current_role_id = role::select('role_id')
+            ->where('user_id', $auth_user_id)
+            ->get();
+
+        if(!empty($current_role_id[0]['role_id'])) {
+            $role_id = role_master::select('*')
+                ->where('id', '>', $current_role_id[0]['role_id'])
+                ->get();
+        }
+        else {
+            $role_id = [];
+        }
+
         for ($i = 0 ; $i < count($user_data) ; $i++) {
             $stock_sum[$user_data[$i]->user_id] = round(ledger::where('from_account_id', $auth_user_id)
                 ->where('to_account_id', $user_data[$i]->user_id)
@@ -61,7 +75,7 @@ class AccountCappingController extends Controller
             $capping_operator_id[$user_data[$i]->user_id] : '';
         }
         
-        return view('account_capping', ['user_data' => $user_data, 'stock_sum' => $stock_sum, 'capped_id' => $capped_id, 'capped_value' => $capped_value,
+        return view('account_capping', ['user_data' => $user_data, 'role_id' => $role_id, 'stock_sum' => $stock_sum, 'capped_id' => $capped_id, 'capped_value' => $capped_value,
          'operator_data' => $operator_data, 'capping_operator_id' => $capping_operator_id]);
     }
 

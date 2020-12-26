@@ -96,7 +96,15 @@
             <td>{{ $data->name }}</td>
             <td>{{ $data->role_name }}</td>
             <td>{{ $data->mobile_number }}</td>
-            <td>{{ $stock_sum[$data->user_id] }}</td> <!-- Stock value -->
+            @php
+              if(!empty($auth_balance)) {
+                $balance = $auth_balance[0]['balance'];
+              }
+              else {
+                $balance = '0';
+              }
+            @endphp
+            <td>{{ $balance }}</td> <!-- Stock value -->
             <td id='{{$data->user_id}}' data-toggle="modal" data-target="#CreditModal" id="{{ $data->user_id }}" onclick='UserCreditDetail(this.id,
               "<?php echo $data->name; ?>", "<?php echo $data->mobile_number; ?>", "<?php echo $credit_sum[$data->user_id]; ?>", "credit")'>
               <a href="#" onclick="return false;">{{ $credit_sum[$data->user_id] }}</td> <!-- Credit value -->
@@ -523,15 +531,15 @@
       }
 
       function Reset() {
-        document.getElementById('account_type').value = 'none';
-        document.getElementById('account_name').value = '';
-        document.getElementById('mobile_no').value = '';
-        document.getElementById('email_id').value = '';
-        document.getElementById('gst_no').value = '';
-        document.getElementById('pan_no').value = '';
-        document.getElementById('city').value = '';
-        document.getElementById('pincode').value = '';
-        document.getElementById('address').value = '';
+        document.getElementById('account_type2').value = 'none';
+        document.getElementById('account_name2').value = '';
+        document.getElementById('mobile_no2').value = '';
+        document.getElementById('email_id2').value = '';
+        document.getElementById('gst_no2').value = '';
+        document.getElementById('pan_no2').value = '';
+        document.getElementById('city2').value = '';
+        document.getElementById('pincode2').value = '';
+        document.getElementById('address2').value = '';
       }
 
       function UpdateStatus(user_id, check) {

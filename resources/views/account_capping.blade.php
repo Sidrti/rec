@@ -17,7 +17,7 @@
   <div class="container-fluid">
     <div class="row mt-3">
       <div class="col-lg-12">
-        <button class="btn btn-danger float-right ml-3">+ Add New Account</button>
+        <button class="btn btn-danger float-right ml-3" data-toggle="modal" data-target="#NewAccountModal">+ Add New Account</button>
       </div>
     </div>
     <h3>Accounts Capping</h3>
@@ -180,6 +180,66 @@
       </div>
     </div>
 
+ <!-- New Account Modal -->
+
+ <div class="modal fade" id="NewAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog size_modal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">CREATE NEW ACCOUNT</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="account_label">Account Type</label>
+                <select class="form-control" required id="account_type2">
+                  <option value='none'>--Select User Type--</option>
+                  @for($i=0;$i<count($role_id);$i++) <option value={{$role_id[$i]['id']}}>{{$role_id[$i]['role_name']}}</option>
+                    @endfor
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="account_name2" placeholder="Account Name" required>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="mobile_no2" placeholder="Mobile Number" required>
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" id="email_id2" placeholder="Email" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <input type="number" class="form-control" min='0' id="gst_no2" placeholder="GST No.">
+                </div>
+                <div class="form-group col-md-6">
+                  <input type="number" class="form-control" min='0' id="pan_no2" placeholder="PAN No.">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="address2" placeholder="Address Line" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <input type="text" class="form-control" id="city2" placeholder="City" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <input type="text" class="form-control" id="pincode2" placeholder="PinCode" required>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button id='create_account' onclick='CreateAccount()' class="btn btn-danger">Create Account</button>
+            <button class="btn btn-secondary" onclick="Reset()">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
 
       $(document).ready(function() {
@@ -284,5 +344,55 @@
           });
         $('#account_capping').DataTable();
       });
+
+      function CreateAccount() {
+
+        var role_id = document.getElementById('account_type2').value;
+        var acc_name = document.getElementById('account_name2').value;
+        var mob_no = document.getElementById('mobile_no2').value;
+        var email = document.getElementById('email_id2').value;
+        var gst = document.getElementById('gst_no2').value;
+        var pan = document.getElementById('pan_no2').value;
+        var city = document.getElementById('city2').value;
+        var pincode = document.getElementById('pincode2').value;
+        var address = document.getElementById('address2').value;
+
+        $.ajax({
+          type: 'POST',
+          url: 'AccountCreate/data',
+          data: {
+            "_token": "{{ csrf_token() }}",
+            'role_id': role_id,
+            'acc_name': acc_name,
+            'mob_no': mob_no,
+            'email': email,
+            'gst': gst,
+            'pan': pan,
+            'city': city,
+            'pincode': pincode,
+            'address': address,
+          },
+
+          success: function(data) {
+            window.location = "AccountCapping";
+            $(".alert-success").css("display", "block");
+            $(".alert-success").append("<p>Created Successfully<p>");
+          }
+        });
+        }
+
+        function Reset() {
+
+          document.getElementById('account_type2').value = 'none';
+          document.getElementById('account_name2').value = '';
+          document.getElementById('mobile_no2').value = '';
+          document.getElementById('email_id2').value = '';
+          document.getElementById('gst_no2').value = '';
+          document.getElementById('pan_no2').value = '';
+          document.getElementById('city2').value = '';
+          document.getElementById('pincode2').value = '';
+          document.getElementById('address2').value = '';
+        }
+
     </script>
 </body>
