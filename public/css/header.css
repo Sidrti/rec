@@ -54,3 +54,19 @@ th {
         display: block;
     }
 }
+
+.wallet_image {
+    width: 25px;
+    height: 25px;
+    float: right;
+    cursor: pointer;
+}
+
+.logo_image {
+    height: 35px;
+}
+
+.profile_image {
+    width: 30px;
+    height: 30px;
+}

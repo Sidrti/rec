@@ -9,7 +9,7 @@
 <div class="container-fluid">
   <h3 class="mt-3 mb-3">API Trail Listing</h3>
   <div class="row mt-3">
-    <div class="col-md-7" style=" padding: 0px;">
+    <div class="col-md-7">
       <div class="row form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
         <div class="col-5">
         <select class="form-control" id="select_op">
@@ -52,7 +52,7 @@
         @endphp
          
         <tr id='{{ $i->fail_switch_details_id }}'>
-          <td class="row_id">{{ $count }}</td>
+          <td id='{{ $i->fail_switch_details_id }}' class="row_id">{{ $count }}</td>
           <td contenteditable="false" id='a{{ $i->id }}'>{{ $i->api_name }}</td>
           <td contenteditable="false" >
             <input type='text' class="form-control minutes" id='{{ $i->id }}' value='{{ $i->minutes }}'>
@@ -81,12 +81,8 @@
           <td></td>
           <td contenteditable="false">
             <select id="api_name">
-
               @foreach($all_api_master as $i)
-             
-
-              <option value="{{ $i->id}}">{{ $i->api_name}}</option>
-
+                <option value="{{ $i->id}}">{{ $i->api_name}}</option>
               @endforeach
             </select>
          
@@ -97,8 +93,7 @@
 
           <td contenteditable="false" id="url{{$i->id}}">
             <input type="text" name="sample_url" class="form-control" id="priority">
-            <input type="hidden"  id="master_id" value="{{$master_id}}">
-           
+            <input type="hidden"  id="master_id" value="{{$master_id}}"> 
           </td>
 
           <td>
@@ -151,7 +146,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" onclick="form_submit_fn()" class="btn btn-primary">Save </button>
+            <button type="submit" onclick="form_submit_fn()" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>
@@ -201,7 +196,7 @@
           $('#apitable > tbody  > tr').each(function() {
 
               if(!$(this).find('.minutes').attr('disabled')) {
-                var id = $(this).find('.row_id').text();
+                var id = $(this).find('.row_id').attr('id');
                 var minutesValue = $(this).find('.minutes').val();
                 var priorityValue = $(this).find('.priority').val();
                 if (id) {
