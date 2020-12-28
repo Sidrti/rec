@@ -54,7 +54,7 @@ Route::post('PackageEdit', 'App\Http\Controllers\PackageMasterController@edit')-
 
 Route::get('AccountList', 'App\Http\Controllers\AccountListController@index')->name('AccountList');
 Route::get('AccountList/Status/{user_id}/{status_id}', 'App\Http\Controllers\AccountListController@updateStatus');
-Route::get('AccountList/lockStatus/{user_id}/{status_id}', 'App\Http\Controllers\AccountListController@updateLockStatus');
+Route::post('AccountList/lockStatus', 'App\Http\Controllers\AccountListController@updateLockStatus');
 Route::post('AccountUpdate/data', 'App\Http\Controllers\AccountListController@updateAccount')->name('AccountUpdate.update');
 Route::post('AccountCreate/data', 'App\Http\Controllers\AccountListController@createAccount');
 Route::post('TransferStock/data', 'App\Http\Controllers\AccountListController@addTransferStock');

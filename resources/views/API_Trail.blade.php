@@ -51,7 +51,7 @@
         $count++;
         @endphp
          
-        <tr id='{{ $count }}'>
+        <tr id='{{ $i->fail_switch_details_id }}'>
           <td class="row_id">{{ $count }}</td>
           <td contenteditable="false" id='a{{ $i->id }}'>{{ $i->api_name }}</td>
           <td contenteditable="false" >
@@ -243,7 +243,7 @@
           },
 
           success: function(data) {
-            $('#apitable tr[id= '+ count + ']').remove();
+            $('#apitable tr[id= '+ id + ']').remove();
           }
         });
       }

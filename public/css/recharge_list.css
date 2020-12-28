@@ -24,3 +24,12 @@ input[type=checkbox] {
 .table td, .table th {
     text-align: center;
 }
+
+.dataTables_length {
+    display: flex;
+}
+
+.table_filter {
+    margin-left: 10px;
+    margin-top: 20px;
+}
