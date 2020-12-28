@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/recharge_list.css">
 
 <body>
@@ -23,6 +24,7 @@
         <label class="badge badge-warning float-right mt-2 ml-3">Received</label>
         <label class="badge badge-danger float-right mt-2 ml-3">Failure</label>
         <label class="badge badge-success float-right mt-2 ml-3">Success</label>
+        <i class="fa fa-refresh text-info float-right mt-2 ml-3"> Today</i>
       </div>
     </div>
     <div class="form-row mt-4">
@@ -134,6 +136,9 @@
         $('#all_api').select2();
         $('#tickets').select2();
         $('#all_category').select2();
+
+        $('.dataTables_length').append('<input type="text" class="form-control col-md-4 table_filter" id="recharge_no" placeholder="Recharge No."/>');
+        $('.dataTables_length').append('<input type="text" class="form-control col-md-4 table_filter" id="trans_no" placeholder="Trans No."/>');
     });
     </script>
 </body>

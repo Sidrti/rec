@@ -103,7 +103,7 @@ class AccountListController extends Controller
     public function updateLockStatus(Request $request)
     {
         $check = 0;
-        if($request->status_id == 0) {
+        if($request->check == 0) {
             $check = 1;
         }
         else {
@@ -111,8 +111,6 @@ class AccountListController extends Controller
         }
         $update_status = user_detail::where('user_id', $request->user_id)
             ->update(['isStatus' => $check]);
-
-        return redirect()->route('AccountList');
     }
 
     public function updateAccount(Request $request)
