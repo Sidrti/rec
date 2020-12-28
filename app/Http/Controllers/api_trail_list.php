@@ -28,8 +28,6 @@ class api_trail_list extends Controller
             ->where('fail_switch_masters.OperatorId','=',$operatorId)
             ->get();
 
-         
-
         return view('API_Trail', ['data' => $data, 'fail_switch_master' => $fail_switch_master, 'all_api_master' => $all_api_master]);
     }
 
@@ -47,8 +45,6 @@ class api_trail_list extends Controller
         $fail_switch_detail->priority = $request->priority;
         $fail_switch_detail->fail_switch_master_id = $request->master_id;
         $fail_switch_detail->save();
-
-        //return redirect()->route('ApiSettings');
     }
 
     //update the records
