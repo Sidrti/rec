@@ -38,7 +38,7 @@
         </tr>
 
         <tbody id="myTable">
-
+         
           @for($i=0;$i<count($array);$i++) <tr>
             @php
                if($array[$i]['id'] == null){
@@ -48,12 +48,20 @@
                  $amount_filter_id = $array[$i]['id'];
                }
             @endphp
-            <input type="hidden" value="">
-            <input type="hidden" value="">
+            <input id="amount_filter{{$i}}" type="hidden" value="{{$amount_filter_id}}">
+            <input id="operator_id{{$i}}" type="hidden" value="{{$array[$i]['operator_id']}}">
             <td>{{$i+1}}</td>
             <td>{{$array[$i]['category'] }}</td>
             <td>{{$array[$i]['operator'] }}</td>
-            <td><input class="form-control form-control-sm" type="text" id="amount{{$i}}" value="{{$array[$i]['amount'] }}" contenteditable="true"></td>
+            @php
+                if($array[$i]['api_id'] == $selected_api_id ){
+                $amnt = $array[$i]['amount'] ;
+                }
+                else {
+                  $amnt = 0;
+                }
+            @endphp
+            <td><input class="form-control form-control-sm" type="text" id="amount{{$i}}" value="{{$amnt}}" contenteditable="true"></td>
             <td><button class="btn text-primary" id={{$i}} name="{{$array[$i]['operator']}}" onclick="UpdateClick(this.id,this.name)">Update</button></td>
             </tr>
             @endfor
@@ -91,13 +99,16 @@
 
   <script>
     function UpdateClick(id,operator) {
-      var amount = document.getElementById('amount' + id).innerText;
-      alert(operator);
-      if(id != 0){
+      var amount_filter_id = document.getElementById('amount_filter'+id).value
+      var amount = document.getElementById('amount' + id).value;
+      
+      if(amount_filter_id != 0){
       SaveEditDB(amount, id);
       }
       else{
-        InsertDB(amount,operator_id,api_id);
+        var operator_id = document.getElementById('operator_id' + id).value;
+        console.log('Amount - '+amount+'amount_filter_id - '+amount_filter_id+'operator_id - '+operator_id);
+        InsertDB(amount,operator_id,{{$selected_api_id}});
       }
     }
     function OperatorClick() {
@@ -120,7 +131,7 @@
         },
         success: function(data) {
           alert('Success');
-          window.location = "AmountFilter";
+        //  window.location = "AmountFilter";
         }
       });
     }
@@ -136,7 +147,7 @@
       },
       success: function(data) {
         alert('Success');
-        window.location = "AmountFilter";
+      //  / window.location = "AmountFilter";
       }
       });
     }
