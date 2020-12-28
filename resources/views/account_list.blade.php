@@ -547,7 +547,27 @@
       }
 
       function lockStatus(user_id, check) {
-        window.location = 'AccountList/lockStatus/' + user_id + '/' + check;
+        
+        $.ajax({
+          type: 'POST',
+          url: 'AccountList/lockStatus',
+          data: {
+            "_token": "{{ csrf_token() }}",
+            'user_id': user_id,
+            'check': check,
+          },
+
+          success: function(data) {
+            if (check == 0) {
+              // @todo unlock
+              $('i[id=' + user_id + ']').removeClass('fa-lock text-danger').addClass('fa-unlock-alt text-info');
+            }
+            else {
+              // @todo lock
+              $('i[id=' + user_id + ']').addClass('fa-lock text-danger').removeClass('fa-unlock-alt text-info');
+            }
+          }
+        });
       }
 
       function AmountCalculation() {
