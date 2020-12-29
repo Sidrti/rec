@@ -47,7 +47,6 @@ Route::post('SmsSettings/Delete', 'App\Http\Controllers\sms_api_controller@destr
 Route::get('APITrailSettings', 'App\Http\Controllers\api_trail_list@index')->name('APITrailSettings');
 Route::get('APITrailSettings/{operator_id}', 'App\Http\Controllers\api_trail_list@index');
 Route::post('APITrailSettingsDelete', 'App\Http\Controllers\api_trail_list@destroy')->name('APITrailSettings.delete');
-Route::post('APITrailSettings/Add', 'App\Http\Controllers\api_trail_list@add')->name('APITrailSettings.add');
 Route::get('ManagePackage', 'App\Http\Controllers\PackageMasterController@index')->name('ManagePackage');
 Route::get('ManagePackage/Add/{title}/{username}', 'App\Http\Controllers\PackageMasterController@store');
 Route::post('PackageEdit', 'App\Http\Controllers\PackageMasterController@edit')->name('PackageEdit');
@@ -61,7 +60,7 @@ Route::post('TransferStock/data', 'App\Http\Controllers\AccountListController@ad
 Route::post('ReceiveCredit/data', 'App\Http\Controllers\AccountListController@receiveCredit');
 Route::post('MoveAccount/Update', 'App\Http\Controllers\move_account@update');
 Route::get('MoveAccount', 'App\Http\Controllers\move_account@index');
-Route::get('APIUpdateRecords/{id}/{minutes}/{priority}', 'App\Http\Controllers\api_trail_list@updateRecords');
+Route::get('APIUpdateRecords/{id}/{minutes}/{priority}/{api_id}/{master_id}/{select_op}', 'App\Http\Controllers\api_trail_list@updateRecords');
 
 Route::post('/getdata', 'App\Http\Controllers\AccountListController@getIndividualStatements')->name('stock_getdata');
 Route::post('/getdata_credit', 'App\Http\Controllers\AccountListController@getIndividualStatements')->name('credit_getdata');
