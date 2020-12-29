@@ -59,7 +59,25 @@
 </head>
 
 <body class="bg-light">
-    <marquee id="marqNews"></marquee>
+    
+    <div class="row ml-4">
+        <div class="col-2">
+            <img src="" alt="logo" class="rounded-circle">
+        </div>
+        <div class="col-6">
+            <marquee id="marqNews"></marquee>
+        </div>
+        <div class="col-2">
+            <img class="rounded-img" src="img/wallet.png"></img>
+            
+        </div>
+        <div class="col-2">
+            <img class="img-fluid" alt="Profile Pic">
+            <p>Hi Admin</p>
+        </div>
+       
+    </div>
+    
     <!-- ========================= SECTION CONTENT ========================= -->
 
     <div class="container-fluid" style="padding-right:0px !important;padding-left:0px !important">
