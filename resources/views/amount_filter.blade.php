@@ -16,23 +16,9 @@
       <div class="col-md-6 col-sm-6">
         <div class="form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
           <select class="form-control" id="select">
-            <option value="0">---Select API------</option>
 
-              @for($i=0;$i<count($api_master);$i++) @php if($api_master[$i]->id == $selected_api_id)
-                {
-                    @endphp
-                    <option value={{$api_master[$i]->id}} selected>{{$api_master[$i]->api_name}}</option>
-                @php
-                }
-                else {
-                    @endphp
-                    <option value={{$api_master[$i]->id}}>{{$api_master[$i]->api_name}}</option>
-                @php
-                }
-                @endphp
-            @endfor
-
-
+            @for($i=0;$i<count($api_master);$i++) <option value={{$api_master[$i]->id}}>{{$api_master[$i]->api_name}}</option>
+              @endfor
           </select>
         </div>
       </div>
@@ -55,7 +41,7 @@
          
           @for($i=0;$i<count($array);$i++) <tr>
             @php
-               if($array[$i]['id'] == null || $array[$i]['api_id'] != $selected_api_id){
+               if($array[$i]['id'] == null){
                 $amount_filter_id = 0;
                } 
                else{
@@ -115,9 +101,9 @@
     function UpdateClick(id,operator) {
       var amount_filter_id = document.getElementById('amount_filter'+id).value
       var amount = document.getElementById('amount' + id).value;
-      console.log(amount_filter_id+" - "+id);
+      
       if(amount_filter_id != 0){
-      SaveEditDB(amount, amount_filter_id);
+      SaveEditDB(amount, id);
       }
       else{
         var operator_id = document.getElementById('operator_id' + id).value;
