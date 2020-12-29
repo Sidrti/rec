@@ -37,9 +37,9 @@
           @endphp
           <tr>
             <td>{{ $count }}</td>
-            <td contenteditable="false" id="package_title{{$i->id}}">{{ $i->package_title}}</td>
-            <td contenteditable="false" id='edit'>
-              <a href="#" id="edit{{$i->id}}" onclick="editClick(this.id)">Edit</a>
+            <td id="package_title{{$i->id}}">{{ $i->package_title}}</td>
+            <td id='edit'>
+              <a href="#" id="edit{{$i->id}}" data-toggle="modal" data-target="#EditModal" onclick='ModalData("<?php echo $i->id; ?>")'>Edit</a>
             </td>
             <td contenteditable="false" id='edit'>
               <a id="{{$i->id}}" href="/PackageDetails/{{$i->id}}">Referral Details</a>
@@ -78,6 +78,31 @@
       </div>
     </div>
 
+    <!-- Edit Package -->
+
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">EDIT PACKAGE</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="form">
+              <div class="form-group">
+                <input type="text" class="form-control" id="edit_package_title"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id='update_button' onclick='editClick()' class="btn btn-danger">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script>
       $(document).ready(function() {
@@ -89,39 +114,37 @@
         var username = document.getElementById('create_package').getAttribute("username");
         window.location = 'ManagePackage/Add/' + title + '/' + username;
       }
-      function editClick(id){
-        id = id.substring(4,id.length);
-        var idText = document.getElementById('edit'+id).innerHTML;
-        
-        if(idText == 'Edit'){
-          document.getElementById('package_title'+id).contentEditable = true;
-          document.getElementById('edit'+id).innerHTML = 'Update';
-        }
-        else{
-          document.getElementById('package_title'+id).contentEditable = false;
-          var editedText = document.getElementById('package_title'+id).innerHTML;
-          document.getElementById('edit'+id).innerHTML = 'Edit';
-          EditAjax(id,editedText);
-        }
-       
 
-      }
-      function EditAjax(id,editedText) {
+      function editClick(){
+        var id = document.getElementById('edit_package_title').getAttribute('pack_id');
+        var idText = document.getElementById('edit_package_title').value;
+
         $.ajax({
           type: 'POST',
           url: '/PackageEdit',
           data: {
             "_token": "{{ csrf_token() }}",
             "id": id,
-            "text":editedText
+            "text": idText
           },
 
           success: function(data) {
-            $(".alert-success").css("display", "block");
-            $(".alert-success").append("<p>Updated Successfully<p>");
-           
+            $('#EditModal').modal('hide');
+            document.getElementById('package_title' + id).innerHTML = idText;
+            
+            $(".alert-success").show().delay(3000).hide(0);
+            if($(".alert-success p").length < 1) {
+              $(".alert-success").append("<p>Updated Successfully<p>");
+            }
           }
         });
-}
+      }
+
+      function ModalData(edit_id) {
+        var text = document.getElementById('package_title' + edit_id).innerHTML;
+        document.getElementById('edit_package_title').value = text;
+        document.getElementById('edit_package_title').setAttribute('pack_id', edit_id);
+      }
+
     </script>
 </body>
