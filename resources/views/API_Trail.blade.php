@@ -6,29 +6,35 @@
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" type="text/javascript"> </script>
 <link rel="stylesheet" href="/css/api_trail.css">
 
-<div class="container-fluid">
-  <h3 class="mt-3 mb-3">API Trail Listing</h3>
-  <div class="row mt-3">
-    <div class="col-md-7">
-      <div class="row form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
-        <div class="col-5">
-        <select class="form-control" id="select_op">
-          <option value="0">--Select Operator--</option>
-          @for($i=0;$i<count($fail_switch_master);$i++) <option value={{$fail_switch_master[$i]->OperatorId}}>{{$fail_switch_master[$i]->operator}}</option>
-            @endfor
-        </select>
+<body>
+  @if ( Session::has('flash_message') )
+  <div class="alert {{ Session::get('flash_type') }}">
+    <strong>{{ Session::get('flash_message') }}</strong>
+  </div>
+  @endif
+  <div class="container-fluid">
+    <h3 class="mt-3 mb-3">API Trail Listing</h3>
+    <div class="row mt-3">
+      <div class="col-md-7">
+        <div class="row form-group" style="background-Position: 97% center;background-Repeat: no-repeat; cursor: pointer;" placeholder="SR1">
+          <div class="col-5">
+            <select class="form-control" id="select_op">
+              <option value="0">--Select Operator--</option>
+              @for($i=0;$i<count($fail_switch_master);$i++) <option value={{$fail_switch_master[$i]->OperatorId}}>{{$fail_switch_master[$i]->operator}}</option>
+                @endfor
+            </select>
+          </div>
+          <div class="col-3">
+            <button type="button" class="btn btn-secondary button" onclick="OperatorClick()">Select Operator</button>
+          </div>
+        </div>
       </div>
-        <div class="col-3">
-          <button type="button" class="btn btn-secondary button" onclick="OperatorClick()">Select Operator</button>
+      <div class="col-5">
+        <button class="btn btn-primary float-right" style="border-radius:30px" onclick="ApiTrailClick()">Map New API</button>
       </div>
-      </div>
-    </div>
-    <div class="col-5">
-      <button class="btn btn-primary float-right" style="border-radius:30px" onclick="ApiTrailClick()">Map New API</button>
+
     </div>
 
-  </div>
- 
     <table id="apitable" class="table table-striped table-bordered" style="width:100%">
       <thead>
         <tr>
@@ -39,26 +45,26 @@
           <th class="th-sty"></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="dynamic_rows">
         @php
         $count = 0;
         @endphp
         @foreach($data as $i)
         @php
-        
+
         $master_id = $i->fail_switch_master_id;
-       
+
         $count++;
         @endphp
-         
+
         <tr id='{{ $i->fail_switch_details_id }}'>
           <td id='{{ $i->fail_switch_details_id }}' class="row_id">{{ $count }}</td>
-          <td contenteditable="false" id='a{{ $i->id }}'>{{ $i->api_name }}</td>
-          <td contenteditable="false" >
-            <input type='text' class="form-control minutes" id='{{ $i->id }}' value='{{ $i->minutes }}'>
+          <td class="api_id" id='a{{$i->id}}'>{{ $i->api_name }}</td>
+          <td>
+            <input type='number' class="form-control minutes" id='{{ $i->id }}' value='{{ $i->minutes }}'>
           </td>
-          <td contenteditable="false" >
-            <input type='text' class="form-control priority" id='{{ $i->id }}' value='{{ $i->priority }}'>
+          <td contenteditable="false">
+            <input type='number' class="form-control priority" id='{{ $i->id }}' value='{{ $i->priority }}'>
           </td>
           <td>
             <div class="dropdown">
@@ -72,40 +78,39 @@
 
       </tbody>
 
-      <tbody>
+      <tbody class="append_row">
         <tr>
-          @php 
+          @php
           if($count != 0)
           {
           @endphp
           <td></td>
-          <td contenteditable="false">
+          <td>
             <select id="api_name">
               @foreach($all_api_master as $i)
-                <option value="{{ $i->id}}">{{ $i->api_name}}</option>
+              <option value="{{ $i->id}}">{{ $i->api_name}}</option>
               @endforeach
             </select>
-         
           </td>
-          <td contenteditable="false" id="url{{$i->id}}">
-            <input type="text" name="sample_url" class="form-control" id="minutes">
+          <td id="url{{$i->id}}">
+            <input type="number" name="sample_url" class="form-control" id="minutes_input">
           </td>
 
-          <td contenteditable="false" id="url{{$i->id}}">
-            <input type="text" name="sample_url" class="form-control" id="priority">
-            <input type="hidden"  id="master_id" value="{{$master_id}}"> 
+          <td id="url{{$i->id}}">
+            <input type="number" name="sample_url" class="form-control" id="priority_input">
           </td>
 
           <td>
             <div class="dropdown">
-              <button type="button" class="btn btn-primary" id="{{ $i->id}}" onclick="AddNewData(api_name.value, minutes.value, priority.value)">
+              <button type="button" class="btn btn-primary" id="{{ $i->id}}" onclick="addNewRow(api_name.value,
+               api_name.options[api_name.selectedIndex].text, minutes_input.value, priority_input.value)">
                 Add New Api
               </button>
             </div>
           </td>
           @php
-        }
-        @endphp
+          }
+          @endphp
         </tr>
         <tr rowspan="5">
           <td colspan="5">
@@ -152,12 +157,12 @@
       </div>
     </div>
     @php
-      if (!empty($data[0]->OperatorId)) {
-        $operator_id = $data[0]->OperatorId;
-      }
-      else {
-        $operator_id = 0;
-      }
+    if (!empty($data[0]->OperatorId)) {
+    $operator_id = $data[0]->OperatorId;
+    }
+    else {
+    $operator_id = 0;
+    }
     @endphp
     <script>
       function ApiTrailClick() {
@@ -167,8 +172,7 @@
       function DeleteClick(id, count) {
         if (confirm('Are you sure you want to Delete this entry ?')) {
           DeleteClickMain(id, count);
-        } 
-        else {
+        } else {
           console.log('Thing was not saved to the database.');
         }
       }
@@ -177,8 +181,8 @@
         $('#select_op').val('<?php echo $operator_id; ?>');
 
         if ($('#select_op').val() == 0) {
-            $('#apitable tbody tr').remove();
-          }
+          $('#apitable tbody tr').remove();
+        }
 
         $('#select_op').on('change', function() {
           var value = $('#select_op').val();
@@ -187,32 +191,42 @@
           }
         });
 
-        $('#update_records').click(function () {
+        $('#update_records').click(function() {
 
           var row_id = [];
           var minutes_value = [];
           var priority_value = [];
-          
+          var api_id = [];
+
+          var master_id = '<?php echo $master_id; ?>';
+          var select = $("#select_op").val();
+
           $('#apitable > tbody  > tr').each(function() {
 
-              if(!$(this).find('.minutes').attr('disabled')) {
-                var id = $(this).find('.row_id').attr('id');
-                var minutesValue = $(this).find('.minutes').val();
-                var priorityValue = $(this).find('.priority').val();
-                if (id) {
-                    row_id.push(id);
-                }
+            if (!$(this).find('.minutes').attr('disabled')) {
+              var id = $(this).find('.row_id').attr('id');
+              var api_value = $(this).find('.api_id').attr('id');
+              var minutesValue = $(this).find('.minutes').val();
+              var priorityValue = $(this).find('.priority').val();
 
-                if (minutesValue) {
-                    minutes_value.push(minutesValue);
+              if (id || minutesValue || priorityValue) {
+                if (minutesValue == '') {
+                  minutesValue = 0;
                 }
-
-                if (priorityValue) {
-                    priority_value.push(priorityValue);
+                if (priorityValue == '') {
+                  priorityValue = 0;
                 }
+                if (id == '') {
+                  id = 0;
+                }
+                row_id.push(id);
+                api_id.push(api_value);
+                minutes_value.push(minutesValue);
+                priority_value.push(priorityValue);
               }
+            }
           });
-          window.location = '/APIUpdateRecords/' + row_id + '/' + minutes_value + '/' + priority_value;
+          window.location = '/APIUpdateRecords/' + row_id + '/' + minutes_value + '/' + priority_value + '/' + api_id + '/' + master_id + '/' + select;
         });
         $('#apitable').DataTable();
       });
@@ -227,7 +241,7 @@
         document.getElementById('url').value = document.getElementById("url" + id).innerText;
         document.getElementById('name').value = document.getElementById("api_name" + id).innerText;
       }
- 
+
       function DeleteClickMain(id, count) {
         $.ajax({
           type: 'POST',
@@ -238,37 +252,43 @@
           },
 
           success: function(data) {
-            $('#apitable tr[id= '+ id + ']').remove();
+            $('#apitable tr[id= ' + id + ']').remove();
           }
         });
       }
 
-      function AddNewData(Api, minutes, priority) {
-      var master_id = document.getElementById('master_id').value;
-
-        $.ajax({
-          type: 'POST',
-          url: '/APITrailSettings/Add',
-          data: {
-            "_token": "{{ csrf_token() }}",
-            'api_id': Api,
-            'minutes': minutes,
-            'priority': priority,
-            'master_id': master_id,
-          },
-
-          success: function(data) {
-            alert('Success');
-            window.location = '/APITrailSettings';
-          }
-        });
-      }
       function OperatorClick() {
-            var select = document.getElementById("select_op").value;
-            if (select != '0') {
-              window.location = '/APITrailSettings/' + select;
-            }
+        var select = document.getElementById("select_op").value;
+        if (select != '0') {
+          window.location = '/APITrailSettings/' + select;
         }
+      }
+
+      var count_value = Number("<?php echo $count + 1; ?>");
+
+      function addNewRow(api_id, api_name, minutes, priority) {
+
+        if (minutes == '') {
+          minutes = 0;
+        }
+        if (priority == '') {
+          priority = 0;
+        }
+
+        $('#apitable > tbody.dynamic_rows').append('<tr id=temp' + count_value + '><td id="" class="row_id">' + count_value +
+          '</td><td class="api_id" id=' + api_id + '>' + api_name + '</td><td><input type="number" class="form-control minutes" value=' +
+          minutes + '></td><td><input type="number" class="form-control priority" value=' + priority +
+          '></td><td><div class="dropdown"><button type="button" class="btn btn-danger" id="" onclick="TempDeleteClick(' + count_value + ')">Delete</button></div></td></tr>');
+
+        $('#minutes_input').val('');
+        $('#priority_input').val('');
+        count_value = count_value + 1;
+      }
+
+      function TempDeleteClick(id) {
+        $('#apitable tr[id=temp' + id + ']').remove();
+      }
     </script>
 
-</div>
+  </div>
+</body>
