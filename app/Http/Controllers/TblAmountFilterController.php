@@ -21,11 +21,10 @@ class TblAmountFilterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(tbl_amount_filter $tbl_amount_filter, $id = 0)
+    public function show(tbl_amount_filter $tbl_amount_filter, $id = 1)
     {
         $api_master =  tbl_api_master::all();
         $array = array();
-        if($id != 0)   {
         $joinData = tbl_amount_filter::select('*')
             ->rightjoin('tbl_my_operators', 'tbl_my_operators.id', '=', 'tbl_amount_filters.operator_id')
             ->get();
@@ -41,7 +40,6 @@ class TblAmountFilterController extends Controller
             $i++;
             
         }
-    }
         return view('amount_filter', ['array' => $array, 'api_master' => $api_master,'selected_api_id'=>$id]);
     }
 
@@ -50,7 +48,7 @@ class TblAmountFilterController extends Controller
      */
     public function update(Request $request, tbl_amount_filter $tbl_amount_filter)
     {
-        $res = tbl_amount_filter::where('Id', $request->id)
+        $res = tbl_amount_filter::where('id', $request->id)
             ->update(['amount' => $request->amount]);
     }
     public function insert(Request $request)

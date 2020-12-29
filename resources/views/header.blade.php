@@ -60,7 +60,6 @@
 </head>
 
 <body class="bg-light">
-
     <div class="row mt-3 mb-3">
         <div class="col-md-2">
             <img src='/images/logo.png' alt="Website Logo" class="logo_image ml-5"/>
@@ -172,7 +171,6 @@
             </div>
         </div>
     </div>
-
     <!-- ========================= SECTION CONTENT ========================= -->
 
     <div class="container-fluid" style="padding-right:0px !important;padding-left:0px !important">
